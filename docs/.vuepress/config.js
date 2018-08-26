@@ -1,3 +1,5 @@
+const generate = require('./utils')
+
 module.exports = {
   title: 'web-bookmarks',
   description: '前端工程师知识技能储备库',
@@ -16,8 +18,12 @@ module.exports = {
         text: '库',
         link: '/repository/'
       },
+      {
+        text: '收藏',
+        link: '/favorite/'
+      }
     ],
-    sidebar: 'auto',
+    sidebar: generate(),
     lastUpdated: 'Last Updated', // string | boolean
     
     repo: 'Neveryu/web-bookmarks',
@@ -30,5 +36,11 @@ module.exports = {
     // 默认是 false, 设置为 true 来启用
     editLinks: true,
     editLinkText: '在 GitHub 上编辑此页'
+  },
+  markdown: {
+    config: md => {
+      md.set({ breaks: true })
+      md.use(require('markdown-it-include'))
+    }
   }
 }

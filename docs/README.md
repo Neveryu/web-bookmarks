@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: ./hero.jpg
+heroImage: /hero.jpg
 actionText: 现在开始 →
 actionLink: /repository/
 features:
@@ -11,11 +11,11 @@ features:
 - title: 高性能
   details: VuePress 为每个页面预渲染生成静态的 HTML，同时在页面被加载的时候，将作为 SPA 运行。
 - title: 专业
-  details: 专注于前端圈子的知识技能储备库。
+  details: 专注于前端的知识技能储备、技术技巧、能力提升。
 - title: 丰富
-  details: 包含前端知识技能之外的，相关的技能以及那些事。
-- title: 唯一
-  details: 前端工程师，把这里混熟了，基本就够了。
+  details: 包含前端专业的知识技能、技术总结、精品博文、面试、前端圈子。
+- title: 高效
+  details: 常用知识点汇总、全干货的技术总结、深度的学习提升
 footer: MIT Licensed | Copyright © 2018-present Never Yu
 ---
 

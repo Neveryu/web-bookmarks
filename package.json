@@ -1,9 +1,16 @@
 {
+  "name": "web-bookmarks",
+  "version": "1.0.0",
+  "description": "web-bookmarks",
+  "main": "index.js",
+  "author": "Neveryu",
+  "license": "ISC",
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "markdown-it-include": "^1.0.0",
     "vuepress": "^0.14.2"
   }
 }
