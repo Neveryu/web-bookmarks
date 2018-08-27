@@ -14,7 +14,7 @@
 <title>页面标题</title>
 ```
 
-**[⬆ 返回顶部](./)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 网页元素
 
@@ -22,7 +22,7 @@
 
 这些元素提供了如何通过如浏览器，搜索引擎，网络爬虫等网络技术来感知和呈现文档的信息。
 
-```html
+``` html
 <!-- 设置此文档的字符编码，以便 UTF-8 范围中的所有字符（如 emoji）都能正确显示 -->
 <meta charset="utf-8">
 
@@ -49,11 +49,11 @@
 </noscript>
 ```
 
-**[⬆ 返回顶部](./)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## Meta 标签
 
-```html
+``` html
 <!--
   以下 2 个 meta 标签 *必须* 放在 head 之前，以确保正确的文档呈现；
   其他任何 head 元素 *必须* 在这些标签之后。
@@ -129,11 +129,11 @@
 - 📖 [ICBM - 维基百科](https://en.wikipedia.org/wiki/ICBM_address#Modern_use)
 - 📖 [地理标记 - 维基百科](https://en.wikipedia.org/wiki/Geotagging#HTML_pages)
 
-**[⬆ 返回顶部](./)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 链接
 
-```html
+``` html
 <!-- 指向一个外部 CSS 样式表 -->
 <link rel="stylesheet" href="https://example.com/styles.css">
 
@@ -205,11 +205,11 @@
 
 - 📖 [链接关系](https://www.iana.org/assignments/link-relations/link-relations.xhtml)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 网站图标
 
-```html
+``` html
 <!-- 针对 IE 10 及以下版本 -->
 <!-- 如果将 `favicon.ico` 放在根目录下，则无需标签 -->
 
@@ -228,13 +228,13 @@
 - 📖 [网站图标对照表](https://github.com/audreyr/favicon-cheat-sheet)
 - 📖 [网址图标 & 浏览器颜色表](https://developers.google.com/web/fundamentals/design-and-ux/browser-customization/)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 社交
 
 ### Facebook Open Graph
 
-```html
+``` html
 <meta property="fb:app_id" content="123456789">
 <meta property="og:url" content="https://example.com/page.html">
 <meta property="og:type" content="website">
@@ -252,7 +252,7 @@
 
 ### Twitter Card
 
-```html
+``` html
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@site_account">
 <meta name="twitter:creator" content="@individual_account">
@@ -274,7 +274,7 @@
 
 ### Google+ / Schema.org
 
-```html
+``` html
 <html lang="" itemscope itemtype="http://schema.org/Article">
   <head>
     <link rel="author" href="">
@@ -325,13 +325,13 @@
 
 - 📖 [oEmbed 格式](https://oembed.com/)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 浏览器 / 平台
 
 ### Apple iOS
 
-```html
+``` html
 <!-- 智能应用 Banner -->
 <meta name="apple-itunes-app" content="app-id=APP_ID,affiliate-data=AFFILIATE_ID,app-argument=SOME_TEXT">
 
@@ -363,7 +363,7 @@
 
 ### Google Android
 
-```html
+``` html
 <meta name="theme-color" content="#E64545">
 
 <!-- 添加到主屏幕 -->
@@ -373,7 +373,7 @@
 
 ### Google Chrome
 
-```html
+``` html
 <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/APP_ID">
 
 <!-- 禁用翻译提示 -->
@@ -382,7 +382,7 @@
 
 ### Microsoft Internet Explorer
 
-```html
+``` html
 <!-- 强制 IE 8/9/10 使用其最新的渲染引擎 -->
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 
@@ -395,7 +395,7 @@
 
 最低要求的的 `browserconfig.xml` 配置：
 
-```xml
+``` xml
 <?xml version="1.0" encoding="utf-8"?>
 <browserconfig>
   <msapplication>
@@ -411,13 +411,13 @@
 
 - 📖 [浏览器配置模式参考](https://msdn.microsoft.com/en-us/library/dn320426.aspx)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 国内的浏览器
 
 ### 360 浏览器
 
-```html
+``` html
 <!-- 选择渲染引擎 -->
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 ```
@@ -435,7 +435,7 @@
 
 ### UC 移动浏览器
 
-```html
+``` html
 <!-- 在指定方向上锁定屏幕（锁定横/竖屏） -->
 <meta name="screen-orientation" content="landscape/portrait">
 
@@ -460,11 +460,11 @@
 
 - 📖 [UC 浏览器文档](https://www.uc.cn/download/UCBrowser_U3_API.doc)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 应用链接
 
-```html
+``` html
 <!-- iOS -->
 <meta property="al:ios:url" content="applinks://docs">
 <meta property="al:ios:app_store_id" content="12345">
@@ -481,14 +481,14 @@
 
 - 📖 [应用链接文档](https://applinks.org/documentation/)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 其他资源
 
 - 📖 [HTML5 样板文档：HTML 标签](https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/html.md)
 - 📖 [HTML5 样板文档：扩展和定制](https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/extend.md)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 相关项目
 
@@ -497,13 +497,13 @@
 - [head-it](https://github.com/hemanth/head-it) - `HEAD` 片段的 CLI 接口
 - [vue-head](https://github.com/ktquez/vue-head) - 在 Vue.js 中操作 `HEAD` 标签的 meta 信息
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ## 其他格式
 
 - 📄 [PDF](https://gitprint.com/joshbuchea/HEAD/blob/master/README.md)
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
 
 ### 指南
 
@@ -535,4 +535,4 @@
 **[https://github.com/Amery2010/HEAD](https://github.com/Amery2010/HEAD) || [https://github.com/joshbuchea/HEAD](https://github.com/joshbuchea/HEAD)**
 
 
-**[⬆ 返回顶部](#目录)**
+**[⬆ 返回顶部](#最小推荐)**
