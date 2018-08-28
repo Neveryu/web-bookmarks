@@ -15,12 +15,20 @@ module.exports = {
         ]
       },
       {
+        text: '技术',
+        link: '/tech/'
+      },
+      {
         text: '库',
         link: '/repository/'
       },
       {
         text: '收藏',
         link: '/favorite/'
+      },
+      {
+        text: '圈子',
+        link: '/gard/'
       }
     ],
     sidebar: generate(),
