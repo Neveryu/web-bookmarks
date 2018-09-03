@@ -2,7 +2,14 @@
 sidebar: auto
 ---
 
-# 推荐库
+# 库
+
+## 模拟数据
+[faker.js](https://www.npmjs.com/package/Faker)
+
+[mockjs](https://github.com/nuysoft/Mock/wiki/Getting-Started)
+
+[easy-mock](https://www.easy-mock.com/login) 提供线上服务，自定义mock数据
 
 ## 前端
 
