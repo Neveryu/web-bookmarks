@@ -20,3 +20,5 @@ footer: MIT Licensed | Copyright © 2018-present Never Yu
 ---
 
 # 你好👋
+
+travis ci
