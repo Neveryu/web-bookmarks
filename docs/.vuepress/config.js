@@ -4,6 +4,7 @@ module.exports = {
   title: 'web-bookmarks',
   description: '前端工程师知识技能储备库',
   base: '/web-bookmarks/',
+  serviceWorker: true,
   themeConfig: {
     nav: [
       { 
