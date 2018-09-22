@@ -1,5 +1,7 @@
 # 前端发送请求 ajax
 
+web前端发请求的几种常见方式
+
 ### XMLHttpRequest
 [如何优雅的使用 xhr](../base/javascript/js3.html)
 

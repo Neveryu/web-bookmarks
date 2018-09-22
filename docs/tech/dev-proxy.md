@@ -1,6 +1,7 @@
 # 开发环境搭建与代理
 
-### 纯静态在服务器环境预览
+## 纯静态页面在服务器环境预览
+搭建一个小型服务器，在 server 环境来预览我们的项目。
 http-server、anywhere 都可以。【推荐使用 http-server】
 ``` bash
 npm i http-server -g
@@ -11,9 +12,9 @@ cd yourproject
 http-server
 ```
 
-### 搭建开发环境&配置代理
+## 搭建开发环境&配置接口代理
 
-【express + http-proxy-middleware】
+搭建一个前端的开发环境（server + 代理）【express + http-proxy-middleware】
 
 ``` js
 var express = require('express')
@@ -43,7 +44,7 @@ Object.keys(proxyTable).forEach(function (context) {
   app.use(proxyMiddleware(options.filter || context, options))
 })
 
-// 前端代码放在这里
+// 前端代码src目录位置配置
 app.use(express.static('src'))
 
 // 自定义接口

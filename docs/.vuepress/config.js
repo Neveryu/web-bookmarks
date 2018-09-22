@@ -23,6 +23,10 @@ module.exports = {
         link: '/tech/'
       },
       {
+        text: '文章',
+        link: '/article/'
+      },
+      {
         text: '库',
         link: '/repository/'
       },
