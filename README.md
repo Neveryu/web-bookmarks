@@ -9,7 +9,7 @@
 </p>
 
 # Web Bookmark
-汇总一些前端技术和周边
+汇总一些前端技术和周边 ： [https://git.io/fA2AM](https://git.io/fA2AM)
 
 power by vuepress
 
