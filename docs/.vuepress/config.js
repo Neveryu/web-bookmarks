@@ -54,8 +54,8 @@ module.exports = {
     editLinkText: '在 GitHub 上编辑此页',
     serviceWorker: {
       updatePopup: {
-        message: "网站有更新～",
-        buttonText: "刷新"
+        message: "网站有新的内容啦！",
+        buttonText: "知道了"
       }
     }
   },
