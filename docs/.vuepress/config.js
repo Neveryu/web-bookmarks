@@ -38,7 +38,8 @@ module.exports = {
         text: '其他',
         items: [
           { text: '面试', link: '/other/interview/' },
-          { text: '圈子', link: '/other/gard/' } 
+          { text: '圈子', link: '/other/gard/' },
+          { text: '其他', link: '/other/another/' }
         ]
       }
     ],
