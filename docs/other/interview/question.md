@@ -1,6 +1,6 @@
 # 常规面试题
 
-- 用 setTimeout 实现 setInterval
+
 
 render props 和 HOC 的区别 purecomponent
 柯里化 高阶函数 尾调用
