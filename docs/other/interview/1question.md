@@ -24,6 +24,11 @@
         <br>
         <a href="https://www.cnblogs.com/dong-xu/p/7000139.html">[译]深入理解 JavaScript 事件循环（二）— task and microtask</a>
       </p>
+      <p>
+        【宏任务，微任务】
+        【Macrotasks => 一般会将dom事件、ajax事件、setTimeout、script(整体代码), setTimeout, setInterval, setImmediate, I/O, UI rendering。 放入到这个队列中。】
+        【Microtasks => 一般会将Promise、process.nextTicks、Object.observe、MutationObserver放入这个队列中。】
+      </p>
       <p>setTimeout、setInterval、ajax、eventListener 等</p>
     </div>
   </div>

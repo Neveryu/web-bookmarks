@@ -17,6 +17,8 @@ sidebar: auto
 ## SMALL
 [100%概率获得100万，50%概率获得1亿，你怎么选？](https://view.inews.qq.com/a/20171207A04K3A00)
 
+[年轻人，攒够2500万才算中产，你还差多少？](https://view.inews.qq.com/a/20180921B24JP600)
+
 ## FOOL
 :::tip
 
