@@ -29,7 +29,13 @@
         【Macrotasks => 一般会将dom事件、ajax事件、setTimeout、script(整体代码), setTimeout, setInterval, setImmediate, I/O, UI rendering。 放入到这个队列中。】
         【Microtasks => 一般会将Promise、process.nextTicks、Object.observe、MutationObserver放入这个队列中。】
       </p>
-      <p>setTimeout、setInterval、ajax、eventListener 等</p>
+      <p>异步：setTimeout、setInterval、ajax、eventListener 等</p>
+      <p>
+        3、
+      </p>
+      <p>
+        4、<a href="https://blog.csdn.net/csdn_yudong/article/details/54346536">js和jquery使用jsonp解决跨域</a>
+      </p>
     </div>
   </div>
 </template>
