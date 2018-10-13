@@ -4,6 +4,7 @@
 - 介绍一下 JavaScript 中的事件循环（event loop）& JavaScript 中异步有哪些
 - 用 setTimeout 实现 setInterval
 - 什么是跨域 & 解决方案
+- call、apply、bind 区别
 
 -----
 
@@ -35,6 +36,9 @@
       </p>
       <p>
         4、<a href="https://blog.csdn.net/csdn_yudong/article/details/54346536">js和jquery使用jsonp解决跨域</a>
+      </p>
+      <p>
+        5、<a href="https://blog.csdn.net/csdn_yudong/article/details/78730844">清晰明了搞懂 call、apply、bind 的区别</a>
       </p>
     </div>
   </div>
