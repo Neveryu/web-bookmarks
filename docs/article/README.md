@@ -9,3 +9,5 @@
 [谈谈 WebSocket](https://halfrost.com/websocket/)
 
 [页面可视化搭建工具前生今世](https://zhuanlan.zhihu.com/p/37171897)
+
+[页面渲染方面的一些性能优化](https://github.com/amfe/article/issues/47)

@@ -10,6 +10,10 @@ sidebar: auto
 
 [维金斯](https://view.inews.qq.com/a/NBA2017120701184805)
 
+[32岁白发新秀的NBA首秀——英格拉姆](https://new.qq.com/omn/20180411/20180411A1SWIA.html)
+
+[抑郁了怎么办？96一代最励志硬汉亲历 这里有两点建议](https://view.inews.qq.com/a/NBA2018101600858006?uid=)
+
 [三分信条](http://sports.qq.com/nbavideo/sfxt/index.htm)
 
 [一步登天](https://v.qq.com/x/cover/l88unpfswv0a9ij.html)
@@ -21,6 +25,6 @@ sidebar: auto
 
 ## FOOL
 :::tip
-
+  FOOL
 :::
-[花17亿去月球旅行的日本年轻富豪家里什么样?](https://view.inews.qq.com/a/20180926B1YQOE00)
+[花17亿去月球旅行的日本年轻富豪家里什么样?](https://www.sohu.com/a/256397862_653457)
