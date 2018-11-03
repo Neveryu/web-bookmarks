@@ -11,3 +11,5 @@
 [页面可视化搭建工具前生今世](https://zhuanlan.zhihu.com/p/37171897)
 
 [页面渲染方面的一些性能优化](https://github.com/amfe/article/issues/47)
+
+[JavaScript 运行机制](http://web.jobbole.com/95359/)【任务队列&事件循环都有提到】

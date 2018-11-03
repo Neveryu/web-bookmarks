@@ -5,6 +5,9 @@
 - 用 setTimeout 实现 setInterval
 - 什么是跨域 & 解决方案
 - call、apply、bind 区别
+- addEventListener 第三个参数是什么意思
+- 统计一篇英文文章中哪个单词出现的次数最多
+- vue 中如何实现数据的双向绑定
 
 -----
 
@@ -39,6 +42,9 @@
       </p>
       <p>
         5、<a href="https://blog.csdn.net/csdn_yudong/article/details/78730844">清晰明了搞懂 call、apply、bind 的区别</a>
+      </p>
+      <p>
+        6、<a href="https://blog.csdn.net/csdn_yudong/article/details/70156293">[JavaScript]onclick、addEventListener、attachEvent详解</a>
       </p>
     </div>
   </div>
