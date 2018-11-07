@@ -1,13 +1,13 @@
 # 常见面试题1
 
-- var let const 的区别
-- 介绍一下 JavaScript 中的事件循环（event loop）& JavaScript 中异步有哪些
-- 用 setTimeout 实现 setInterval
-- 什么是跨域 & 解决方案
-- call、apply、bind 区别
-- addEventListener 第三个参数是什么意思
-- 统计一篇英文文章中哪个单词出现的次数最多
-- vue 中如何实现数据的双向绑定
+- 1、var let const 的区别
+- 2、介绍一下 JavaScript 中的事件循环（event loop）& JavaScript 中异步有哪些
+- 3、用 setTimeout 实现 setInterval
+- 4、什么是跨域 & 解决方案
+- 5、call、apply、bind 区别
+- 6、addEventListener 第三个参数是什么意思
+- 7、统计一篇英文文章中哪个单词出现的次数最多
+- 8、vue 中如何实现数据的双向绑定
 
 -----
 
@@ -35,7 +35,7 @@
       </p>
       <p>异步：setTimeout、setInterval、ajax、eventListener 等</p>
       <p>
-        3、
+        3、略
       </p>
       <p>
         4、<a href="https://blog.csdn.net/csdn_yudong/article/details/54346536">js和jquery使用jsonp解决跨域</a>
@@ -45,6 +45,12 @@
       </p>
       <p>
         6、<a href="https://blog.csdn.net/csdn_yudong/article/details/70156293">[JavaScript]onclick、addEventListener、attachEvent详解</a>
+      </p>
+      <p>
+        7、略
+      </p>
+      <p>
+        8、<a href="https://cn.vuejs.org/v2/guide/reactivity.html">Vue 深入响应式原理</a>
       </p>
     </div>
   </div>
