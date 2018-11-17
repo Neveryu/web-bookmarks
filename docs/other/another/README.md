@@ -19,6 +19,7 @@ sidebar: auto
 [一步登天](https://v.qq.com/x/cover/l88unpfswv0a9ij.html)
 
 ## SMALL
+
 [100%概率获得100万，50%概率获得1亿，你怎么选？](https://view.inews.qq.com/a/20171207A04K3A00)
 
 [年轻人，攒够2500万才算中产，你还差多少？](https://view.inews.qq.com/a/20180921B24JP600)
@@ -28,3 +29,7 @@ sidebar: auto
   FOOL
 :::
 [花17亿去月球旅行的日本年轻富豪家里什么样?](https://www.sohu.com/a/256397862_653457)
+
+## MEMORY
+
+[只知蓝洁瑛从人间逃离，殊不知她活的有多不易](https://view.inews.qq.com/a/20181117A0N7S000)
