@@ -2,12 +2,12 @@
 
 ## Vue 中使用 CSS 预处理器
 
+> 推荐使用 stylus
+
 ### Stylus
 ``` bash
 npm i stylus stylus-loader -D
 ```
-
-
 
 ### Sass
 ``` bash

@@ -1,17 +1,14 @@
 <p align="center">
-  <a href="https://vuepress.vuejs.org/" target="_blank">
+  <a href="https://neveryu.github.io/web-bookmarks/" target="_blank">
     <img width="280" src="https://raw.githubusercontent.com/Neveryu/web-bookmarks/master/docs/.vuepress/public/cute-spear-monster.jpg" alt="logo">
   </a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/Neveryu/web-bookmarks/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vuepress.svg" alt="License"></a>
-</p>
+<a href="https://github.com/Neveryu/web-bookmarks/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vuepress.svg" alt="License"></a>
+[![Build Status](https://travis-ci.org/Neveryu/web-bookmarks.svg?branch=master)](https://travis-ci.org/Neveryu/web-bookmarks)
 
 # Web Bookmark
 汇总一些前端技术和周边 ： [https://git.io/fA2AM](https://git.io/fA2AM)
-
-power by vuepress
 
 ## Development
 
