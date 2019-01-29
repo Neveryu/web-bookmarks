@@ -2,7 +2,9 @@
 
 ## Github
 
-[github 短域名服务](https://git.io)
+[github 短域名服务](https://git.io) 可以将github的网站转为短域名
+
+[octotree](https://github.com/ovity/octotree) Github code tree on steroids；使得你能够以在线资源管理器的方式阅读GitHub仓库的代码
 
 [shields](https://shields.io/) Github README 里面的装逼小图标
 
