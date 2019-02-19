@@ -78,3 +78,15 @@ a, div {
   -webkit-tap-highlight-color:rgba(0,0,0,0); //透明度设置为0
 }
 ```
+
+## 正则表达式限制输入框只能输入数字代码
+``` html
+<input type="text" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " name="f_order" value="1"/>
+```
+其中，`onafterpaste` 防止用户从其它地方copy内容粘贴到输入框
+
+## 禁止向文本域黏贴内容
+``` html
+<input type="text" onpaste="return false;" />
+```
+在该例子中，利用 `return false` 阻止了黏贴这一行为。在实际应用中，当有一些比较重要的数据时，如手机号、登录密码、网银账号等，为了安全考虑必须手动输入，因此在这些表单文本域，通常是设置为禁止黏贴的。
