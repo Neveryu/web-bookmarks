@@ -15,6 +15,10 @@ sidebar: auto
 
 [consola](https://github.com/nuxt/consola) 优雅命令行 console vuepress 也使用了
 
+[screenfull.js](https://github.com/sindresorhus/screenfull.js/) 跨浏览器的 JavaScript 全屏API封装，能将页面和任意元素全屏显示
+
+[https://clipboardjs.com/](https://clipboardjs.com/) 剪切板插件
+
 [webpackbar](https://github.com/nuxt/webpackbar) webpack 打包进度可视化
 
 [jarvis](https://github.com/zouhir/jarvis) webpack dashboard
@@ -171,6 +175,8 @@ sidebar: auto
 [Apollo GraphQL](https://www.apollographql.com/) 是基于 GraphQL 的全栈解决方案集合。从后端到前端提供了对应的 lib 使得开发使用 GraphQL 更加的方便
 
 ## 有趣
+
+[划水神器](https://github.com/svenstaro/genact)
 
 [the-bread-code](https://github.com/hendricius/the-bread-code) 使用程序员的思维制作面包 ，比如制作中使用 A/B test,
 来比较那种做法更好。
