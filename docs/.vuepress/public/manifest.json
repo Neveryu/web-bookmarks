@@ -1,0 +1,25 @@
+{
+  "name": "WebBookmarks",
+  "short_name": "web-bookmarks",
+  "description": "汇总一些前端技术和周边",
+  "background_color": "#fff",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android-chrome-256x256.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/favicon.ico",
+      "sizes": "36x36 72x72 96x96 128x128 256x256 512x512"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/index.html",
+  "theme_color": "#3eaf7c"
+}
