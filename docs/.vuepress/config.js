@@ -7,7 +7,7 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
   ],
-  serviceWorker: true,
+  serviceWorker: false,
   themeConfig: {
     nav: [
       { 

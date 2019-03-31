@@ -1,7 +1,6 @@
 {
   "name": "WebBookmarks",
-  "short_name": "web-bookmarks",
-  "description": "汇总一些前端技术和周边",
+  "short_name": "WebBookmarks",
   "icons": [
     {
       "src": "/icons/android-chrome-192x192.png",
@@ -14,8 +13,8 @@
       "type": "image/png"
     }
   ],
-  "display": "standalone",
   "start_url": "/web-bookmarks/",
+  "display": "standalone",
   "background_color": "#fff",
   "theme_color": "#3eaf7c"
 }
