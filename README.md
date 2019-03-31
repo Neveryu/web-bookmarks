@@ -4,7 +4,15 @@
   </a>
 </p>
 
-<a href="https://github.com/Neveryu/web-bookmarks/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vuepress.svg" alt="License"></a>
+<p align="center">
+  <a href="https://github.com/Neveryu/web-bookmarks/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vuepress.svg" alt="License"></a>
+  <a href="https://travis-ci.org/Neveryu/web-bookmarks"><img src="https://travis-ci.org/Neveryu/web-bookmarks.svg?branch=master" alt="Build"></a>
+  <a href="https://neveryu.github.io/reward/index.html">
+    <img src="https://img.shields.io/badge/%24-donate-ff69b4.svg" alt="donate">
+  </a>
+</p>
+
+
 [![Build Status](https://travis-ci.org/Neveryu/web-bookmarks.svg?branch=master)](https://travis-ci.org/Neveryu/web-bookmarks)
 
 # Web Bookmark
