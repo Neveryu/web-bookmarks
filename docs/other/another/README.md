@@ -45,3 +45,5 @@ sidebar: auto
 ## END
 [https://panjiachen.github.io/awesome-bookmarks/](https://panjiachen.github.io/awesome-bookmarks/)
 
+[https://panjiachen.github.io/awesome-bookmarks/blog/](https://panjiachen.github.io/awesome-bookmarks/blog/)
+

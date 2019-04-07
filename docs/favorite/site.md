@@ -12,7 +12,7 @@
 
 [emoji.muan](http://emoji.muan.co/#) 同上 而且更全
 
-[git-awards](http://git-awards.com/users/search?login=panjiachen) github ranking 没事可以查着玩玩
+[git-awards](http://git-awards.com/users/search?login=neveryu) github ranking 没事可以查着玩玩
 
 ## 开发
 

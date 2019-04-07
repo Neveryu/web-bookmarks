@@ -1,8 +1,8 @@
 # 开发环境搭建与代理
 
 ## 纯静态页面在服务器环境预览
-搭建一个小型服务器，在 server 环境来预览我们的项目。
-http-server、anywhere 都可以。【推荐使用 http-server】
+搭建一个小型服务器，在 `server` 环境来预览我们的项目。
+`http-server`、`anywhere` 都可以；`anywhere` 虽然可以帮你很简单的将一个静态目录，放到服务环境中来。（但是 `pc` 端和手机模式下切换的时候，会把 `pc` 按照手机模式做一个等比缩放，并不是真实 `pc` 的像素宽度）【推荐使用 `http-server`】
 ``` bash
 npm i http-server -g
 ```
