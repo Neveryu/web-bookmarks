@@ -4,6 +4,22 @@ sidebar: auto
 
 # MORE 
 
+## EMAIL
+
+-
+[刘强东被起诉书当事人授权全译本](https://weibo.com/ttarticle/p/show?id=2309404362961140493296) 是个狼人
+
+[刘强东朋友圈回应京东裁员：混日子的人不是我的兄弟](http://view.inews.qq.com/a/20190412A0L1S400)
+
+[刘强东内部信：只有配送员工资大涨，公司才能赢](https://view.inews.qq.com/a/TEC201904150002440G)
+
+
+-
+
+[马云谈996：能够996是修来的福报，很多人想做没机会](https://view.inews.qq.com/a/20190412A0DQSH00)
+
+
+
 ## NBA
 
 [奎恩-库克 Quinn Cook](https://view.inews.qq.com/a/NBA2017120702150503)
@@ -16,11 +32,13 @@ sidebar: auto
 
 [高薪？长约？NBA球员也有生存危机 谁说在塔尖高枕无忧](https://view.inews.qq.com/a/NBA2018120500918704)
 
+
 ## NBA VIDEO
 
 [三分信条](http://sports.qq.com/nbavideo/sfxt/index.htm)
 
 [一步登天](https://v.qq.com/x/cover/l88unpfswv0a9ij.html)
+
 
 ## SMALL
 
@@ -29,6 +47,15 @@ sidebar: auto
 [年轻人，攒够2500万才算中产，你还差多少？](https://view.inews.qq.com/a/20180921B24JP600)
 
 [大家丨花了十年，我把房子从北京买到了香港](https://view.inews.qq.com/a/CRI2018112101251307)
+
+[深圳房价解密之一：高房价何来？](https://view.inews.qq.com/a/20190226A14XLV00)
+
+[重启深圳住房制度改革之二：高房价管得住吗？](https://view.inews.qq.com/a/20190227A14N3Q00)
+
+[重启深圳住房制度改革之三：总结四十年得失，警惕房改偏向](https://view.inews.qq.com/a/20190228A1AHGU00)
+
+[重启深圳住房制度改革之四：需要什么样的现代住房制度？](https://view.inews.qq.com/a/20190302A0X49300)
+
 
 ## FOOL
 :::tip

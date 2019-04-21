@@ -3,7 +3,7 @@
 ## 要点
 <font color="red">1、在 Vue 项目中，Vue 的版本号一定是要和我们的 `vue-template-compiler` 的版本号一致。</font>
 
-<font color="red">2、Vue 打包后的文件分别是什么意思：</font>
+2、Vue 打包后的文件分别是什么意思：
 - `mainifest.js`  ——  静态资源清单
 - `vendor.js`  —— `node_modules` 里面的包打包出来的
 - `app.js` —— 源码打包出来的
