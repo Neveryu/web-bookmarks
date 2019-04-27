@@ -4,6 +4,27 @@ sidebar: auto
 
 # 库
 
+## icons
+
+[font-awesome](https://fontawesome.com/download)；有 1500+ 的免费字体图标，支持 SVG | [font-awesome 3.0 中文文档](http://www.bootcss.com/p/font-awesome/)
+
+[Octicons](https://octicons.github.com/)；由 Github 社区发布的一组开放原始码的免费素材图标
+
+[materialdesignicons](http://materialdesignicons.com/);字体图标，数量很多，支持大小，旋转，动画以及颜色
+
+[Ionicons](https://ionicons.com/)；
+
+[Material](http://google.github.io/material-design-icons/)；谷歌设计的 Material Design 图标，[Materialize](https://materializecss.com/) 中使用的就是这个
+
+[Ikons](http://ikons.piotrkwiatkowski.co.uk/)；
+
+[Iconic](https://useiconic.com/open/)；有 200+ 的免费图标，包括字体图片（提供集成 Bootstrap，Foundation 的代码）、图片（包括多倍图）、SVG 以及 webp
+
+[Feather](https://feathericons.com/)；200+ 免费图标，都是 SVG；
+
+[glyphicons](https://glyphicons.com/)；【收费】，授权 `Bootstrap` 可以免费使用；在 `Bootstrap 3` 中，已经集成，你可以直接使用；在 `Bootstrap 4` 中，并没有集成。
+
+
 ## 模拟数据
 [faker.js](https://www.npmjs.com/package/Faker)
 

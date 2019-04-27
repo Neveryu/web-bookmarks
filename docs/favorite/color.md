@@ -15,6 +15,8 @@
   </div>
 </template>
 
+更多安全色：https://materializecss.com/color.html
+
 <script>
 export default {
   data() {
