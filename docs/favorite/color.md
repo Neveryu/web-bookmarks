@@ -1,4 +1,4 @@
-# 颜色
+# WEB 安全色
 
 <template>
   <div id="color-page">

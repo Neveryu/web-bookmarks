@@ -15,7 +15,8 @@ module.exports = {
         items: [
           { text: 'HTML', link: '/base/html/' },
           { text: 'CSS', link: '/base/css/' },
-          { text: 'JavaScript', link: '/base/javascript/' }
+          { text: 'JavaScript', link: '/base/javascript/' },
+          { text: 'Color', link: '/base/color/'}
         ]
       },
       {
@@ -35,11 +36,11 @@ module.exports = {
         link: '/favorite/'
       },
       {
-        text: '其他',
+        text: '其它',
         items: [
           { text: '面试', link: '/other/interview/' },
           { text: '圈子', link: '/other/gard/' },
-          { text: '其他', link: '/other/another/' }
+          { text: '其它', link: '/other/another/' }
         ]
       }
     ],
