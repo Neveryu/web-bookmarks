@@ -16,7 +16,8 @@ module.exports = {
           { text: 'HTML', link: '/base/html/' },
           { text: 'CSS', link: '/base/css/' },
           { text: 'JavaScript', link: '/base/javascript/' },
-          { text: 'Color', link: '/base/color/'}
+          { text: 'Color', link: '/base/color/'},
+          { text: '正则', link: '/base/regx/'}
         ]
       },
       {

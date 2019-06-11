@@ -3,6 +3,7 @@ const sidebarMap = [
   { title: 'CSS', dirname: 'base/css'},
   { title: 'JavaScript', dirname: 'base/javascript' },
   { title: 'Color', dirname: 'base/color' },
+  { title: '正则表达式', dirname: 'base/regx' },
   { title: '库', dirname: 'repository' },
   { title: '技术', dirname: 'tech' },
   { title: '文章', dirname: 'article' },
