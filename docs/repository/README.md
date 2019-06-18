@@ -34,6 +34,8 @@ sidebar: auto
 
 ## 前端
 
+[uppy](https://github.com/transloadit/uppy) 一个文件上传的 JS 库
+
 [consola](https://github.com/nuxt/consola) 优雅命令行 console vuepress 也使用了
 
 [screenfull.js](https://github.com/sindresorhus/screenfull.js/) 跨浏览器的 JavaScript 全屏API封装，能将页面和任意元素全屏显示
@@ -261,3 +263,6 @@ sidebar: auto
 [get-plain-text](https://itunes.apple.com/cn/app/get-plain-text/) 能清除剪贴板里的格式 很实用
 
 [IINA](https://github.com/lhc70000/iina) mac 平台感觉免费最好的播放器 强推
+
+## 留言评论系统
+[utterances](https://utteranc.es/) 将 GitHub 的 issue 当作评论系统，插入第三方网页的 JS 库。
