@@ -1,5 +1,8 @@
 # 网站
 
+## 图片压缩
+[TinyPNG](https://tinypng.com/) 帮你压缩你的图片；超好用的；还提供了 developer api
+
 ## i18n
 [国际化翻译搜索](https://i18ns.com) 帮助你翻译你的国际化语言
 

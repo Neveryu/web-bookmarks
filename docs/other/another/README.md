@@ -4,6 +4,9 @@ sidebar: auto
 
 # MORE 
 
+## NEXT
+[2025年智能音箱市场预测：谷歌、百度将凭技术优势称王](https://new.qq.com/omn/20190626/20190626A0KGFM00)
+
 ## EMAIL
 
 -
