@@ -1,10 +1,9 @@
 ---
 sidebar: auto
 ---
+# 工具
 
-# 库
-
-## icons
+## icons  
 
 [font-awesome](https://fontawesome.com/download)；有 1500+ 的免费字体图标，支持 SVG | [font-awesome 3.0 中文文档](http://www.bootcss.com/p/font-awesome/)
 

@@ -29,8 +29,11 @@ module.exports = {
         link: '/article/'
       },
       {
-        text: '库',
-        link: '/repository/'
+        text: '工具&网站',
+        items: [
+          { text: '工具', link: '/tool-site/tool/' },
+          { text: '网站', link: '/tool-site/site/' }
+        ]
       },
       {
         text: '收藏',

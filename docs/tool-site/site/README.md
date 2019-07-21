@@ -1,7 +1,14 @@
+---
+sidebar: auto
+---
 # 网站
 
 ## 图片压缩
 [TinyPNG](https://tinypng.com/) 帮你压缩你的图片；超好用的；还提供了 developer api
+
+[智图](http://zhitu.isux.us/) 腾讯出品 在线图片压缩 支持转成 webP 处理静态图片时候很好用
+
+[picdiet](https://www.picdiet.com/zh-cn) 另一个图片压缩网站
 
 ## i18n
 [国际化翻译搜索](https://i18ns.com) 帮助你翻译你的国际化语言
@@ -29,10 +36,6 @@
 [iconfont](http://www.iconfont.cn/) 阿里出的图标库，非常实用，支持 svg、font、png 多种格式，基本现在所有图标都在上面找。
 
 [cssicon](http://cssicon.space/#/) 所有的 icon 都是纯 css 画的 缺点：icon 不够多
-
-[智图](http://zhitu.isux.us/) 腾讯出品 在线图片压缩 支持转成 webP 处理静态图片时候很好用
-
-[picdiet](https://www.picdiet.com/zh-cn) 另一个图片压缩网站
 
 [CSS triangle generator](http://apps.eky.hk/css-triangle-generator/) 帮你快速用 css 做出三角形
 
