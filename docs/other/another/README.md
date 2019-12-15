@@ -7,10 +7,15 @@ sidebar: auto
 ## NEXT
 [2025年智能音箱市场预测：谷歌、百度将凭技术优势称王](https://new.qq.com/omn/20190626/20190626A0KGFM00)
 
+## PREV
+[没房没车的年轻人告别北漂 却发现已被老家同龄人落在身后](https://view.inews.qq.com/a/20191213A00OHQ00)
+
+[焦虑的38岁：还在上自习的中年人，“抛妻弃子”与考研党抢座](https://view.inews.qq.com/a/20191122A0AV8X00)
+
 ## EMAIL
 
 -
-[刘强东被起诉书当事人授权全译本](https://weibo.com/ttarticle/p/show?id=2309404362961140493296) 是个狼人
+[刘强东被起诉书当事人授权全译本](https://weibo.com/ttarticle/p/show?id=2309404362961140493296) 
 
 [刘强东朋友圈回应京东裁员：混日子的人不是我的兄弟](http://view.inews.qq.com/a/20190412A0L1S400)
 
@@ -71,6 +76,7 @@ sidebar: auto
 [只知蓝洁瑛从人间逃离，殊不知她活的有多不易](https://view.inews.qq.com/a/20181117A0N7S000)
 
 [马航调查组宣布解散：下辈子，无论爱与不爱，都不会再见了](https://view.inews.qq.com/a/20181120A1WUMP00)
+
 
 ## END
 [https://panjiachen.github.io/awesome-bookmarks/](https://panjiachen.github.io/awesome-bookmarks/)
