@@ -47,3 +47,17 @@ console.log(pattern.test(phone3))  // true
 ``` js
 \d((?<=0)1|(?<=1)2|(?<=2)3|(?<=3)4|(?<=4)5|(?<=5)6|(?<=6)7|(?<=7)8|(?<=8)9){5}
 ```
+
+## 正则大全
+[https://any86.github.io/any-rule/](https://any86.github.io/any-rule/)
+
+
+
+
+
+
+
+
+
+
+
