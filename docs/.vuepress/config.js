@@ -52,7 +52,8 @@ module.exports = {
         items: [
           { text: '面试', link: '/other/interview/' },
           { text: '圈子', link: '/other/gard/' },
-          { text: '其它', link: '/other/another/' }
+          { text: '其它', link: '/other/another/' },
+          { text: 'KOBE', link: '/other/kobe/' }
         ]
       }
     ],
