@@ -1,4 +1,5 @@
 const generate = require('./utils')
+const stylusRandom = require('./stylus-random')
 
 module.exports = {
   title: 'web-bookmarks',
@@ -82,5 +83,8 @@ module.exports = {
       md.set({ breaks: true })
       md.use(require('markdown-it-include'))
     }
+  },
+  stylus: {
+    use: [stylusRandom()]
   }
 }
