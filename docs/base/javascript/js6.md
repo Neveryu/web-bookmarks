@@ -1,16 +1,43 @@
-# 优秀的 JavaScript API
+# 原生js 实现 textarea，input输入框监听和输入字数限制
+
+``` html
+<textarea class="wishContent" placeholder="请输入不超过15个字" maxlength="15">
+</textarea>
+<span class="wordsNum">0/15</span>
+```
+
+``` js
+//封装一个限制字数方法
+var checkStrLengths = function (str, maxLength) {
+    var maxLength = maxLength;
+    var result = 0;
+    if (str && str.length > maxLength) {
+        result = maxLength;
+    } else {
+        result = str.length;
+    }
+    return result;
+}
+
+//监听输入
+$(".wishContent").on('input propertychange', function () {
+
+    //获取输入内容
+    var userDesc = $(this).val();
+
+    //判断字数
+    var len;
+    if (userDesc) {
+        len = checkStrLengths(userDesc, 15);
+    } else {
+        len = 0
+    }
+
+    //显示字数
+    $(".wordsNum").html(len + '/15');
+});
+```
 
 
-## Window.performance
-Web Performance API允许网页访问某些函数来测量网页和Web应用程序的性能，包括 Navigation Timing API和高分辨率时间数据。
 
 
-## navigator.sendBeacon
-`navigator.sendBeacon` 方法可用于通过 HTTP 将少量数据异步传输到 Web 服务器。
-[docs/Web/API/Navigator/sendBeacon](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon)
-在这个文档里，还能看到关于页面 unload 的时候，进行统计，尝试向服务器发送数据，的两种理论可行方案，值得学习。
-
-
-## requestAnimationFrame
-与 `setTimeout` 和 `setInterval` 不同，`requestAnimationFrame` 不需要设置时间间隔。这有什么好处呢？为什么 `requestAnimationFrame` 被称为神器呢？本文将详细介绍HTML5新增的定时器 `requestAnimationFrame`。
-[docs/Web/API/Window/requestAnimationFrame](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
