@@ -1,4 +1,4 @@
-# In my mine
+# In my mind
 
 是啊
 就算这个世界上有第二个科比
