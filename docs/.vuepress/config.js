@@ -18,6 +18,7 @@ module.exports = {
   ],
   serviceWorker: true,
   themeConfig: {
+    logo: '/cute-spear-monster.jpg',
     nav: [
       { 
         text: '基础',
@@ -49,9 +50,12 @@ module.exports = {
         link: '/favorite/'
       },
       {
+        text: '面试',
+        link: '/interview/'
+      },
+      {
         text: '其它',
         items: [
-          { text: '面试', link: '/other/interview/' },
           { text: '圈子', link: '/other/gard/' },
           { text: '其它', link: '/other/another/' },
           { text: 'KOBE', link: '/other/kobe/' }
@@ -71,6 +75,7 @@ module.exports = {
     // 默认是 false, 设置为 true 来启用
     editLinks: true,
     editLinkText: '在 GitHub 上编辑此页',
+    sidebarDepth: 3,
     serviceWorker: {
       updatePopup: {
         message: "网站有新的内容啦！",
@@ -82,6 +87,13 @@ module.exports = {
     config: md => {
       md.set({ breaks: true })
       md.use(require('markdown-it-include'))
+    }
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@public': './public'
+      }
     }
   },
   stylus: {

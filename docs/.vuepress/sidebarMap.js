@@ -9,7 +9,7 @@ const sidebarMap = [
   { title: '工具', dirname: 'tool-site/tool' },
   { title: '网站', dirname: 'tool-site/site' },
   { title: '收藏', dirname: 'favorite' },
-  { title: '面试', dirname: 'other/interview' },
+  { title: '面试', dirname: 'interview' },
   { title: '圈子', dirname: 'other/gard' },
   { title: '其它', dirname: 'other/another' },
   { title: '科比', dirname: 'other/kobe' }

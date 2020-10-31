@@ -1,4 +1,4 @@
-# 浏览器环境检测
+# 浏览器环境检测 <Badge text="推荐"/>
 
 ```js
 // Browser environment sniffing

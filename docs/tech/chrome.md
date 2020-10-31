@@ -11,6 +11,15 @@ debug(test)
 ```
 当test函数被执行时，即可断点
 5.console.log('%cwerwerwr%c  ', '', '')，%c占位符，可以对应的写css样式，将会影响后面的内容。
+6.在chrome调试器中，`$(.move)`会查找到匹配的第一个元素，类似于 `document.querySelector`；`$$(.move)`会匹配出所有的`class`为`move`的元素，类似于`querySelectorAll`。
+7.如何debug node应用程序，使用下面的方式启动，打开浏览器调试器，会多一个绿色的按钮，点击这个按钮即可。
+```
+node --inspect-brk app.js
+```
+8.如何调试webpack
+
+
+
 
 
 ## 禁用Firefox和Chrome的安全性检测
