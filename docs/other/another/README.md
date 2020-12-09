@@ -2,7 +2,14 @@
 sidebar: auto
 ---
 
-# MORE 
+# MORE
+
+::: tip FIRST START
+村上春树说：“所谓人生，无非是一个不断丧失的过程。很宝贵的东西，会一个接一个，像梳子豁了齿一样，从你手中滑落；你所爱的人，一人接着一人，从你身旁悄然消逝。”
+:::
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" src="//music.163.com/outchain/player?type=2&id=624084&auto=0&height=66" oncontextmenu="return false"></iframe>
+
 
 ## NEXT
 [2025年智能音箱市场预测：谷歌、百度将凭技术优势称王](https://new.qq.com/omn/20190626/20190626A0KGFM00)
