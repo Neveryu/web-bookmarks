@@ -7,17 +7,22 @@
 ## 数组
 
 1、slice()
+
 2、concat()
+
 3、Array.from()
-4、
-```
+
+4、结构、赋值
+``` js
 var arr1 = [1,2,3]
 var arr2 = [...arr1]
 ```
 
 ## 对象
 1、Object.assign()
+
 2、let objClone = { ...obj }
+
 3、JSON.parse(JSON.stringify(obj))
 
 ## 封装一个递归方法来实现完美的深拷贝的功能

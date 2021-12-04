@@ -19,11 +19,11 @@ features:
 footer: MIT Licensed | Copyright © 2018-present | Power by VuePress | Author -> Never Yu
 ---
 
-# 你好吗👋
+# Hello，Lover 👋
 
 <iframe style="display:block;margin:0 auto;" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1431448890&auto=0&height=66"></iframe>
 
-::: tip
+::: tip 准备好了吗
 前端工程师有很多性能优化的手段，包括 CDN、CSS Sprite、文件的合并压缩、异步加载、资源缓存等等。其实我们绝大部分情况是在干一件事情，那就是尽量降低一个页面的网络请求成本从而缩短页面加载资源的时间并降低用户可感知的延时。当然减少用户可感知的延时也不仅仅是在网络请求成本层面，还有浏览器渲染效率，代码质量等等。
 :::
 

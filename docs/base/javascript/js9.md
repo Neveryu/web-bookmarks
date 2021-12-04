@@ -17,3 +17,10 @@ Web Performance API允许网页访问某些函数来测量网页和Web应用程�
 requestAnimationFrame：不同的threejs应用场景，执行一帧的时间是不确定的，threejs动画程序一般选择requestAnimationFrame方法，而不是选择setInterval方法设置固定的刷新频率，也就是周期性执行时间。
 
 [docs/Web/API/Window/requestAnimationFrame](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
+
+
+## IntersectionObserver
+**交叉观察器**。  IntersectionObserver接口 (从属于Intersection Observer API) 提供了一种异步观察目标元素与其祖先元素或顶级文档视窗(viewport)交叉状态的方法。**常用来判断某个元素是否进入了"视口"（viewport）**。
+
+[Intersection Observer - Web API 接口参考 | MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/IntersectionObserver)、
+[阮一峰 - IntersectionObserver API 使用教程](https://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html)
