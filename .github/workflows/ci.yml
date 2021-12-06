@@ -38,4 +38,4 @@ jobs:
       - name: Setup env
         env:
           access_token: ${{ secrets.access_token }}
-        run: base ./deploy.sh
+        run: bash ./deploy.sh
