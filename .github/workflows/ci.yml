@@ -33,18 +33,16 @@ jobs:
           node-version: '10.x'
 
       - name: Install and Build
-        run: yarn && yarn docs:build
+        run: yarn && yarn build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
-          ACCESS_TOKEN: ${{ secrets.access_token }}
+          token: ${{ secrets.ACCESS_TOKEN }}
+          single-commit: true
           branch: gh-pages
+          clean: true
           folder: docs/.vuepress/dist
-
-      # Runs a single command using the runners shell
-      #- name: Build Project
-      #  run: yarn && yarn build
 
       # Runs a set of commands using the runners shell
       #- name: Deploy
