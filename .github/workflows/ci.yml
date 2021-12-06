@@ -38,8 +38,7 @@ jobs:
       - name: Setup env
         env:
           access_token: ${{ secrets.access_token }}
-        run: |
-          echo "$access_token"
+        run: bash ./deploy.sh
 
       # Runs a single command using the runners shell
       #- name: Build Project
