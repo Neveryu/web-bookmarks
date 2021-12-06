@@ -36,6 +36,6 @@ jobs:
         run: yarn
 
       - name: Setup env
-        env:
-          access_token: ${{ secrets.access_token }}
-        run: bash ./deploy.sh
+        run: |
+          access_token=${{ secrets.access_token }}
+          bash ./deploy.sh
