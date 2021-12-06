@@ -38,12 +38,4 @@ jobs:
       - name: Setup env
         env:
           access_token: ${{ secrets.access_token }}
-          
-      # Runs a single command using the runners shell
-      #- name: Build Project
-      #  run: yarn && yarn build
-
-      # Runs a set of commands using the runners shell
-      - name: Deploy
-        run: bash ./deploy.sh
-        
+        run: base ./deploy.sh
