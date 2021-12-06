@@ -22,19 +22,30 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout master
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
         with:
           ref: master
+          persist-credentials: false
 
       - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: '10.x'
 
+      - name: Install and Build
+        run: yarn && yarn docs:build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          ACCESS_TOKEN: ${{ secrets.access_token }}
+          branch: gh-pages
+          folder: docs/.vuepress/dist
+
       # Runs a single command using the runners shell
       #- name: Build Project
       #  run: yarn && yarn build
 
       # Runs a set of commands using the runners shell
-      - name: Deploy
-        run: bash ./deploy.sh
+      #- name: Deploy
+      #  run: bash ./deploy.sh

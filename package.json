@@ -2,6 +2,7 @@
   "name": "web-bookmarks",
   "version": "1.0.0",
   "description": "web-bookmarks",
+  "homepage": "https://neveryu.github.io/web-bookmarks",
   "main": "index.js",
   "author": "Neveryu",
   "license": "ISC",
