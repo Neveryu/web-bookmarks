@@ -22,3 +22,12 @@
 
 10、如果是这样，我还能够靠一只手继续打球。129票，得票率0.68%。
 
+::: tip Kobe
+Those times when you get up early and you work hard
+
+Those times when you stay up late you work hard
+
+Those times when you don't feel like working, you're too tired and you don't want to push yourself but you do it anyway
+
+That is actually the dream
+:::
