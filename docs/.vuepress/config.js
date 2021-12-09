@@ -55,11 +55,20 @@ module.exports = {
         link: '/interview/'
       },
       {
+        text: '综合',
+        items: [
+          { text: '文档', link: '/summary/docs/'},
+          { text: '笔记', link: '/summary/notes/'}
+        ]
+      },
+      {
         text: '其它',
         items: [
+          { text: '音乐', link: '/other/music/'},
+          { text: '视频', link: '/other/video/'},
           { text: '圈子', link: '/other/gard/' },
-          { text: '其它', link: '/other/another/' },
-          { text: 'KOBE', link: '/other/kobe/' }
+          { text: 'KOBE', link: '/other/kobe/' },
+          { text: '其它', link: '/other/another/' }
         ]
       }
     ],
