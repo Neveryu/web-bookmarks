@@ -1,6 +1,6 @@
 # Node.js 基础
 
-> Node.js 基础；快速、阅览、回顾。打开音乐，让我们开始吧~
+> Node.js 基础；快速、阅览、回顾。全文速览约 7 分钟；打开音乐，让我们开始吧~
 
 ### Hello World
 
@@ -126,17 +126,17 @@ emitter.emit('someEvent', 'arg1 参数', 'arg2 参数');
 ```
 
 ::: details EventEmitter 的属性/API
-【方法】：
+#### 方法：
 `addListener(event, listener)`、`on(event, listener)`、`removeListener(event, listener)`、`removeAllListeners([event])`、`setMaxListeners(n)`、`listeners(event)`、`emit(event, [arg1], [arg2], [...])`。
 
-【类方法】：
+#### 类方法：
 ``` js
 listenerCount(emitter, event); // 返回指定事件的监听器数量。
 events.EventEmitter.listenerCount(emitter, eventName) //已废弃，不推荐
 events.emitter.listenerCount(eventName) //推荐
 ```
 
-【事件】：
+#### 事件：
 `newListener`、`removeListener`。
 
 ::: tip
@@ -202,16 +202,16 @@ const buf5 = Buffer.from('tést');
 const buf6 = Buffer.from('tést', 'latin1');
 ```
 
-【写入缓冲区】
+#### 写入缓冲区
 ``` js
 const buf = Buffer.from('runoob', 'ascii');
 buf.write(string[, offset[, length]][, encoding]);
 ```
-【从缓冲区读取数据】
+#### 从缓冲区读取数据
 ``` js
 buf.toString([encoding[, start[, end]]])
 ```
-【将 Buffer 转换为 JSON 对象】
+#### 将 Buffer 转换为 JSON 对象
 ``` js
 buf.toJSON()
 ```
@@ -225,23 +225,23 @@ const copy = JSON.parse(json, (key, value) => {
 });
 ```
 :::
-【缓冲区合并】
+#### 缓冲区合并
 ``` js
 Buffer.concat(list[, totalLength]);  // 返回一个多个成员合并的新 Buffer 对象。
 ```
-【缓冲区比较】
+#### 缓冲区比较
 ``` js
 buf.compare(otherBuffer);  // 返回一个数字，表示 buf 在 otherBuffer 之前，之后或相同。
 ```
-【拷贝缓冲区】
+#### 拷贝缓冲区
 ``` js
 buf.copy(targetBuffer[, targetStart[, sourceStart[, sourceEnd]]])
 ```
-【缓冲区裁剪】
+#### 缓冲区裁剪
 ``` js
 buf.slice([start[, end]])
 ```
-【缓冲区长度】
+#### 缓冲区长度
 ``` js
 buf.length;  // 返回 Buffer 对象所占据的内存长度。
 ```
@@ -267,7 +267,7 @@ Node.js，Stream 有四种流类型：
 - error - 在接收和写入过程中发生错误时触发。
 - finish - 所有数据已被写入到底层系统时触发。
 
-【从流中读取数据】
+#### 从流中读取数据
 ``` js
 // 首先需要创建input.txt文件，里面写点东西
 var fs = require("fs");
@@ -292,7 +292,7 @@ readerStream.on('error', function(err){
 console.log("程序执行完毕");
 ```
 
-【写入流】
+#### 写入流
 ``` js
 var fs = require("fs");
 var data = '目之所及，XXXX，心之所想，XXXX';
@@ -315,7 +315,7 @@ writerStream.on('error', function(err){
 console.log("程序执行完毕");
 ```
 
-【管道流】
+#### 管道流
 
 管道提供了一个输出流到输入流的机制。通常我们用于从一个流中获取数据并将数据传递到另外一个流中。
 ![](https://www.runoob.com/wp-content/uploads/2015/09/bVcla61)
@@ -334,11 +334,170 @@ readerStream.pipe(writerStream);
 console.log("程序执行完毕");
 ```
 
-【链式流】
+#### 链式流
+
+链式是通过连接输出流到另外一个流并创建多个 **流操作链** 的机制。链式流一般用于管道操作。
+> 说白了，就是链式操作。
+
+::: details 用管道和链式来压缩和解压文件。
+``` js
+var fs = require("fs");
+var zlib = require('zlib');
+
+// 压缩 input.txt 文件为 input.txt.gz
+fs.createReadStream('input.txt')
+  .pipe(zlib.createGzip())
+  .pipe(fs.createWriteStream('input.txt.gz'));
+  
+console.log("文件压缩完成。");
+```
+
+``` js
+var fs = require("fs");
+var zlib = require('zlib');
+
+// 解压 input.txt.gz 文件为 input.txt
+fs.createReadStream('input.txt.gz')
+  .pipe(zlib.createGunzip())
+  .pipe(fs.createWriteStream('input.txt'));
+  
+console.log("文件解压完成。");
+```
+:::
+
+
+### Node.js模块系统
+为了让 Node.js 的文件可以相互调用，Node.js 提供了一个简单的模块系统。
+
+模块是 Node.js 应用程序的基本组成部分，文件和模块是一一对应的。换言之，一个 Node.js 文件就是一个模块，这个文件可能是 JavaScript 代码、JSON 或者编译过的 C/C++ 扩展。
+
+> 模块系统在平时工作学习中也用的很多，这里不多赘述了，有需要可以看文档。
+
+由于 Node.js 中存在 4 类模块（原生模块和3种文件模块），尽管 require 方法极其简单，但是内部的加载却是十分复杂的，其加载优先级也各自不同。如下图所示：
+
+![](./assets/nodejs-require.jpg)
+
+#### 从文件模块缓存中加载
+尽管原生模块与文件模块的优先级不同，但是都会优先从文件模块的缓存中加载已经存在的模块。
+
+#### 从原生模块加载
+原生模块的优先级仅次于文件模块缓存的优先级。require 方法在解析文件名之后，优先检查模块是否在原生模块列表中。以 http 模块为例，尽管在目录下存在 http、http.js、http.node、http.json 文件，`require("http")` 都不会从这些文件中加载，而是从原生模块中加载。
+
+原生模块也有一个缓存区，同样也是优先从缓存区加载。如果缓存区没有被加载过，则调用原生模块的加载方式进行加载和执行。
+
+#### 从文件加载
+当文件模块缓存中不存在，而且不是原生模块的时候，Node.js 会解析 require 方法传入的参数，并从文件系统中加载实际的文件，加载过程中的包装和编译细节在前一节中已经介绍过，这里我们将详细描述查找文件模块的过程，其中，也有一些细节值得知晓。
+
+require方法接受以下几种参数的传递：
+- http、fs、path等，原生模块。
+- ./mod 或 ../mod，相对路径的文件模块。
+- /pathtomodule/mod，绝对路径的文件模块。
+- mod，非原生模块的文件模块。
+
+### Node.js 路由
+所有数据都会包含在 request 对象中，但是为了解析这些数据，我们需要额外的 Node.JS 模块，它们分别是 url 和 querystring 模块。（两者选其一？这两个模块有什么异同点吗？）
+
+> 路由只是对请求 request 对象做解析，然后，对于不同的请求 pathname 做不同的相应。
+
+::: details 有网友用 event 来做路由的控制，是一个思路，可以帮助我们理解路由，但实际肯定不能这么用。
+``` js
+var http = require("http");
+var url = require('url');
+const { exit } = require("process");
+var events = require('events');
+
+// 创建 eventEmitter 对象 
+var eventEmitter = new events.EventEmitter();
+
+// route 根路径 
+eventEmitter.on('/', function(method, response){
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Hello World\n');
+});
+// route 404 
+eventEmitter.on('404', function(method, url, response){
+    response.writeHead(404, {'Content-Type': 'text/plain'});
+    response.end('404 Not Found\n');
+});
+
+// 启动服务 
+http.createServer(function (request, response) {
+    console.log(request.url);
+    // 分发 
+    if (eventEmitter.listenerCount(request.url) > 0){
+        eventEmitter.emit(request.url, request.method, response);
+    }
+    else {
+        eventEmitter.emit('404', request.method, request.url, response);
+    }
+    
+}).listen(8888);
+
+console.log('Server running at http://127.0.0.1:8888/');
+```
+:::
+
+
+### Node.js 全局对象
+在浏览器 JavaScript 中，通常 window 是全局对象， 而 Node.js 中的全局对象是 global，所有全局变量（除了 global 本身以外）都是 global 对象的属性。
+
+在 Node.js 我们可以直接访问到 global 的属性，而不需要在应用中包含它。
+
+
+#### 全局对象与全局变量
+global 最根本的作用是作为全局变量的宿主。按照 ECMAScript 的定义，满足以下条 件的变量是全局变量：
+- 在最外层定义的变量；
+- 全局对象的属性；
+- 隐式定义的变量（未定义直接赋值的变量）。
+
+当你定义一个全局变量时，这个变量同时也会成为全局对象的属性，反之亦然。需要注 意的是，在 Node.js 中你不可能在最外层定义变量，因为所有用户代码都是属于当前模块的， 而模块本身不是最外层上下文。
+
+> 是不是说，使用 `global.abc = 'xxx'` 的方式才能定义全局变量？
+
+::: danger
+注意： 最好不要使用 var 定义变量以避免引入全局变量，因为全局变量会污染命名空间，提高代码的耦合风险。
+:::
+
+#### __filename
+`__filename` 表示当前正在执行的脚本的文件名。它将输出文件所在位置的绝对路径，且和命令行参数所指定的文件名不一定相同。 如果在模块中，返回的值是模块文件的路径。
+``` js
+// 输出全局变量 __filename 的值
+console.log( __filename );
+
+// 打印： /nodejs/main.js
+```
+
+#### __dirname
+`__dirname` 表示当前执行脚本所在的目录。
+
+#### `setTimeout(cb, ms)`、`clearTimeout(t)`、`setInterval(cb, ms)`、`clearInterval(t)`、`console`
+
+#### process
+process 是一个全局变量，即 global 对象的属性。
+
+它用于描述当前Node.js 进程状态的对象，提供了一个与操作系统的简单接口。通常在你写本地命令行程序的时候，少不了要 和它打交道。下面将会介绍 process 对象的一些最常用的成员方法。
+``` js
+process.on('exit', function(code) {
+  // 以下代码永远不会执行
+  setTimeout(function() {
+    console.log("该代码不会执行");
+  }, 0);
+  
+  console.log('退出码为:', code);
+});
+console.log("程序执行结束");
+
+// 程序执行结束
+// 退出码为: 0
+```
+
+> 关于 `process` 的 方法/API，以及退出状态码的说明，请查阅文档。
 
 
 
-笔记汇总来源： [https://www.runoob.com/nodejs](https://www.runoob.com/nodejs)
+::: details 笔记汇总来源
+[https://www.runoob.com/nodejs](https://www.runoob.com/nodejs)
+:::
 
 
 
