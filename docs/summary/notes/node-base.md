@@ -504,6 +504,163 @@ const util = require('util');
 ```
 #### util.callbackify
 `util.callbackify(original)` 将 async 异步函数（或者一个返回值为 Promise 的函数）转换成遵循异常优先的回调风格的函数，例如将 (err, value) => ... 回调作为最后一个参数。 在回调函数中，第一个参数为拒绝的原因（如果 Promise 解决，则为 null），第二个参数则是解决的值。
+``` js
+const util = require('util');
+
+async function fn() {
+  return 'hello world';
+}
+const callbackFunction = util.callbackify(fn);
+
+callbackFunction((err, ret) => {
+  if (err) throw err;
+  console.log(ret);
+});
+```
+
+#### util.inherits
+`util.inherits(constructor, superConstructor)` 是一个实现对象间原型继承的函数。
+
+JavaScript 的面向对象特性是基于原型的，与常见的基于类的不同。JavaScript 没有提供对象继承的语言级别特性，而是通过原型复制来实现的。
+``` js
+var util = require('util'); 
+function Base() { 
+    this.name = 'base'; 
+    this.base = 1991; 
+    this.sayHello = function() { 
+    console.log('Hello ' + this.name); 
+    }; 
+} 
+Base.prototype.showName = function() { 
+    console.log(this.name);
+}; 
+function Sub() { 
+    this.name = 'sub'; 
+} 
+util.inherits(Sub, Base); 
+var objBase = new Base(); 
+objBase.showName();   // base
+objBase.sayHello();   // Hello base
+console.log(objBase);   // { name: 'base', base: 1991, sayHello: [Function] }
+var objSub = new Sub(); 
+objSub.showName();   // sub
+//objSub.sayHello(); 
+console.log(objSub);  // { name: 'sub' }
+```
+::: danger 注意
+Sub 仅仅继承了 Base 在原型中定义的函数，而构造函数内部创造的 base 属性和 sayHello 函数都没有被 Sub 继承。
+
+同时，**在原型中定义的属性不会被 console.log 作为对象的属性输出**。
+:::
+
+#### util.inspect
+`util.inspect(object,[showHidden],[depth],[colors])` 是一个将任意对象转换 为字符串的方法，通常用于调试和错误输出。它至少接受一个参数 object，即要转换的对象。
+
+特别要指出的是，`util.inspect` 并不会简单地直接把对象转换为字符串，即使该对象定义了 `toString` 方法也不会调用。
+
+> 更多 `util` 详情可以访问 [http://nodejs.org/api/util.html](http://nodejs.org/api/util.html) 了解详细内容。
+
+### Node.js 文件系统
+Node.js 提供一组类似 UNIX（POSIX）标准的文件操作API。
+``` js
+var fs = require("fs")
+```
+
+#### 异步和同步
+Node.js 文件系统（ `fs` 模块）模块中的方法均有异步和同步版本，例如读取文件内容的函数有异步的 `fs.readFile()` 和同步的 `fs.readFileSync()`。
+
+异步的方法函数最后一个参数为回调函数，回调函数的第一个参数包含了错误信息(error)。
+
+建议大家使用异步方法，比起同步，异步方法性能更高，速度更快，而且没有阻塞。
+
+#### 打开文件
+``` js
+// 异步的
+fs.open(path, flags[, mode], callback)
+```
+
+#### 获取文件信息
+``` js
+// 通过异步模式获取文件信息的语法
+fs.stat(path, (err, stats) => {})
+```
+`stats` 是 `fs.Stats` 对象。可以通过 `stats` 类中的提供方法判断文件的相关属性。
+`stats` 类中的方法有：
+- `stats.isFile()` 如果是文件返回 `true`，否则返回 `false`。
+- `stats.isDirectory()` 如果是目录返回 `true`，否则返回 `false`。
+- `stats.isBlockDevice()` 如果是块设备返回 `true`，否则返回 `false`。
+- `stats.isCharacterDevice()` 如果是字符设备返回 `true`，否则返回 `false`。
+- `stats.isSymbolicLink()`  如果是软链接返回 `true`，否则返回 `false`。
+- `stats.isFIFO()`  如果是 FIFO，返回 `true`，否则返回 `false`。 FIFO 是 UNIX 中的一种特殊类型的命令管道。
+- `stats.isSocket()`  如果是 Socket 返回 true，否则返回 false。
+
+#### 写入文件
+``` js
+// 异步模式下写入文件的语法
+// data - 要写入文件的数据，可以是 String(字符串) 或 Buffer(缓冲) 对象。
+fs.writeFile(file, data[, options], callback)
+```
+`writeFile` 直接打开文件默认是 `w` 模式，所以如果文件存在，该方法写入的内容会覆盖旧的文件内容。
+
+#### 读取文件
+``` js
+// 异步模式下读取文件的语法
+// fd - 通过 fs.open() 方法返回的文件描述符。
+fs.read(fd, buffer, offset, length, position, callback)
+```
+``` js
+var fs = require("fs");
+var buf = new Buffer.alloc(1024);
+
+fs.open('input.txt', 'r+', function(err, fd) {
+   if (err) {
+       return console.error(err);
+   }
+   console.log("文件打开成功！");
+   console.log("准备读取文件：");
+   fs.read(fd, buf, 0, buf.length, 0, function(err, bytes){
+      if (err){
+         console.log(err);
+      }
+      console.log(bytes + "  字节被读取");
+      
+      // 仅输出读取的字节
+      if(bytes > 0){
+         console.log(buf.slice(0, bytes).toString());
+      }
+   });
+});
+```
+
+> `fs.read()`、`fs.readFile()` 有什么区别？
+
+`fs.readFile(filename[, options], callback)` - 异步读取文件内容。
+
+`fs.read(fd, buffer, offset, length, position, callback)` - 通过文件描述符 `fd` 读取文件内容。
+
+#### 关闭文件
+``` js
+// 异步模式下关闭文件的语法
+fs.close(fd, callback)
+```
+
+::: tip 文件模块方法参考手册
+更多 `fs` 模块方法请参考文档：
+
+[https://www.runoob.com/nodejs/nodejs-fs.html](https://www.runoob.com/nodejs/nodejs-fs.html)；
+
+[https://nodejs.org/api/fs.html](https://nodejs.org/api/fs.html)
+:::
+
+
+### Node.js GET/POST请求
+#### GET 获取 URL 的参数
+我们可以使用 `url.parse` 方法来解析 `URL` 中的参数。
+``` js
+var url = require('url');
+var params = url.parse(req.url, true).query;
+```
+
 
 
 
