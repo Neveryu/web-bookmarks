@@ -386,18 +386,18 @@ console.log("文件解压完成。");
 原生模块也有一个缓存区，同样也是优先从缓存区加载。如果缓存区没有被加载过，则调用原生模块的加载方式进行加载和执行。
 
 #### 从文件加载
-当文件模块缓存中不存在，而且不是原生模块的时候，Node.js 会解析 require 方法传入的参数，并从文件系统中加载实际的文件，加载过程中的包装和编译细节在前一节中已经介绍过，这里我们将详细描述查找文件模块的过程，其中，也有一些细节值得知晓。
+当文件模块缓存中不存在，而且不是原生模块的时候，Node.js 会解析 `require` 方法传入的参数，并从文件系统中加载实际的文件，加载过程中的包装和编译细节在前一节中已经介绍过，这里我们将详细描述查找文件模块的过程，其中，也有一些细节值得知晓。
 
-require方法接受以下几种参数的传递：
+`require` 方法接受以下几种参数的传递：
 - http、fs、path等，原生模块。
 - ./mod 或 ../mod，相对路径的文件模块。
 - /pathtomodule/mod，绝对路径的文件模块。
 - mod，非原生模块的文件模块。
 
 ### Node.js 路由
-所有数据都会包含在 request 对象中，但是为了解析这些数据，我们需要额外的 Node.JS 模块，它们分别是 url 和 querystring 模块。（两者选其一？这两个模块有什么异同点吗？）
+所有数据都会包含在 `request` 对象中，但是为了解析这些数据，我们需要额外的 Node.JS 模块，它们分别是 `url` 和 `querystring` 模块。（两者选其一？这两个模块有什么异同点吗？）
 
-> 路由只是对请求 request 对象做解析，然后，对于不同的请求 pathname 做不同的相应。
+> 路由只是对请求 `request` 对象做解析，然后，对于不同的请求 `pathname` 做不同的相应。
 
 ::: details 有网友用 event 来做路由的控制，是一个思路，可以帮助我们理解路由，但实际肯定不能这么用。
 ``` js
@@ -439,13 +439,14 @@ console.log('Server running at http://127.0.0.1:8888/');
 
 
 ### Node.js 全局对象
-在浏览器 JavaScript 中，通常 window 是全局对象， 而 Node.js 中的全局对象是 global，所有全局变量（除了 global 本身以外）都是 global 对象的属性。
+在浏览器 JavaScript 中，通常 `window` 是全局对象， 而 Node.js 中的全局对象是 `global`，所有全局变量（除了 `global` 本身以外）都是 `global` 对象的属性。
 
-在 Node.js 我们可以直接访问到 global 的属性，而不需要在应用中包含它。
+在 Node.js 我们可以直接访问到 `global` 的属性，而不需要在应用中包含它。
 
 
 #### 全局对象与全局变量
-global 最根本的作用是作为全局变量的宿主。按照 ECMAScript 的定义，满足以下条 件的变量是全局变量：
+
+`global` 最根本的作用是作为全局变量的宿主。按照 ECMAScript 的定义，满足以下条 件的变量是全局变量：
 - 在最外层定义的变量；
 - 全局对象的属性；
 - 隐式定义的变量（未定义直接赋值的变量）。
@@ -458,8 +459,9 @@ global 最根本的作用是作为全局变量的宿主。按照 ECMAScript 的�
 注意： 最好不要使用 var 定义变量以避免引入全局变量，因为全局变量会污染命名空间，提高代码的耦合风险。
 :::
 
-#### __filename
+#### `__filename`
 `__filename` 表示当前正在执行的脚本的文件名。它将输出文件所在位置的绝对路径，且和命令行参数所指定的文件名不一定相同。 如果在模块中，返回的值是模块文件的路径。
+
 ``` js
 // 输出全局变量 __filename 的值
 console.log( __filename );
@@ -467,15 +469,15 @@ console.log( __filename );
 // 打印： /nodejs/main.js
 ```
 
-#### __dirname
+#### `__dirname`
 `__dirname` 表示当前执行脚本所在的目录。
 
-#### `setTimeout(cb, ms)`、`clearTimeout(t)`、`setInterval(cb, ms)`、`clearInterval(t)`、`console`
+#### 关于 `setTimeout(cb, ms)`、`clearTimeout(t)`、`setInterval(cb, ms)`、`clearInterval(t)`、`console` 不做过多的赘述
 
 #### process
-process 是一个全局变量，即 global 对象的属性。
+`process` 是一个全局变量，即 `global` 对象的属性。
 
-它用于描述当前Node.js 进程状态的对象，提供了一个与操作系统的简单接口。通常在你写本地命令行程序的时候，少不了要 和它打交道。下面将会介绍 process 对象的一些最常用的成员方法。
+它用于描述当前 Node.js 进程状态的对象，提供了一个与操作系统的简单接口。通常在你写本地命令行程序的时候，少不了要和它打交道。下面将会介绍 `process` 对象的一些最常用的成员方法。
 ``` js
 process.on('exit', function(code) {
   // 以下代码永远不会执行
@@ -491,7 +493,17 @@ console.log("程序执行结束");
 // 退出码为: 0
 ```
 
-> 关于 `process` 的 方法/API，以及退出状态码的说明，请查阅文档。
+> 更多 `process` 的方法/API，以及退出状态码的说明，请查阅文档。
+
+
+
+### Node.js 常用工具 - util
+`util` 是一个 Node.js 核心模块，提供常用函数的集合，用于弥补核心 JavaScript 的功能 过于精简的不足。
+``` js
+const util = require('util');
+```
+#### util.callbackify
+`util.callbackify(original)` 将 async 异步函数（或者一个返回值为 Promise 的函数）转换成遵循异常优先的回调风格的函数，例如将 (err, value) => ... 回调作为最后一个参数。 在回调函数中，第一个参数为拒绝的原因（如果 Promise 解决，则为 null），第二个参数则是解决的值。
 
 
 
