@@ -2,6 +2,8 @@
 
 > Node.js 基础；快速、阅览、回顾。全文速览约 7 分钟；打开音乐，让我们开始吧~
 
+// music - Winter Story
+
 ### Hello World
 
 ``` js
@@ -659,14 +661,373 @@ fs.close(fd, callback)
 ``` js
 var url = require('url');
 var params = url.parse(req.url, true).query;
+// params.name，params.id
 ```
 
+#### 获取 POST 请求内容
+POST 请求的内容全部的都在请求体中，`http.ServerRequest` 并没有一个属性内容为请求体，原因是等待请求体传输可能是一件耗时的工作。
+
+比如上传文件，而很多时候我们可能并不需要理会请求体的内容，恶意的 POST 请求会大大消耗服务器的资源，所以 `node.js` 默认是不会解析请求体的，当你需要的时候，需要手动来做。
+``` js
+http.createServer(function (req, res) {
+  var body = "";
+  req.on('data', function (chunk) {
+    body += chunk;
+  });
+  req.on('end', function () {
+    // 解析参数
+    body = querystring.parse(body);
+    ...
+    res.end();
+  })
+})
+```
+
+### Node.js 工具模块
+- OS 模块 - 提供基本的系统操作函数。
+- Path 模块 - 提供了处理和转换文件路径的工具。
+- Net 模块 - 用于底层的网络通信。提供了服务端和客户端的的操作。
+- DNS 模块 - 用于解析域名。
+- Domain 模块 - 简化异步代码的异常处理，可以捕捉处理 `try catch` 无法捕捉的。
+
+### Node.js Web 模块
+#### 使用 Node 创建 Web 服务器
+``` js
+let http = require('http');
+// 创建服务器
+http.createServer( function (request, response) {  
+  ...
+}).listen(8080);
+```
+
+#### 使用 Node 创建 Web 客户端
+Node 创建 Web 客户端需要引入 http 模块。
+``` js
+var http = require('http');
+// 用于请求的选项
+var options = {
+   host: 'localhost',
+   port: '8080',
+   path: '/index.html'  
+};
+// 向服务端发送请求
+var req = http.request(options, callback);
+req.end();
+```
+
+### Express
+Express 应用使用回调函数的参数： request 和 response 对象来处理请求和响应的数据。
+``` js
+app.get('/', function (req, res) {
+   // --
+})
+```
+**`Request` 对象**： `request` 对象表示 HTTP 请求，包含了请求查询字符串，参数，内容，HTTP 头部等属性。常见属性有： `req.app`、`req.baseUrl`、`req.body/req.cookies`、`req.fresh/req.state`、`req.path`、`req.params` 等等...
+
+**`Response` 对象**： `response` 对象表示 HTTP 响应，即在接收到请求时向客户端发送的 HTTP 响应数据。常见属性有： `res.app`、`res.json()`、`res.jsonp()`、`res.send()`、`res.sendFile()`、`res.set()` 等等...
+::: tip
+更多 `Request` 对象，`Response` 对象的属性方法请查阅文档。
+:::
+
+#### 静态文件
+你可以使用 `express.static` 中间件来设置静态文件路径。
+``` js
+app.use('/public', express.static('public'));
+```
+
+#### GET、POST
+``` js
+var express = require('express');
+var app = express();
+// get
+app.get('/process_get', function (req, res) {
+   // 输出 JSON 格式
+   var response = {
+       "first_name":req.query.first_name,
+       "last_name":req.query.last_name
+   };
+   console.log(response);
+   res.end(JSON.stringify(response));
+})
+// post
+app.post('/process_post', function (req, res) {
+   // 输出 JSON 格式
+   var response = {
+       "first_name":req.query.first_name,
+       "last_name":req.query.last_name
+   };
+   console.log(response);
+   res.end(JSON.stringify(response));
+})
+```
+
+#### 文件上传
+以下我们创建一个用于上传文件的表单，使用 POST 方法，表单 `enctype` 属性设置为 `multipart/form-data` 。
+
+#### Cookie 管理
+我们可以使用中间件向 Node.js 服务器发送 `cookie` 信息。
+``` js
+var express      = require('express');
+var cookieParser = require('cookie-parser');
+var util = require('util');
+ 
+var app = express()
+app.use(cookieParser())
+ 
+app.get('/', function(req, res) {
+    console.log("Cookies: " + util.inspect(req.cookies));
+})
+app.listen(8081);
+```
+::: tip
+`Express` 参考文档： [https://www.runoob.com/w3cnote/express-4-x-api.html](https://www.runoob.com/w3cnote/express-4-x-api.html)
+:::
+
+### Node.js RESTful API
+REST 即表述性状态传递（英文：Representational State Transfer，简称REST）。 表述性状态转移是一组架构约束条件和原则。满足这些约束条件和原则的应用程序或设计就是RESTful。需要注意的是，REST是设计风格而不是标准。REST通常基于使用HTTP，URI，和XML（标准通用标记语言下的一个子集）以及HTML（标准通用标记语言下的一个应用）这些现有的广泛流行的协议和标准。REST 通常使用 JSON 数据格式。
+
+REST 基本架构的四个方法： `GET - 用于获取数据`; `PUT - 用于更新或添加数据`； `DELETE - 用于删除数据`； `POST - 用于添加数据`。
+
+> 更多介绍，可以查看：[RESTful 架构详解](https://www.runoob.com/w3cnote/restful-architecture.html)
 
 
+### Node.js 多进程
+我们都知道 Node.js 是以单线程的模式运行的，但它使用的是事件驱动来处理并发，这样有助于我们在多核 cpu 的系统上创建多个子进程，从而提高性能。
+
+每个子进程总是带有三个流对象： `child.stdin`, `child.stdout` 和 `child.stderr`。他们可能会共享父进程的 `stdio` 流，或者也可以是独立的被导流的流对象。
+
+Node 提供了 `child_process` 模块来创建子进程，方法有：
+- exec - child_process.exec 使用子进程执行命令，缓存子进程的输出，并将子进程的输出以回调函数参数的形式返回。
+- spawn - child_process.spawn 使用指定的命令行参数创建新进程。
+- fork - child_process.fork 是 `spawn()` 的特殊形式，用于在子进程中运行的模块，如 `fork('./son.js')` 相当于 `spawn('node', ['./son.js'])` 。与 `spawn` 方法不同的是，`fork` 会在父进程与子进程之间，建立一个通信管道，用于进程之间的通信。
+
+> 想详细了解 Node.js 多进程，请查阅文档。
+
+### Node.js JXcore 打包（多线程）
+Node.js 是一个开放源代码、跨平台的、用于服务器端和网络应用的运行环境。
+
+JXcore 是一个支持多线程的 Node.js 发行版本，基本不需要对你现有的代码做任何改动就可以直接线程安全地以多线程运行。
+
+接下来我们使用 `jx` 命令打包以上项目，并指定 `index.js` 为 Node.js 项目的主文件：
+``` bash
+$ jx package index.js index
+```
+以上命令执行成功，会生成以下两个文件：
+
+`index.jxp` 这是一个中间件文件，包含了需要编译的完整项目信息。
+
+`index.jx` 这是一个完整包信息的二进制文件，可运行在客户端上。
+
+使用 JXcore 编译后，我们可以使用以下命令来执行生成的 `jx` 二进制文件：
+``` bash
+$ jx index.jx command_line_arguments
+```
+> 更多 JXcore 功能特性你可以参考官网： [https://github.com/jxcore/jxcore](https://github.com/jxcore/jxcore)。
+
+### Node.js 连接 MySQL
+``` js
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '123456',
+  database : 'test'
+});
+connection.connect();
+```
+> 更多数据库连接参数，请查阅文档： [https://github.com/mysqljs/mysql](https://github.com/mysqljs/mysql)
+
+### Node.js 连接 MongoDB
+MongoDB是一种文档导向数据库管理系统，由C++撰写而成。
+``` bash
+// 安装驱动
+npm install mongodb
+```
+
+#### 创建数据库
+要在 MongoDB 中创建一个数据库，首先我们需要创建一个 MongoClient 对象，然后配置好指定的 URL 和 端口号。 如果数据库不存在，MongoDB 将创建数据库并建立连接。
+``` js
+// 创建连接
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/runoob";
+ 
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  console.log("数据库已创建!");
+  db.close();
+});
+```
+
+#### 创建集合
+我们可以使用 `createCollection()` 方法来创建集合。
+``` js
+// 创建集合
+var MongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://localhost:27017/runoob';
+MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    console.log('数据库已创建');
+    var dbase = db.db("runoob");
+    dbase.createCollection('site', function (err, res) {
+        if (err) throw err;
+        console.log("创建集合!");
+        db.close();
+    });
+});
+```
+
+#### 数据库操作( CURD )
+与 MySQL 不同的是 MongoDB 会自动创建数据库和集合，所以使用前我们不需要手动去创建。
+> 言外之意，前面的创建数据库和创建集合，是意义不大的做法？
+
+``` js
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+ 
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("runoob");
+    var myobj = { name: "菜鸟教程", url: "www.runoob" };
+    dbo.collection("site").insertOne(myobj, function(err, res) {
+        if (err) throw err;
+        console.log("文档插入成功");
+        db.close();
+    });
+});
+```
+
+- 插入单条数据： `insertOne()`
+- 插入多条数据可以使用： `insertMany()`
+- 可以使用 `find()` 来查找数据, `find()` 可以返回匹配条件的所有数据。 如果未指定条件，`find()` 返回集合中的所有数据。
+- 更新一条数据： `updateOne()`
+- 更新多条数据： `updateMany()`
+- 删除一条数据: `deleteOne()`
+- 删除多条数据： `deleteMany()`
+- 排序： `sort()`
+- 查询分页： `limit()`
+``` js
+dbo.collection("site").find().limit(2).toArray(function(err, result) {
+  if (err) throw err;
+  console.log(result);
+  db.close();
+});
+```
+- 如果要指定跳过的条数，可以使用 `skip()` 方法。
+``` js
+dbo.collection("site").find().skip(2).limit(2).toArray(function(err, result) {
+  if (err) throw err;
+  console.log(result);
+  db.close();
+});
+```
+- 连接操作。mongoDB 不是一个关系型数据库，但我们可以使用 `$lookup` 来实现左连接。
+``` js
+// $lookup 实现左连接
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://127.0.0.1:27017/";
+ 
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("runoob");
+  dbo.collection('orders').aggregate([
+    { $lookup:
+       {
+         from: 'products',            // 右集合
+         localField: 'product_id',    // 左集合 join 字段
+         foreignField: '_id',         // 右集合 join 字段
+         as: 'orderdetails'           // 新生成字段（类型array）
+       }
+     }
+    ]).toArray(function(err, res) {
+    if (err) throw err;
+    console.log(JSON.stringify(res));
+    db.close();
+  });
+});
+```
+- 删除集合。我们可以使用 `drop()` 方法来删除集合：
+
+#### 使用 Promise
+``` js
+const MongoClient = require("mongodb").MongoClient;
+const url = "mongodb://localhost/";
+MongoClient.connect(url).then((conn) => {
+    console.log("数据库已连接");
+    const test = conn.db("testdb").collection("test");
+    // 增加
+    test.insertOne({ "site": "runoob.com" }).then((res) => {
+        // 查询
+        return test.find().toArray().then((arr) => {
+            console.log(arr);
+        });
+    }).then(() => {
+        // 更改
+        return test.updateMany({ "site": "runoob.com" },
+            { $set: { "site": "example.com" } });
+    }).then((res) => {
+        // 查询
+        return test.find().toArray().then((arr) => {
+            console.log(arr);
+        });
+    }).then(() => {
+        // 删除
+        return test.deleteMany({ "site": "example.com" });
+    }).then((res) => {
+        // 查询
+        return test.find().toArray().then((arr) => {
+            console.log(arr);
+        });
+    }).catch((err) => {
+        console.log("数据操作失败" + err.message);
+    }).finally(() => {
+        conn.close();
+    });
+}).catch((err) => {
+    console.log("数据库连接失败");
+});
+```
+
+#### 使用 async/await
+``` js
+const MongoClient = require("mongodb").MongoClient;
+const url = "mongodb://localhost/";
+ 
+async function dataOperate() {
+    var conn = null;
+    try {
+        conn = await MongoClient.connect(url);
+        console.log("数据库已连接");
+        const test = conn.db("testdb").collection("test");
+        // 增加
+        await test.insertOne({ "site": "runoob.com" });
+        // 查询
+        var arr = await test.find().toArray();
+        console.log(arr);
+        // 更改
+        await test.updateMany({ "site": "runoob.com" },
+            { $set: { "site": "example.com" } });
+        // 查询
+        arr = await test.find().toArray();
+        console.log(arr);
+        // 删除
+        await test.deleteMany({ "site": "example.com" });
+        // 查询
+        arr = await test.find().toArray();
+        console.log(arr);
+    } catch (err) {
+        console.log("错误：" + err.message);
+    } finally {
+        if (conn != null) conn.close();
+    }
+}
+ 
+dataOperate();
+```
 
 ::: details 笔记汇总来源
 [https://www.runoob.com/nodejs](https://www.runoob.com/nodejs)
 :::
+
 
 
 
