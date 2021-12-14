@@ -1,8 +1,8 @@
 # Node.js 基础
 
-> Node.js 基础；快速、阅览、回顾。全文速览约 7 分钟；打开音乐，让我们开始吧~
+> Node.js 基础；快速、阅览、回顾。全文速览约 15 分钟；打开音乐，让我们开始吧~
 
-// music - Winter Story
+<iframe style="display:block;margin:0 auto;" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=316498&auto=0&height=66"></iframe>
 
 ### Hello World
 
