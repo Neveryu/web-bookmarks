@@ -36,10 +36,6 @@ module.exports = {
         link: '/tech/'
       },
       {
-        text: '文章',
-        link: '/article/'
-      },
-      {
         text: '工具&网站',
         items: [
           { text: '工具', link: '/tool-site/tool/' },
