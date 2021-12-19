@@ -1,5 +1,9 @@
 # 文档
 
+[MDN JavaScript 板块](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)
+
+[MDN - Promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+
 [ES2015/ES6 文档(英文)](http://www.ecma-international.org/ecma-262/6.0/) | [阮一峰-ES6入门](http://es6.ruanyifeng.com/)
 
 [vue1.x-中文文档](https://v1-cn.vuejs.org/guide/computed.html)
