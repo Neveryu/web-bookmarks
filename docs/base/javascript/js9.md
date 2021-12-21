@@ -24,3 +24,29 @@ requestAnimationFrame：不同的threejs应用场景，执行一帧的时间是�
 
 [Intersection Observer - Web API 接口参考 | MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/IntersectionObserver)、
 [阮一峰 - IntersectionObserver API 使用教程](https://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html)
+
+## ResizeObserver
+`ResizeObserver` 接口可以监听到 `Element` 的内容区域或 `SVGElement` 的边界框改变。 内容区域则需要减去内边距 `padding`。（有关内容区域、内边距资料见盒子模型 ）
+
+`ResizeObserver` 避免了在自身回调中调整大小，从而触发的无限回调和循环依赖。它仅通过在后续帧中处理 DOM 中更深层次的元素来实现这一点。 如果（浏览器）遵循规范，只会在绘制前或布局后触发调用。
+
+``` js
+// 示例一
+const resizeObserver = new ResizeObserver(entries => {
+  for (let entry of entries) {
+    entry.target.style.borderRadius = Math.max(0, 250 - entry.contentRect.width) + 'px';
+  }
+});
+resizeObserver.observe(document.querySelector('.box:nth-child(2)'));
+```
+
+``` js
+// 示例二
+var ro = new ResizeObserver( entries => {
+    for (let entry of entries) {
+      this.onWindowResizeAuto()  // 大小变化后，执行的方法
+    }
+});
+ro.observe(mapContainer);  // mapContainer：被观察的DOM节点
+```
+
