@@ -2,8 +2,7 @@
 
 ### bind实现
 
-一、 `bind` 方法可以创建一个新的函数,当这个新的函数被调用时，`bind` 的第一个参数当做运行的 `this`，之后的参数当做实际参数传入。
-
+一、 `bind` 方法可以创建一个新的函数，当这个新的函数被调用时，`bind` 的第一个参数当做运行的 `this`，之后的参数当做实际参数传入。
 ``` js
 // 实现如下操作
 var foo = {
@@ -21,12 +20,11 @@ console.log(bindFoo()); // 1
 
 ``` js
 // 第一版
-
 Function.prototype.bind2 = function(content){
     // 这里保存self的作用是保存初始调用者, 这里即是bar函数
     let self = this;
 
-    // 因为调用bind是返回一个函数,所以返回一个匿名函数
+    // 因为调用bind是返回一个函数，所以返回一个匿名函数
     return function() {
         // 在匿名函数执行时,这里是一个闭包,即将创建匿名函数时所保存的作用域里面会有一个self的值;apply执行这个函数,且将this改变成指定对象
         return self.apply(content)
@@ -35,7 +33,7 @@ Function.prototype.bind2 = function(content){
 
 ```
 
-二、 bind方法还有一个特征,即在bind时可以传入参数,返回的新函数,如果继续传入实参,则传入的参数是bind时传入的剩余参数
+二、 `bind` 方法还有一个特征，即在 `bind` 时可以传入参数，返回的新函数，如果继续传入实参，则传入的参数是 `bind` 时传入的剩余参数。
 ``` js
 var foo = {
     value: 1
@@ -70,7 +68,7 @@ Function.prototype.bind2 = function(content){
 }
 ```
 
-三、 当bind返回的函数当构造函数使用时,bind指定的this会失效,但传入的参数还是会生效
+三、 当 `bind` 返回的函数当构造函数使用时，`bind` 指定的 `this` 会失效，但传入的参数还是会生效。
 ``` js
 var value = 2;
 
