@@ -1,4 +1,4 @@
-# TS
+# TypeScript
 
 ### 下载/安装
 略

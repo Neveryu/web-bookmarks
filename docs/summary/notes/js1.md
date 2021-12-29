@@ -8,13 +8,10 @@
 var foo = {
     value: 1
 };
-
 function bar() {
     return this.value;
 }
-
 var bindFoo = bar.bind(foo);
-
 console.log(bindFoo()); // 1
 ```
 
@@ -38,14 +35,11 @@ Function.prototype.bind2 = function(content){
 var foo = {
     value: 1
 };
-
 function bar(name, age) {
     console.log(this.value);
     console.log(name);
     console.log(age);
-
 }
-
 var bindFoo = bar.bind(foo, 'daisy');
 bindFoo('18');
 // 1
@@ -71,22 +65,17 @@ Function.prototype.bind2 = function(content){
 三、 当 `bind` 返回的函数当构造函数使用时，`bind` 指定的 `this` 会失效，但传入的参数还是会生效。
 ``` js
 var value = 2;
-
 var foo = {
     value: 1
 };
-
 function bar(name, age) {
     this.habit = 'shopping';
     console.log(this.value);
     console.log(name);
     console.log(age);
 }
-
 bar.prototype.friend = 'kevin';
-
 var bindFoo = bar.bind(foo, 'daisy');
-
 // 在new的时候, this的指向是obj
 var obj = new bindFoo('18');
 // undefined
@@ -119,7 +108,7 @@ Function.prototype.bind2 = function(content){
     return fBound
 }
 ```
-上述的实现有一个缺点,就是当修改返回函数的原型对象时,绑定函数的原型对象也会被修改,这是不可取的,所以改进方法可以使用一个空函数做空转
+上述的实现有一个缺点，就是当修改返回函数的原型对象时，绑定函数的原型对象也会被修改，这是不可取的，所以改进方法可以使用一个空函数做空转
 ``` js
 // 第三版改版
 Function.prototype.bind2 = function(content){
@@ -181,7 +170,6 @@ new_instance_of(person , Person) //true
 function Otaku (name, age) {
     this.name = name;
     this.age = age;
-
     this.habit = 'Games';
 }
 
@@ -226,26 +214,22 @@ console.log(person.age) // 18
 
 ### this的指向问题
 
-#### 一. this的指向都是根据ECMAScript规范里面进行逻辑判断的
+#### 一、this的指向都是根据ECMAScript规范里面进行逻辑判断的
 ``` js
 var foo = 1;
-
 // 对应的Reference是：
 var fooReference = {
     base: EnvironmentRecord,
     name: 'foo',
     strict: false
 };
-
 /**------------------------*/
 var foo = {
     bar: function () {
         return this;
     }
 };
- 
 foo.bar(); // foo
-
 // bar对应的Reference是：
 var BarReference = {
     base: foo,
@@ -254,12 +238,12 @@ var BarReference = {
 };
 ```
 
-#### 二. ECMAScript规范底层this指向的逻辑需要用到
-2.1 GetBase方法 : 返回 reference 的 base value。
-2.2 IsPropertyReference方法 : 如果 base value 是一个对象，就返回true。
+#### 二、ECMAScript规范底层this指向的逻辑需要用到
+2.1、 GetBase方法 : 返回 reference 的 base value。
+
+2.2、 IsPropertyReference方法 : 如果 base value 是一个对象，就返回true。
 ``` js
 var foo = 1;
-
 // fooReference 是 ref
 var fooReference = {
     base: EnvironmentRecord,
@@ -275,11 +259,15 @@ GetValue(fooReference) // 1;
 // 这个很重要，这个很重要，这个很重要。
 ```
 
-#### 三. 计算this逻辑如下
+#### 三、计算this逻辑如下
 3.1 计算 MemberExpression 的结果赋值给 ref
+
 3.2 判断 ref 是不是一个 Reference 类型
+
 3.21 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)
+
 3.22 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)
+
 3.23 如果 ref 不是 Reference，那么 this 的值为 undefined
 
 
@@ -413,7 +401,9 @@ new Promise(function(resolve,reject){
 
 > 当函数激活时,会将函数的作用域压入作用域链中的顶端
 
-> 函数作用域的生成 : 
+> 函数作用域的生成 :
+
+ 
 函数创建(将当前作用域存入到scope属性中) ===> <br/> <br/>  
 执行函数(创建执行上下文,压入执行上下文栈中) ===>  <br/> <br/>  
 函数先不执行,创建函数作用域,将函数创建时,保存的作用域放入其中Scope,接着在陆续创建活动对象 ===> <br/>   <br/>  
