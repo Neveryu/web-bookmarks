@@ -1,6 +1,8 @@
 # vim1
 
-## Record
+::: tip vim操作
+vim操作
+:::
 
 ### Vim 配置自定义比较工具
 ``` bash

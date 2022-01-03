@@ -1,5 +1,9 @@
 # CSS
 
+::: tip css收集
+收藏的一些css技巧
+:::
+
 [一些有趣的 css 技巧](https://github.com/chokcoco/iCSS)
 
 [codepen coco](https://codepen.io/Chokcoco/)

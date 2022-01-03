@@ -13,6 +13,8 @@
 
 [使用Service worker实现加速/离线访问静态blog网站](http://web.jobbole.com/90421/)
 
+[谈谈 Web 应用中的图片优化技巧](https://www.infoq.cn/article/gxV277O5ZZsR5w5er4pE)
+
 ### 小程序
 [只需两步快速获取微信小程序源码](https://juejin.im/post/5b0e431f51882515497d979f)
 
