@@ -8,7 +8,7 @@ sidebar: auto
 村上春树说：“所谓人生，无非是一个不断丧失的过程。很宝贵的东西，会一个接一个，像梳子豁了齿一样，从你手中滑落；你所爱的人，一人接着一人，从你身旁悄然消逝。”
 :::
 
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" src="//music.163.com/outchain/player?type=2&id=624084&auto=0&height=66" oncontextmenu="return false"></iframe>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" src="//music.163.com/outchain/player?type=2&id=1922701695&auto=0&height=66" oncontextmenu="return false"></iframe>
 
 
 ## NEXT
@@ -20,6 +20,12 @@ sidebar: auto
 [焦虑的38岁：还在上自习的中年人，“抛妻弃子”与考研党抢座](https://view.inews.qq.com/a/20191122A0AV8X00)
 
 [“清晨，老公把我送去单位后，跳桥自杀，年仅31岁。”](https://view.inews.qq.com/a/20201230A0IE7K00)
+
+[要工作还是要身体 - 28岁字节工程师猝死](https://view.inews.qq.com/a/20220224A0C56L00)
+
+[互联网大厂疲惫的年轻人](https://view.inews.qq.com/a/20220224A05YP100)
+
+[再读《肖申克的救赎》，我顿悟了人一生，为什么要读很多的书](https://view.inews.qq.com/a/20211127A09HND00)
 
 ## EMAIL
 
@@ -49,6 +55,10 @@ sidebar: auto
 [抑郁了怎么办？96一代最励志硬汉亲历 这里有两点建议](https://view.inews.qq.com/a/NBA2018101600858006?uid=)
 
 [高薪？长约？NBA球员也有生存危机 谁说在塔尖高枕无忧](https://view.inews.qq.com/a/NBA2018120500918704)
+
+[有一种信仰叫作诺天王！德国战车生涯超长纪录片，一定要耐心看完](https://view.inews.qq.com/a/20220106V08OMV00)
+
+[NBA国内解说的困境：面对饭圈文化入侵，没人敢客观评价超级球星](https://view.inews.qq.com/a/20220212A05L3X00)
 
 
 ## NBA VIDEO
@@ -90,6 +100,8 @@ JK 罗琳：“我失败后，我不再假装我是某种其实我不是的人�
 [只知蓝洁瑛从人间逃离，殊不知她活的有多不易](https://view.inews.qq.com/a/20181117A0N7S000)
 
 [马航调查组宣布解散：下辈子，无论爱与不爱，都不会再见了](https://view.inews.qq.com/a/20181120A1WUMP00)
+
+[生死郑州5号线：有人被困4小时后获救 也有人再也没能出来](https://view.inews.qq.com/a/20210721A0ETUB00)
 
 ## END
 [https://panjiachen.github.io/awesome-bookmarks/](https://panjiachen.github.io/awesome-bookmarks/)
@@ -147,3 +159,10 @@ JK 罗琳：“我失败后，我不再假装我是某种其实我不是的人�
 想嫁的时候 给我个暗示
 
 即使一时的妥协你选择了其他品牌，终有一天，你还是会选择一台梅赛德斯奔驰
+
+人生之所以有痛苦 是因为你的高度不够 绝对的财富导致绝对的欲望 人生一定要学会管理好自己的欲望 人生最难承受的不是忍耐 而是等待
+
+终日奔波只为饥，方才一饱便思衣；衣食两般皆具足，又想娇美和貌妻；娶得美妻生下子，恨无田地少根基；买到田园多广阔，出入无船少马骑；槽头扣了骡和马，叹无官职被人欺；县丞主簿还嫌小，又要朝中挂紫衣；作了皇帝求仙术，更想登天骑鹤飞。
+
+所以我们管理好自己的欲望很重要
+
