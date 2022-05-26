@@ -4,6 +4,7 @@
 
 | 个人博客 | 团队博客 | and more |
 |:-------------|:-------------|:-----------|
+| [咖啡机(K.F.J)](https://www.cnblogs.com/strick/), 很轻松，有点意思，闲空的时候可以看看| - | - |
 | [https://www.byvoid.com/](https://www.byvoid.com/), BY大神 | [https://jdc.jd.com/](https://jdc.jd.com/)，京东 | [byvoid 网站](https://www.byvoid.com/zhs/blog/list) |
 | [Neveryu-前端技术-随笔博客](https://blog.csdn.net/csdn_yudong)| [腾讯全端 AlloyTeam 团队 Blog](http://www.alloyteam.com/) | [https://github.com/justjavac/the-front-end-knowledge-you-may-not-know](https://github.com/justjavac/the-front-end-knowledge-you-may-not-know) |
 | [didi-肖磊](https://github.com/CommanderXL/Biu-blog) | [好多视频](http://haoduoshipin.com/) | [https://github.com/ljianshu/Blog](https://github.com/ljianshu/Blog) |

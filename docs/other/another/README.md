@@ -84,16 +84,18 @@ sidebar: auto
 
 [重启深圳住房制度改革之四：需要什么样的现代住房制度？](https://view.inews.qq.com/a/20190302A0X49300)
 
+## REGRET
 
-## FOOL
 ::: tip     &nbsp;
 JK 罗琳：“我失败后，我不再假装我是某种其实我不是的人，而开始将我的精力投入于我真正在乎的工作。人生的谷底，变成我重建人生的坚实基石。所以不要畏惧失败；只要活着就必然要面对失败，除非你小心翼翼到仿佛一生都没有活过。如果这样，你的失败将来自于放弃生活。”
 :::
+
 [花17亿去月球旅行的日本年轻富豪家里什么样?](https://www.sohu.com/a/256397862_653457)
 
 [心存恐惧永远成不了伟大企业家 火箭老板这碗鸡汤我干了](https://view.inews.qq.com/a/NBA2018121500303008)
 
 [赌徒还是投资之神？从穷酸小子到首富，他经历了怎样的冒险之旅？](https://page.om.qq.com/page/Ow5ALIo70YHFCV9IxChpTiBA0)
+
 
 ## MEMORY
 
@@ -103,10 +105,16 @@ JK 罗琳：“我失败后，我不再假装我是某种其实我不是的人�
 
 [生死郑州5号线：有人被困4小时后获救 也有人再也没能出来](https://view.inews.qq.com/a/20210721A0ETUB00)
 
+
+## FOOL
+
+[封建迷信有多扯淡？](https://view.inews.qq.com/a/20220524A07KAW06)
+
 ## END
 [https://panjiachen.github.io/awesome-bookmarks/](https://panjiachen.github.io/awesome-bookmarks/)
 
 [https://panjiachen.github.io/awesome-bookmarks/blog/](https://panjiachen.github.io/awesome-bookmarks/blog/)
+
 
 ## Love
 
