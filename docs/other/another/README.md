@@ -14,6 +14,8 @@ sidebar: auto
 ## NEXT
 [2025年智能音箱市场预测：谷歌、百度将凭技术优势称王](https://new.qq.com/omn/20190626/20190626A0KGFM00)
 
+[一把年纪，咋还长青春痘呢？](https://view.inews.qq.com/a/20220608A03NQ200)
+
 ## PREV
 [没房没车的年轻人告别北漂 却发现已被老家同龄人落在身后](https://view.inews.qq.com/a/20191213A00OHQ00)
 
@@ -26,6 +28,10 @@ sidebar: auto
 [互联网大厂疲惫的年轻人](https://view.inews.qq.com/a/20220224A05YP100)
 
 [再读《肖申克的救赎》，我顿悟了人一生，为什么要读很多的书](https://view.inews.qq.com/a/20211127A09HND00)
+
+[善待自己，从不生气开始](https://view.inews.qq.com/a/20220608A0ATMF00)
+
+
 
 ## EMAIL
 
