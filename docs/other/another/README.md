@@ -31,6 +31,8 @@ sidebar: auto
 
 [善待自己，从不生气开始](https://view.inews.qq.com/a/20220608A0ATMF00)
 
+[有一种智慧：闲时吃紧，忙里偷闲](https://view.inews.qq.com/a/20220610A0AGTO00)
+
 
 
 ## EMAIL
