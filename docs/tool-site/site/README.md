@@ -3,6 +3,9 @@ sidebar: auto
 ---
 # 网站
 
+## git 使用手册&命令规则
+[Git Tips](https://github.com/jaywcjlove/git-tips) 这里是我的笔记，记录一些git常用和一些记不住的命令。
+
 ## 图片压缩
 [TinyPNG](https://tinypng.com/) 帮你压缩你的图片；超好用的；还提供了 developer api
 

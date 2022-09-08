@@ -22,6 +22,8 @@ requestAnimationFrame：不同的threejs应用场景，执行一帧的时间是�
 ## IntersectionObserver
 **交叉观察器**。  IntersectionObserver接口 (从属于Intersection Observer API) 提供了一种异步观察目标元素与其祖先元素或顶级文档视窗(viewport)交叉状态的方法。**常用来判断某个元素是否进入了"视口"（viewport）**。
 
+> 它对应的回调函数的参数 entries，是 IntersectionObserverEntry 对象数组。当观测的元素可见比例超过指定阈值时，就会执行该回调函数，对 entries 进行遍历，拿到每一个 entry，然后判断 entry.isIntersecting 是否为 true，如果是则说明 entry 对象对应的 DOM 元素进入了可视区。
+
 [Intersection Observer - Web API 接口参考 | MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/IntersectionObserver)、
 [阮一峰 - IntersectionObserver API 使用教程](https://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html)
 
