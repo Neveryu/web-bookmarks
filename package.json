@@ -1,0 +1,19 @@
+{
+  "name": "web-bookmarks",
+  "version": "1.0.0",
+  "description": "web-bookmarks",
+  "homepage": "https://neveryu.github.io/web-bookmarks",
+  "main": "index.js",
+  "author": "Neveryu",
+  "license": "ISC",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "dependencies": {
+    "markdown-it-include": "^1.0.0"
+  },
+  "devDependencies": {
+    "vuepress": "^1.8.2"
+  }
+}
