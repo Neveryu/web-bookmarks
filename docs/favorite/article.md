@@ -38,6 +38,9 @@
 [蔡志忠：努力是没有用的](https://www.yuque.com/book-academy/share/shp7tu) 能找到共鸣吗
 
 ### 其它
+
+[语雀 - 前端碎片](https://www.yuque.com/17biu/sacpix)
+
 [没有功能需求设计文档？对不起，拒绝开发！](http://blog.jobbole.com/110645/)
 
 [漫画赏析：Linux 内核到底长啥样](http://blog.jobbole.com/110581/)

@@ -3,7 +3,19 @@ sidebar: auto
 ---
 # 工具
 
+## Music
+
+网页音乐播放器/插件： [https://listen1.github.io/listen1/](https://listen1.github.io/listen1/)
+
+## 在线代码演示
+
 [在线代码演示](http://jsbin.com/?html,output)
+
+## 视频播放器
+
+[Web播放器 TcPlayer——腾讯直播sdk的网页播放器](https://www.cnblogs.com/stnlcd/p/7262034.html)
+
+[tcplayer官方文档](https://cloud.tencent.com/document/product/881/20207)
 
 ## icons
 
