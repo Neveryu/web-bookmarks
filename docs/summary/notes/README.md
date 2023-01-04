@@ -1,12 +1,32 @@
 # 笔记
 
-整理了一些学习笔记。
+整理了一些学习笔记！
 
-::: tip slogan
-愿你遍历山河 仍觉人间值得
+::: tip
+#### Prop 名字格式
+
+如果一个 prop 的名字很长，应使用 camelCase 形式，因为它们是合法的 JavaScript 标识符，可以直接在模板的表达式中使用，也可以避免在作为属性 key 名时必须加上引号。
+```js
+defineProps({
+  greetingMessage: String
+})
+```
+使用时：
+```html
+<span>{{ greetingMessage }}</span>
+```
+
+虽然理论上你也可以在向子组件传递 props 时使用 camelCase 形式 (使用 [DOM 模板](https://cn.vuejs.org/guide/essentials/component-basics.html#dom-template-parsing-caveats)时例外)，但实际上为了和 HTML attribute 对齐，我们通常会将其写为 kebab-case 形式：
+```html
+<MyComponent greeting-message="hello" />
+```
+对于组件名我们推荐使用 [PascalCase](https://cn.vuejs.org/guide/components/registration.html#component-name-casing)，因为这提高了模板的可读性，能帮助我们区分 Vue 组件和原生 HTML 元素。然而对于传递 props 来说，使用 camelCase 并没有太多优势，因此我们推荐更贴近 HTML 的书写风格。也就是前面说的那种，传递 props 时，使用小写 + 短杠的形式：
+```html
+<MyComponent greeting-message="hello" />
+```
 :::
 
-``` bash
+```html
 愿你遍历山河 仍觉人间值得
 愿你眼里有着太阳 心里有光荡漾敞开
 愿你生活明朗 万物可爱 愿新年 胜旧年
