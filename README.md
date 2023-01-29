@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://vuepress.vuejs.org/">
-    <img src="https://img.shields.io/badge/vuepress-0.14.2-brightgreen.svg" alt="Vuepress">
+    <img src="https://img.shields.io/badge/vuepress-1.8.2-brightgreen.svg" alt="Vuepress">
   </a>
   <a href="https://github.com/Neveryu/web-bookmarks/blob/master/LICENSE">
     <img src="https://img.shields.io/npm/l/vuepress.svg" alt="License"></a>

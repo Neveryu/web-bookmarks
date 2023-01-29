@@ -12,19 +12,21 @@ const sidebarMap = [
   { title: 'Color', dirname: 'base/color' },
   { title: '正则表达式', dirname: 'base/regx' },
   { title: '名词释义', dirname: 'base/word-interpretation'},
-  { title: '技术', dirname: 'tech' },
   { title: '工具', dirname: 'tool-site/tool' },
   { title: '网站', dirname: 'tool-site/site' },
   { title: '收藏', dirname: 'favorite' },
   { title: '书', dirname: 'book' },
   { title: '面试', dirname: 'interview' },
   /*综合*/
+  { title: '技术', dirname: 'tech' },
   { title: '文档', dirname: 'summary/docs'},
   { title: '笔记', dirname: 'summary/notes'},
+  { title: '健康', dirname: 'summary/health'},
   /*其它*/
   { title: '圈子', dirname: 'other/gard' },
   { title: '其它', dirname: 'other/another' },
   { title: '科比', dirname: 'other/kobe' }
+  /*在页面顶部配置了sidebar: auto，就不用在这里配了*/
 ]
 
 module.exports = sidebarMap

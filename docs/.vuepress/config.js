@@ -31,10 +31,7 @@ module.exports = {
           { text: '名词释义', link: '/base/word-interpretation/'}
         ]
       },
-      {
-        text: '技术',
-        link: '/tech/'
-      },
+      
       {
         text: '工具&网站',
         items: [
@@ -55,9 +52,12 @@ module.exports = {
       },
       {
         text: '综合',
+        todo: '下次把tech目录移到summary中',
         items: [
+          { text: '技术', link: '/tech/'},
           { text: '文档', link: '/summary/docs/'},
-          { text: '笔记', link: '/summary/notes/'}
+          { text: '笔记', link: '/summary/notes/'},
+          { text: '健康', link: '/summary/health/'},
         ]
       },
       {
@@ -67,6 +67,7 @@ module.exports = {
           { text: '视频', link: '/other/video/'},
           { text: '圈子', link: '/other/gard/' },
           { text: 'KOBE', link: '/other/kobe/' },
+          { text: '文化', link: '/other/culture/' },
           { text: '其它', link: '/other/another/' }
         ]
       }
