@@ -18,7 +18,7 @@ const sidebarMap = [
   { title: '书', dirname: 'book' },
   { title: '面试', dirname: 'interview' },
   /*综合*/
-  { title: '技术', dirname: 'tech' },
+  { title: '技术', dirname: 'summary/tech' },
   { title: '文档', dirname: 'summary/docs'},
   { title: '笔记', dirname: 'summary/notes'},
   { title: '健康', dirname: 'summary/health'},
