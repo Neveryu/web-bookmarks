@@ -24,4 +24,4 @@ sidebar: auto
 
 9、找到一个榜样（model success）
 
-10、给予无条件的哎（give unconditional love）
+10、给予无条件的爱（give unconditional love）

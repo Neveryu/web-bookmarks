@@ -52,9 +52,8 @@ module.exports = {
       },
       {
         text: '综合',
-        todo: '下次把tech目录移到summary中',
         items: [
-          { text: '技术', link: '/tech/'},
+          { text: '技术', link: '/summary/tech/'},
           { text: '文档', link: '/summary/docs/'},
           { text: '笔记', link: '/summary/notes/'},
           { text: '健康', link: '/summary/health/'},
