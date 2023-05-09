@@ -1,4 +1,4 @@
-# 访谈
+# 访谈&书
 
 |s|s|
 |--|--|
@@ -8,4 +8,12 @@
 |[七牛首席架构师李道兵：在开源世界里逼自己成长（图灵访谈）](http://www.ituring.com.cn/article/200305)|[比较详细的采访 Vue 作者尤雨溪(中文)](http://zcfy.cc/article/an-interview-with-vue-js-creator-evan-you-3143.html?t=selection)|
 |[云巴创始人张虎：一个优秀的软件工程师必然是全栈工程师（图灵访谈）](http://www.ituring.com.cn/article/199457)|s|
 |[《CSS 揭秘》作者Lea Verou：我喜欢分享开源的行业文化（图灵访谈）](http://www.ituring.com.cn/article/261344)|s|
+|s|s|
+
+
+------
+
+| 书 | Books |
+|--|--|
+|《稻盛和夫给年轻人的忠告》|与其等待喜欢的工作，不如想办法喜欢上所做的工作。|
 |s|s|
