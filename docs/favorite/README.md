@@ -1,7 +1,7 @@
 # 专栏
 
 ::: tip 专栏
-专栏推荐，有空可以逛逛
+苏格拉底：我知道我不知道
 :::
 
 [尤雨溪 - 知乎](https://www.zhihu.com/people/evanyou/)
