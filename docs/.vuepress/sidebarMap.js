@@ -25,6 +25,7 @@ const sidebarMap = [
   /*其它*/
   { title: '圈子', dirname: 'other/gard' },
   { title: '其它', dirname: 'other/another' },
+  { title: '文化', dirname: 'other/culture' },
   { title: '科比', dirname: 'other/kobe' }
   /*在页面顶部配置了sidebar: auto，就不用在这里配了*/
 ]
