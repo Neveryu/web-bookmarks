@@ -345,6 +345,7 @@ export class AppComponent { }
 <!-- 当按下回车键抬起的时候执行函数 -->
 <input type="text" (keyup.enter)="onKeyUp()"/>
 ```
+> <span style="color: blue;"> $event 是一个固定参数，这里必须这么写，但是这个参数的位置，是没有限制的，可以是第一个参数，也可以是第二个参数，或者其他位置。</span>
 ```ts
 export class AppComponent {
   title = "test"
@@ -383,7 +384,7 @@ export class HomeComponent implements AfterViewInit {
   <li #items>c</li>
 </ul>
 ```
-```js
+```ts
 import { AfterViewInit, QueryList, ViewChildren } from "@angular/core"
 
 @Component({
@@ -398,6 +399,7 @@ export class HomeComponent implements AfterViewInit {
   }
 }
 ```
+> <span style="color: blue;">这里需要注意的是：使用 `toArray` 方法来解析 QueryList 对象。</span>
 
 ### 4.5、 双向数据绑定
 数据在组件类和组件模板中双向同步。
