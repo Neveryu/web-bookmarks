@@ -107,7 +107,7 @@ import { AppService } from "./AppService"
 
 export class AppComponent {
   constructor (
-  	private appService: AppService
+    private appService: AppService
   ) {}
 }
 ```
@@ -131,14 +131,14 @@ npm start
 1. 使用 angular 脚手架（angular-cli）：`npm install @angular/cli -g`
 2. 创建应用：`ng new angular-test --minimal --inlineTemplate false`
 
-	1. --skipGit=true
-	2. --minimal=true
-	3. --skip-install
-	4. --style=css
-	5. --routing=false
-	6. --inlineTemplate
-	7. --inlineStyle
-	8. --prefix （修改app前缀）
+  1. --skipGit=true
+  2. --minimal=true
+  3. --skip-install
+  4. --style=css
+  5. --routing=false
+  6. --inlineTemplate
+  7. --inlineStyle
+  8. --prefix （修改app前缀）
 
 ![](./assets/angular/angular-2.png)
 <i style="color: red;">（上图是不加 --minimal，它包含了和单元测试相关的文件）</i>
@@ -149,10 +149,10 @@ npm start
 
 3. 运行应用：`ng serve`
 
-	1. --open=true 应用构建完成后在浏览器中运行
-	2. --hmr=true 开启热更新
-	3. hmrWarning=false 禁用热更新警告
-	4. --port 更改应用运行端口
+  1. --open=true 应用构建完成后在浏览器中运行
+  2. --hmr=true 开启热更新
+  3. hmrWarning=false 禁用热更新警告
+  4. --port 更改应用运行端口
 
 4. 访问应用：`localhost:4200`
 
@@ -502,15 +502,15 @@ export class AppComponent {
 ```
 
 ## 五、指令 Directive
-指令是 Angular 提供的操作 DOM 的途径。指令分为属性指令和结构指令。
+指令是 Angular 提供的**操作 DOM 的途径**。指令分为**属性指令**和**结构指令**。
 
 属性指令：修改现有元素的外观或行为，使用 `[ ]` 包裹。
 
-结构指令：增加、删除 DOM 节点以修改布局，使用 `*` 作为指令前缀
+结构指令：增加、删除 DOM 节点以修改布局，使用 `*` 作为指令前缀。
 
 ### 5.1、 `*ngIf`
 #### 5.1.1、 `*ngIf`
-根据条件渲染 DOM 节点或移除 DOM 节点。
+根据条件渲染 DOM 节点或移除 DOM 节点。它返回的结果是一个布尔值。
 ```html
 <div *ngIf="data.length == 0">没有更多数据</div>
 ```
@@ -520,16 +520,18 @@ export class AppComponent {
 <ng-template #noData>没有更多数据</ng-template>
 ```
 
-#### 5.1.2、 `[hidden]`
+#### 5.1.2、 `[hidden]` （属性指令）
 根据条件显示 DOM 节点或隐藏 DOM 节点 (display)。
 ```html
-<div [hidden]="data.length == 0">课程列表、 /div>
+<div [hidden]="data.length == 0">课程列表</div>
 <div [hidden]="data.length > 0">没有更多数据</div>
 ```
 
-#### 5.1.3、 `*ngFor`
+> <span style="color: blue;">`*ngIf` 和 `hidden` 指令很像，但还是有区别的；`*ngIf` 是渲染DOM节点或者移除DOM节点，也就是说 `*ngIf` 它有可能不渲染DOM节点，而 `hidden` 这个指令呢，无论如何，它是渲染这个DOM节点的，那么这个DOM节点的显示与隐藏呢，它是使用样式的方式(display)来控制的的。</span>
+
+#### 5.1.3、 `*ngFor` （结构指令）
 遍历数据生成HTML结构
-```js
+```ts
 interface List {
   id: number
   name: string
@@ -554,17 +556,24 @@ list: List[] = [
 >
 </li>
 ```
+> isEven：是否是基数行；isOdd：是否是偶数行。isFirst：是否是第一项；isLast：是否是最后一项。
+
 ```html
 <li *ngFor="let item of list; trackBy: identify"></li>
 ```
-```js
+```ts
+// 使用这种方式，Angular 将使用 trackByFn 函数返回的唯一标识符来跟踪每个项目的变化，而不是使用对象引用。这可以提高性能，并减少不必要的 DOM 更新。
 identify(index, item){
   return item.id; 
 }
 ```
+> <span style="color: red;">trackBy 是一个可选的函数，用于提供一个唯一标识符来跟踪循环中的每个项目。使用 trackBy 函数有助于优化 Angular 的变更检测机制。当数组或集合发生变化时，Angular 会通过比较新旧值来确定哪些项目已经被添加、删除或移动。如果没有提供 trackBy 函数，Angular 默认会使用对象引用来进行比较，这可能导致不必要的 DOM 更新。</span>
+
 
 ### 5.2、 自定义指令
-需求：为元素设置默认背景颜色，鼠标移入时的背景颜色以及移出时的背景颜色。
+> 如何通过自定义指令来操作DOM
+
+先来看一个需求：为元素设置默认背景颜色，鼠标移入时的背景颜色以及移出时的背景颜色。
 ```html
 <div [appHover]="{ bgColor: 'skyblue' }">Hello Angular</div>
 ```
@@ -585,41 +594,52 @@ export class HoverDirective implements AfterViewInit {
   @Input("appHover") appHover: Options = {}
   // 要操作的 DOM 节点
   element: HTMLElement
-	// 获取要操作的 DOM 节点
+  // 获取要操作的 DOM 节点
   constructor(private elementRef: ElementRef) {
     this.element = this.elementRef.nativeElement
   }
-	// 组件模板初始完成后设置元素的背景颜色
+  // 组件模板初始完成后设置元素的背景颜色
   ngAfterViewInit() {
     this.element.style.backgroundColor = this.appHover.bgColor || "skyblue"
   }
-	// 为元素添加鼠标移入事件
+  // 为元素添加鼠标移入事件
   @HostListener("mouseenter") enter() {
     this.element.style.backgroundColor = "pink"
   }
-	// 为元素添加鼠标移出事件
+  // 为元素添加鼠标移出事件
   @HostListener("mouseleave") leave() {
     this.element.style.backgroundColor = "skyblue"
   }
 }
 ```
 
+> <span style="color: red;">在模板中使用 appHover 指令，默认状态是不加中括号的，当你需要传入动态数据的时候，那么你就需要加；`@Directive({})` 中的 selector 定义的是指令的名称，class 类中的 `@Input('appHover')` 是接受指令的参数。</span>
+
+> <span style="color: red;">像这样的间谍指令可以深入了解你无法直接修改的 DOM 对象。你无法触及内置 `<div>` 的实现，也无法修改第三方组件。但你有了一个选项来用指令监视这些元素。 这个指令可以定义 `ngOnInit()` 和 `ngOnDestroy()` 钩子，它通过一个注入进来的 LoggerService 把消息记录到父组件中去。</span>
+
+
+
 ## 六、 管道 Pipe
-管道的作用是格式化组件模板数据。
+管道的作用是用来处理组件模板当中数据的格式（格式化组件模板数据）。
 
 ### 6.1、 内置管道
 1. date 日期格式化
 2. currency 货币格式化
 3. uppercase 转大写
 4. lowercase 转小写
-5. json 格式化json 数据
+5. json 格式化 json 数据
 
-```html
+```js
 {{ date | date: "yyyy-MM-dd" }}
 ```
+```html
+{{ object | json}}
+<pre>{{ object | json}}</pre>
+```
+> 内置管道不止这些，还有其他的。可以在官网查看，使用方式都是一样的。
 
 ### 6.2、 自定义管道
-需求：指定字符串不能超过规定的长度
+先来看一个需求：指定字符串不能超过规定的长度，如果超过了，就把多余的截取掉，并再后面加上...
 ```ts
 // summary.pipe.ts
 import { Pipe, PipeTransform } from '@angular/core';
@@ -628,11 +648,11 @@ import { Pipe, PipeTransform } from '@angular/core';
    name: 'summary' 
 });
 export class SummaryPipe implements PipeTransform {
-    transform (value: string, limit?: number) {
-        if (!value) return null;
-        let actualLimit = (limit) ? limit : 50;
-        return value.substr(0, actualLimit) + '...';
-    }
+  transform (value: string, limit?: number) {
+    if (!value) return null;
+    let actualLimit = (limit) ? limit : 50;
+    return value.substr(0, actualLimit) + '...';
+  }
 }
 ```
 
@@ -640,10 +660,17 @@ export class SummaryPipe implements PipeTransform {
 // app.module.ts
 import { SummaryPipe } from './summary.pipe'
 @NgModule({
-    declarations: [
-      SummaryPipe
-    ] 
+  declarations: [
+    SummaryPipe
+  ] 
 })
+```
+
+```html
+<div>{{ paragraph | summary: 100 }}</div>
+
+// 管道如果要传多个参数的话，使用冒号
+<div>{{ paragraph | summary: 100:200 }}</div>
 ```
 
 ## 七、组件通讯
@@ -655,10 +682,11 @@ import { SummaryPipe } from './summary.pipe'
 // favorite.component.ts
 import { Input } from '@angular/core';
 export class FavoriteComponent {
-    @Input() isFavorite: boolean = false;
+  @Input() isFavorite: boolean = false;
 }
 ```
 注意：在属性的外面加 `[ ]` 表示绑定动态值，在组件内接收后是布尔类型，不加 `[ ]` 表示绑定普通值，在组件内接收后是字符串类型。
+
 ```html
 <app-favorite [is-Favorite]="true"></app-favorite>
 ```
@@ -671,8 +699,10 @@ export class FavoriteComponent {
 }
 ```
 
+> `@Input()` 括号中接收的参数，就是你传入进来的参数名。
+
 ### 7.2、 组件向外部传递数据
-需求：在子组件中通过点击按钮将数据传递给父组件
+现在有一个需求：在子组件中通过点击按钮将数据传递给父组件
 ```html
 <!-- 子组件模板 -->
 <button (click)="onClick()">click</button>
@@ -711,7 +741,7 @@ export class AppComponent {
 挂载阶段的生命周期函数只在挂载阶段执行一次，数据更新时不再执行。
 1. constructor
 
-Angular 在实例化组件类时执行, 可以用来接收 Angular 注入的服务实例对象。
+Angular 在实例化组件类时执行, 可以用来接收 Angular 注入的服务实例对象。（我们建议也只在 constructor 中做这个操作，不建议做别的操作）
 ```ts
 export class ChildComponent {
   constructor (private test: TestService) {
@@ -741,7 +771,7 @@ export class ChildComponent implements OnInit {
 当内容投影初始渲染完成后调用。
 ```html
 <app-child>
-	<div #box>Hello Angular</div>
+  <div #box>Hello Angular</div>
 </app-child>
 ```
 
@@ -774,11 +804,13 @@ export class ChildComponent implements AfterViewInit {
 ### 8.2、 更新阶段
 1. ngOnChanges
 
-	1. 当输入属性值发生变化时执行，初始设置时也会执行一次，顺序优于 ngOnInit
-	2. 不论多少输入属性同时变化，钩子函数只会执行一次，变化的值会同时存储在参数中
-	3. 参数类型为 SimpleChanges，子属性类型为 SimpleChange
-	4. 对于基本数据类型来说, 只要值发生变化就可以被检测到
-	5. 对于引用数据类型来说, 可以检测从一个对象变成另一个对象, 但是检测不到同一个对象中属性值的变化，但是不影响组件模板更新数据。
+    1. 当输入属性值发生变化时执行，初始设置时也会执行一次，顺序优于 ngOnInit。
+    2. 不论多少输入属性同时变化，钩子函数只会执行一次，变化的值会同时存储在参数中。
+    3. 参数类型为 SimpleChanges，子属性类型为 SimpleChange。
+    4. 对于基本数据类型来说，只要值发生变化就可以被检测到。
+    5. 对于引用数据类型来说，可以检测从一个对象变成另一个对象，但是检测不到同一个对象中属性值的变化，但是不影响组件模板更新数据。
+
+
 
 **基本数据类型值变化**
 ```html
@@ -786,7 +818,7 @@ export class ChildComponent implements AfterViewInit {
 <button (click)="change()">change</button>
 ```
 
-```js
+```ts
 export class AppComponent {
   name: string = "张三";
   age: number = 20
