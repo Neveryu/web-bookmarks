@@ -883,7 +883,7 @@ export class HomeComponent implements OnDestroy {
 
 ## 九、 依赖注入
 ### 9.1 、概述
-依赖注入 ( Dependency Injection ) 简称DI，是面向对象编程中的一种设计原则，用来减少代码之间的耦合度。
+依赖注入 ( Dependency Injection ) 简称DI，是面向对象编程中的一种设计原则，用来减少代码之间的**耦合度**。
 ```ts
 class MailService {
   constructor(APIKEY) {}
@@ -911,7 +911,7 @@ EmailSender 类运行时要使用 MailService 类，EmailSender 类依赖 MailSe
 class EmailSender {
   mailService: MailService
   constructor(mailService: MailService) {
-    this.mailService = mailService;
+    this.mailService = mailService
   }
 }
 const mailService = new MailService("APIKEY1234567890")
@@ -922,12 +922,12 @@ const emailSender = new EmailSender(mailService)
 通过依赖注入降了代码之间的耦合度，增加了代码的可维护性。MailService 类中代码的更改再也不会影响 EmailSender 类。
 
 ### 9.2、 DI 框架
-Angular 有自己的 DI 框架，它将实现依赖注入的过程隐藏了，对于开发者来说只需使用很简单的代码就可以使用复杂的依赖注入功能。
+Angular 有一套自己的 DI 框架，它将实现依赖注入的过程隐藏了，对于开发者来说只需使用很简单的代码就可以使用复杂的依赖注入功能。
 
 在 Angular 的 DI 框架中有四个核心概念：
 
-1. Dependency：组件要依赖的实例对象，服务实例对象
-2. Token：获取服务实例对象的标识
+1. Dependency：组件要依赖的实例对象，服务实例对象。
+2. Token：获取服务实例对象的标识。
 3. Injector：注入器，负责创建维护服务类的实例对象并向组件中注入服务实例对象。
 4. Provider：配置注入器的对象，指定创建服务实例对象的服务类和获取实例对象的标识。
 
@@ -961,9 +961,9 @@ const childInjector = injector.resolveAndCreateChild([MailService])
 const mailService1 = injector.get(MailService)
 const mailService2 = childInjector.get(MailService)
 
-console.log(mailService1 === mailService2)
+console.log(mailService1 === mailService2) // false
 ```
-5. 服务实例的查找类似函数作用域链，当前级别可以找到就使用当前级别，当前级别找不到去父级中查找
+5. 服务实例对象的查找原则：服务实例的查找类似函数作用域链，当前级别可以找到就使用当前级别，当前级别找不到去父级中查找
 ```ts
 const injector = ReflectiveInjector.resolveAndCreate([MailService])
 const childInjector = injector.resolveAndCreateChild([])
@@ -971,7 +971,7 @@ const childInjector = injector.resolveAndCreateChild([])
 const mailService1 = injector.get(MailService)
 const mailService2 = childInjector.get(MailService)
 
-console.log(mailService1 === mailService2)
+console.log(mailService1 === mailService2) // true
 ```
 
 #### 9.2.2、提供者 Provider
@@ -980,15 +980,18 @@ console.log(mailService1 === mailService2)
 const injector = ReflectiveInjector.resolveAndCreate([
   { provide: MailService, useClass: MailService }
 ])
+// useClass: 使用哪个类来实例对象
+// provide: 我要通过什么标识来获取这个实例对象（也就是token）
+// 因为provide与useClass相同，所以可以简写为 MailService
 ```
-2. 访问依赖对象的标识也可以是字符串类型
+2. 访问依赖对象的标识也可以是字符串类型（provide也可以是字符串形式）
 ```ts
 const injector = ReflectiveInjector.resolveAndCreate([
   { provide: "mail", useClass: MailService }
 ])
 const mailService = injector.get("mail")
 ```
-3. useValue
+3. useValue（使用注入器来存储数据，保存数据）
 ```ts
 const injector = ReflectiveInjector.resolveAndCreate([
   {
@@ -1000,11 +1003,13 @@ const injector = ReflectiveInjector.resolveAndCreate([
   }
 ])
 const Config = injector.get("Config")
+// Object.freeze: 外部可以获取，但不能修改
 ```
 将实例对象和外部的引用建立了松耦合关系，外部通过标识获取实例对象，只要标识保持不变，内部代码怎么变都不会影响到外部。
 
 ## 十、 服务 Service
 ### 10.1、 创建服务
+<i style="color: blue;">服务实际上就是一个类，在这个类当中可以有一些共享的属性和方法，那么这些共享的属性和方法，我们通常是在组件类当中去使用的，在组件类当中我们要使用服务类当中的属性或者方法，我们需要得到服务类的实例对象，但是在组件类当中，我们并不需要通过 new 关键字来实例化这个服务类，在 Angular 这个框架当中，它有自己的依赖注入系统，我们可以让 Angular 的依赖注入系统帮我们去实例化这个服务类，让 Angular 的依赖注入系统帮我们把这个服务类的实例对象注入到组件类当中。</i>
 ```ts
 import { Injectable } from '@angular/core';
 
