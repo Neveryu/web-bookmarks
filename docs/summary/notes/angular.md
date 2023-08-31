@@ -1016,18 +1016,22 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class TestService { }
+export class TestService {
+  test: string = 'test service'
+}
 ```
 ```ts
 export class AppComponent {
-  constructor (private testService: TestService) {}
+  constructor (private testService: TestService) {
+    console.log(this.testService.test)
+  }
 }
 ```
 
 ### 10.2、 服务的作用域
-使用服务可以轻松实现跨模块跨组件共享数据，这取决于服务的作用域。
+使用服务可以轻松实现跨模块、跨组件共享数据，这取决于服务的作用域。服务的作用域指的就是服务能够起作用的范围，而服务的作用域，又取决于这个服务它所放入的注入器，在 Angular 中，它有三种级别的注入器。
 
-1. 在根注入器中注册服务，所有模块使用同一个服务实例对象。
+1. 在**根**注入器中注册服务，所有模块使用同一个服务实例对象。
 ```ts
 import { Injectable } from '@angular/core';
 
@@ -1035,11 +1039,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 
-export class CarListService {
-}
+export class CarListService {}
 ```
 
-2. 在模块级别注册服务，该模块中的所有组件使用同一个服务实例对象。
+2. 在**模块**级别注册服务，该模块中的所有组件使用同一个服务实例对象。
+
+第一种方式，在定义服务的时候，就定义服务注入的模块：
 ```ts
 import { Injectable } from '@angular/core';
 import { CarModule } from './car.module';
@@ -1048,19 +1053,18 @@ import { CarModule } from './car.module';
   providedIn: CarModule,
 })
 
-export class CarListService {
-}
+export class CarListService {}
 ```
+第二种方式：
 ```ts
 import { CarListService } from './car-list.service';
 
 @NgModule({
   providers: [CarListService],
 })
-export class CarModule {
-}
+export class CarModule {}
 ```
-3. 在组件级别注册服务，该组件及其子组件使用同一个服务实例对象。
+3. 在**组件**级别注册服务，该组件及其子组件使用同一个服务实例对象。
 ```ts
 import { Component } from '@angular/core';
 import { CarListService } from '../car-list.service.ts'
@@ -1073,7 +1077,7 @@ import { CarListService } from '../car-list.service.ts'
 ```
 
 ## 十一、 表单
-在 Angular 中，表单有两种类型，分别为模板驱动和模型驱动。
+在 Angular 中，表单有两种类型：分别为**模板驱动**和**模型驱动**。
 
 ### 11.1、 模板驱动
 #### 11.1.1 概述
@@ -1094,6 +1098,7 @@ export class AppModule {}
 ```html
 <form #f="ngForm" (submit)="onSubmit(f)"></form>
 ```
+<i style="color: blue;">模板变量的名字是自定义的，这里写的是： `#f`；并将模板变量赋值为：ngForm，这个是固定的。</i>
 
 3. 声明表单字段为 ngModel
 ```html
@@ -1118,14 +1123,17 @@ export class AppComponent {
 ```html
 <form #f="ngForm" (submit)="onSubmit(f)">
   <div ngModelGroup="user">
+    <!-- 取值：f.value.user.username -->
     <input type="text" name="username" ngModel />
   </div>
   <div ngModelGroup="contact">
+    <!-- 取值：f.value.contact.phone -->
     <input type="text" name="phone" ngModel />
   </div>
   <button>提交</button>
 </form>
 ```
+<i style="color: blue;">如果不想在 input 外面多一层 div，可以把 div 替换为 ng-container。</i>
 
 #### 11.1.3、 表单验证
 - required 必填字段
@@ -1142,18 +1150,21 @@ export class AppComponent {
 ```ts
 export class AppComponent {
   onSubmit(form: NgForm) {
-    // 查看表单整体是否验证通过
+    // 查看表单整体是否验证通过(验证通过valid是true，验证没通过valid是false)
     console.log(form.valid)
+    // invalid与valid正好相反
+    console.log(form.invalid)
   }
 }
 ```
 
 ```html
-<!-- 表单整体未通过验证时禁用提交表单 -->
+<!-- 表单整体未通过验证时禁用提交表单;invalid与valid正好相反 -->
 <button type="submit" [disabled]="f.invalid">提交</button>
 ```
 
-在组件模板中显示表单项未通过时的错误信息。
+在组件模板中显示**表单项**未通过时的错误信息。
+> <i style="blue">给表单项 input 添加一个模板变量 username；touched表示用户有没有让这个表单项获取过焦点，表示用户有没有操作过这个表单项；</i>
 ```html
 <form #f="ngForm" (submit)="onSubmit(f)">
   <input #username="ngModel" />
@@ -1172,7 +1183,7 @@ input.ng-touched.ng-invalid {
 
 ### 11.2、 模型驱动
 #### 11.2.1、 概述
-表单的控制逻辑写在组件类中，对验证逻辑拥有更多的控制权，适合复杂的表单的类型。
+**模型驱动表单**的控制逻辑写在组件类中，对验证逻辑拥有更多的控制权，适合复杂的表单的类型。
 
 在模型驱动表单中，表单字段需要是 FormControl 类的实例，实例对象可以验证表单字段中的值，值是否被修改过等等
 ![](./assets/angular/angular-8.jpg)
@@ -1255,8 +1266,8 @@ contactForm: FormGroup = new FormGroup({
 ```
 ```ts
 onSubmit() {
-  console.log(this.contactForm.value.name.username)
-  console.log(this.contactForm.get(["name", "username"])?.value)
+  console.log(this.contactForm.value.fullName.firstName)
+  console.log(this.contactForm.get(["fullName", "firstName"])?.value)
 }
 ```
 
@@ -1332,7 +1343,7 @@ export class AppComponent implements OnInit {
 import { FormControl, FormGroup, Validators } from "@angular/forms"
 
 contactForm: FormGroup = new FormGroup({
-  name: new FormControl("默认值", [
+  name: new FormControl("输入框默认值", [
     Validators.required,
     Validators.minLength(2)
   ])
@@ -1372,12 +1383,13 @@ get name() {
 ```
 
 #### 11.2.5、 自定义同步表单验证器
-1.自定义验证器的类型是 TypeScript 类
-2.类中包含具体的验证方法，验证方法必须为静态方法
-3.验证方法有一个参数 control，类型为 AbstractControl。其实就是 FormControl 类的实例对象的类型
-4.如果验证成功，返回 null
-5.如果验证失败，返回对象，对象中的属性即为验证标识，值为 true，标识该项验证失败
-6.验证方法的返回值为 ValidationErrors | null
+
+1. 自定义验证器的类型是 TypeScript 类
+2. 类中包含具体的验证方法，验证方法必须为静态方法
+3. 验证方法有一个参数 control，类型为 AbstractControl。其实就是 FormControl 类的实例对象的类型
+4. 如果验证成功，返回 null
+5. 如果验证失败，返回对象，对象中的属性即为验证标识，值为 true，标识该项验证失败
+6. 验证方法的返回值为 ValidationErrors | null
 
 ```ts
 import { AbstractControl, ValidationErrors } from "@angular/forms"
@@ -1409,6 +1421,7 @@ contactForm: FormGroup = new FormGroup({
 ```
 
 #### 11.2.6、 自定义异步表单验证器
+有一个需求：验证输入框的内容是否是唯一的，需要像服务端发送请求来验证，这个过程是异步的。
 ```ts
 import { AbstractControl, ValidationErrors } from "@angular/forms"
 import { Observable } from "rxjs"
@@ -1437,6 +1450,7 @@ contactForm: FormGroup = new FormGroup({
     )
   })
 ```
+> 异步验证规则需要写在 formControl 的第三个参数，第二个参数是同步验证规则。
 
 ```html
 <div *ngIf="name.touched && name.invalid && name.errors">
@@ -1444,9 +1458,10 @@ contactForm: FormGroup = new FormGroup({
 </div>
 <div *ngIf="name.pending">正在检测姓名是否重复</div>
 ```
+> 异步验证器有一个耗时等待的过程，有一个 pending 属性可以用来判断当前是否处在异步验证的过程中（结果还没返回）
 
 #### 11.2.7、 FormBuilder
-创建表单的快捷方式。
+是创建模型表单的快捷方式。
 
 1. this.fb.control：表单项
 2. this.fb.group：表单组，表单至少是一个 FormGroup
@@ -1555,9 +1570,38 @@ export class AppComponent {
 
 #### 11.2.9、 其他
 1. patchValue：设置表单控件的值（可以设置全部，也可以设置其中某一个，其他不受影响）
+```ts
+form: FormGroup = new FormGroup({
+  firstName: new FormControl(),
+  lastName: new FormControl()
+})
+onPatchValue() {
+  this.form.patchValue({
+    firstName: 'test'
+  })
+}
+```
 2. setValue：设置表单控件的值 (设置全部，不能排除任何一个)
+```ts
+onSetValue() {
+  this.form.patchValue({
+    firstName: 'test',
+    lastName: 'testlastname'
+  })
+}
+```
 3. valueChanges：当表单控件的值发生变化时被触发的事件
+```ts
+this.form.get('lastName')?.valueChanges.subscribe(value => {
+  console.log(value) // 打印lastName最新的值
+})
+```
 4. reset：表单内容置空
+```ts
+onReset() {
+  this.form.reset()
+}
+```
 
 ## 十二、 路由
 ### 12.1、 概述
@@ -1565,11 +1609,10 @@ export class AppComponent {
 
 ### 12.2、 快速上手
 1. 创建页面组件、Layout 组件以及 Navigation 组件，供路由使用
-
-  1. 创建首页页面组件 `ng g c pages/home`
-  2. 创建关于我们页面组件 `ng g c pages/about`
-  3. 创建布局组件 `ng g c pages/layout`
-  4. 创建导航组件 `ng g c pages/navigation`
+    1. 创建首页页面组件 `ng g c pages/home`
+    2. 创建关于我们页面组件 `ng g c pages/about`
+    3. 创建布局组件 `ng g c pages/layout`
+    4. 创建导航组件 `ng g c pages/navigation`
 
 2. 创建路由规则
 ```ts
