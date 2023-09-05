@@ -1619,7 +1619,8 @@ onReset() {
 // app.module.ts
 import { Routes } from "@angular/router"
 
-const routes: Routes = [
+// 路由规则
+const routes: Routes = [ // 数组里面每一个对象都是一条路由规则
   {
     path: "home",
     component: HomeComponent
@@ -1637,7 +1638,8 @@ const routes: Routes = [
 import { RouterModule, Routes } from "@angular/router"
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  // forRoot是用来启动路由的，第一个参数是路由规则，第二个参数是路由的配置。
+  imports: [RouterModule.forRoot(routes, { useHash: true })]
 })
 export class AppModule {}
 ```
@@ -1659,7 +1661,7 @@ export class AppModule {}
 ```ts
 const routes: Routes = [
   {
-    path: "home",
+    path: "home", // 配置路由的时候不要加斜杠，使用路由的时候要加斜杠。
     component: HomeComponent
   },
   {
@@ -1671,7 +1673,7 @@ const routes: Routes = [
     // 重定向
     redirectTo: "home",
     // 完全匹配
-    pathMatch: "full"
+    pathMatch: "full" // 可选值：prefix、full
   }
 ]
 ```
@@ -1684,8 +1686,11 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: "about",
-    component: AboutComponent
+    path: "",
+    // 重定向
+    redirectTo: "home",
+    // 完全匹配
+    pathMatch: "full" // 可选值：prefix、full
   },
   {
     path: "**",
@@ -1693,6 +1698,7 @@ const routes: Routes = [
   }
 ]
 ```
+<i style="color: blue">默认从上往下匹配，`**`表示匹配任何路由，当从上往下匹配的时候，如果什么都没匹配到，那就匹配`**`</i>
 
 ### 12.4、 路由传参
 #### 12.4.1、 查询参数
@@ -1811,20 +1817,21 @@ const routes: Routes = [
 
 ```html
 <a
-    [routerLink]="[
-      '/about',
-      {
-        outlets: {
-          left: ['introduce'],
-          right: ['history']
-        }
+  [routerLink]="[
+    '/about',
+    {
+      outlets: {
+        left: ['introduce'],
+        right: ['history']
       }
-    ]"
-    >关于我们
+    }
+  ]"
+  >关于我们
 </a>
 ```
 
 ### 12.7、 导航路由
+使用 js 的方式来实现页面之间的跳转
 ```html
 <!-- app.component.html -->
  <button (click)="jump()">跳转到发展历史</button>
@@ -1846,11 +1853,24 @@ export class HomeComponent {
 }
 ```
 
+```ts
+// 动态参数
+this.router.navigate([`/about/${id}`]) // 地址栏：/about/id
+// or
+this.router.navigate(['/about', '王五']) // 地址栏：/about/王五
+// or
+this.router.navigate(['/about', '王五'], { // 地址栏：/about/王五?name=abc
+  queryParams: {
+    name: 'abc'
+  }
+})
+```
+
 ### 12.8、 路由模块
-将根模块中的路由配置抽象成一个单独的路由模块，称之为根路由模块，然后在根模块中引入根路由模块。
+将根模块中的路由配置抽象成一个单独的路由模块(也就是把原来写在`app.module.ts`中的`routes`拿出来，单独写到一个文件中)，称之为根路由模块，然后在根模块中引入根路由模块。
 ```ts
 import { NgModule } from "@angular/core"
-
+import { Routes } from "@angular/router"
 import { HomeComponent } from "./pages/home/home.component"
 import { NotFoundComponent } from "./pages/not-found/not-found.component"
 
@@ -1893,9 +1913,13 @@ export class AppModule {}
 
 
 ### 12.9、 路由懒加载
-路由懒加载是以模块为单位的。
+> Angular 框架所实现的应用都是单页面应用，单页面应用  一个明显的问题就是：如果你的应用体积比较庞大的话，那么最后打包的文件的体积比较庞大，如果最后打包的文件的体积比较庞大的话，就会导致用户首次加载这个应用等待的时间比较长。
 
-1. 创建用户模块 `ng g m user --routing=true` 一并创建该模块的路由模块
+<i style="color: blue;">解决这个问题的方案之一就是使用路由懒加载：用户在首次加载这个应用的时候，他只去请求根模块，其他的模块，等到用户访问的时候再去加载，这就是懒加载。</i>
+
+路由懒加载是以模块为单位的。如何实现路由懒加载呢？如下：
+
+1. 创建用户模块 `ng g m user --routing=true` 一并创建该模块的路由模块（`--routing=true`）
 
 2. 创建登录页面组件 `ng g c user/pages/login`
 
@@ -1904,6 +1928,7 @@ export class AppModule {}
 4. 配置用户模块的路由规则
 
 ```ts
+// 这是一个模块路由文件
 import { NgModule } from "@angular/core"
 import { Routes, RouterModule } from "@angular/router"
 import { LoginComponent } from "./pages/login/login.component"
@@ -1921,20 +1946,22 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes)], // 如果你是根模块要启动路由要调用forRoot这个方法；如果你是非根模块，那就要调用forChild来启动路由
   exports: [RouterModule]
 })
 export class UserRoutingModule {}
 ```
 
-5. 将用户路由模块关联到主路由模块
+5. 将用户路由模块（也就是上面的`UserroutingModule`）关联到主路由模块
 ```ts
 // app-routing.module.ts
 const routes: Routes = [
+  ...
   {
     path: "user",
-    loadChildren: () => import("./user/user.module").then(m => m.UserModule)
-  }
+    loadChildren: () => import("./user/user.module").then(m => m.UserModule) // m是模块的集合对象
+  },
+  ...
 ]
 ```
 
@@ -1942,10 +1969,13 @@ const routes: Routes = [
 ```html
 <a routerLink="/user/login">登录</a>
 <a routerLink="/user/register">注册</a>
+// 访问user/login或user/register的时候才会去请求文件user.module.js文件
 ```
 
 ### 12.10、 路由守卫
 路由守卫会告诉路由是否允许导航到请求的路由。
+
+<i style="color: blue;">路由守卫是用来保护路由组件的，当你去访问某一个路由组件的时候，可以先去经过这个路由守卫，如果路由守卫允许你去访问， 你才可以访问，如果路由守卫不允许你访问，那么你就不能够访问。</i>
 
 路由守方法可以返回 boolean 或 `Observable <boolean>` 或 `Promise <boolean>`，它们在将来的某个时间点解析为布尔值。
 
@@ -1968,7 +1998,8 @@ import { Observable } from "rxjs"
 })
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
-  canActivate(): boolean | UrlTree {
+  // route: 待激活路由快照；state: 路由状态快照
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree { // 跳转页面就需要返回一个UrlTree类型
     // 用于实现跳转
     return this.router.createUrlTree(["/user/login"])
     // 禁止访问目标路由
@@ -1980,6 +2011,7 @@ export class AuthGuard implements CanActivate {
 ```
 
 ```js
+// 使用canActivate路由守卫，这是一个数组，可以放置多个路由守卫，只有所有的路由守卫都返回true，你才能够访问。
 {
   path: "about",
   component: AboutComponent,
@@ -1990,7 +2022,8 @@ export class AuthGuard implements CanActivate {
 #### 12.10.2、 CanActivateChild
 检查用户是否方可访问某个子路由。
 
-创建路由守卫：`ng g guard guards/admin` 注意：选择 CanActivateChild，需要将箭头移动到这个选项并且敲击空格确认选择。
+创建路由守卫：`ng g guard guards/admin` 
+*注意：使用命令行创建路由守卫，选择 `CanActivateChild`，需要将箭头移动到这个选项并且敲击空格确认选择。*
 ```ts
 import { Injectable } from "@angular/core"
 import { CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from "@angular/router"
@@ -2001,23 +2034,22 @@ import { Observable } from "rxjs"
 })
 export class AdminGuard implements CanActivateChild {
   canActivateChild(): boolean | UrlTree {
-    return true
+    return false
   }
 }
 ```
 
 ```ts
-import { Injectable } from "@angular/core"
-import { CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from "@angular/router"
-import { Observable } from "rxjs"
-
-@Injectable({
-  providedIn: "root"
-})
-export class AdminGuard implements CanActivateChild {
-  canActivateChild(): boolean | UrlTree {
-    return true
-  }
+{
+  path: "about",
+  component: AboutComponent,
+  canActivateChild: [AdminGuard], // 这个时候就访问不了about/introduce
+  children: [
+    {
+      path: "introduce",
+      component: IntroduceComponent
+    }
+  ]
 }
 ```
 
@@ -2070,7 +2102,7 @@ export class HomeComponent implements CanComponentLeave {
   })
   canLeave(): boolean {
     if (this.myForm.dirty) {
-      if (window.confirm("有数据未保存, 确定要离开吗")) {
+      if (window.confirm("有数据未保存, 确定要离开吗")) { // window原生弹出框，用户选择确定，那就是要离开。
         return true
       } else {
         return false
@@ -2083,6 +2115,8 @@ export class HomeComponent implements CanComponentLeave {
 
 #### 12.10.4、 Resolve
 允许在进入路由之前先获取数据，待数据获取完成之后再进入路由。
+
+<i style="color: blue;">这个路由守卫可以解决的一个问题是：在网速比较慢的情况下，用户直接进入到这个路由，看到的是一个空的路由组件，给用户的一个错觉就是这个页面出bug了，这样就不太好了，我们可以使用 `Resolve` 这个路由守卫来解决这个问题。</i>
 
 `ng g resolver <name>`
 
@@ -2109,11 +2143,14 @@ export class ResolveGuard implements Resolve<returnType> {
 
 ```js
 {
-   path: "",
-   component: HomeComponent,
-   resolve: {
-     user: ResolveGuard
-   }
+  path: "",
+  component: HomeComponent,
+  resolve: {
+    // 自定义属性，属性值就是这个路由守卫类的名字
+    user: ResolveGuard
+    // 这个可以添加n多个自定义属性
+    ...
+  }
 }
 ```
 
@@ -2121,7 +2158,7 @@ export class ResolveGuard implements Resolve<returnType> {
 export class HomeComponent {
   constructor(private route: ActivatedRoute) {}
   ngOnInit(): void {
-    console.log(this.route.snapshot.data.user)
+    console.log(this.route.snapshot.data.user) // 取值
   }
 }
 ```
