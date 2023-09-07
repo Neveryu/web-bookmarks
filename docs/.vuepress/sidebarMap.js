@@ -23,6 +23,7 @@ const sidebarMap = [
   { title: '笔记', dirname: 'summary/notes'},
   { title: '健康', dirname: 'summary/health'},
   /*其它*/
+  { title: '视频', dirname: 'other/video' },
   { title: '圈子', dirname: 'other/gard' },
   { title: '其它', dirname: 'other/another' },
   { title: '文化', dirname: 'other/culture' },
