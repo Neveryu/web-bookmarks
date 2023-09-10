@@ -2,6 +2,11 @@
 
 ## 十三、RxJS
 ### 13.1、概述
+
+::: tip 官方文档
+[RxJS官方文档](https://rxjs.dev/api)
+:::
+
 ![](./assets/angular/rxjs/rxjs-0.png)
 #### 13.1.1、什么是 RxJS？
 RxJS 是一个用于处理异步编程的 JavaScript 库，目标是使编写异步和基于回调的代码更容易。
