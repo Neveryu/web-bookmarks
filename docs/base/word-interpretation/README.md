@@ -9,3 +9,7 @@ W3C规范： 小写 + 短杠
 - :white_check_mark:  Front-end Web developer
 - :white_large_square:  Back-end Web developer
 - :white_large_square:  Full stack Web developer
+
+::: tip 大小写惯例
+遵循 JavaScript 传统约定，以帕斯卡命名法（PascalCase）命名可实例化的类（如 BrowserWindow，Tray 和 Notification），以驼峰命名法（camelCase）命名不可实例化的函数、变量等（如 app，ipcRenderer，webContents）。
+:::
