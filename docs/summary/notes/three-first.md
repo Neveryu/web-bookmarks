@@ -1,6 +1,7 @@
-# THREE 教程 【本文面向小白】
+# THREE 教程 【本文面向小白???】
 
-1、提前下载好一个你当前想使用的 [three.js 版本](https://github.com/mrdoob/three.js/releases) 到你的电脑本地来。
+## 如何系统的了解和学习 Three.js
+【准备资料】提前下载好一个你当前想使用的 [three.js 版本](https://github.com/mrdoob/three.js/releases) 到你的电脑本地来。
 
 解压后，用本地服务器的方式来打开它，是最合适的。目录结构，说明如下：
 
@@ -31,7 +32,7 @@ three.js 中模块内容介绍如下：
 |math|向量，矩阵等|
 
 
-2、加载一个 obj 模型
+## 加载一个 obj 模型（剖析）
 
 ```html
 <div id="glFullscreen">
@@ -62,6 +63,956 @@ three.js 中模块内容介绍如下：
 
 模型加载时序图如下：
 ![](./assets/three/three-objload-desc.jpg)
+
+### 1、定义OBJLoader2Example
+这里先定义了函数 OBJLoader2Example()，然后再指定OBJLoader2Example的 prototype 的 constructor 为 OBJLoader2Example() 本身，这也就定义了一个 “类” OBJLoader2Example，我们可以使用这个类来声明新的对象。
+```js
+var OBJLoader2Example = function ( elementToBindTo ) {......};
+OBJLoader2Example.prototype = {
+  constructor: OBJLoader2Example,
+  initGL: function () {......},
+  initContent: function () {......},
+  _reportProgress: function () {......},
+  resizeDisplayGL: function () {......},
+  recalcAspectRatio: function () {......},
+  resetCamera: function () {......},
+  updateCamera: function () {......},
+  render: function () {......}
+}
+```
+
+### 2、OBJLoader2Example 的构造方法
+```js
+var OBJLoader2Example = function ( elementToBindTo ) {
+  // 渲染器，后面它会绑定 canvas 节点
+  this.renderer = null;
+  // canvas 节点
+  this.canvas = elementToBindTo;
+  // 视图比例
+  this.aspectRatio = 1;
+  this.recalcAspectRatio();
+  // 3D 场景
+  this.scene = null;
+  // 默认相机参数
+  this.cameraDefaults = {
+    // 相机的位置，就是相机该摆在哪里
+    posCamera: new THREE.Vector3( 0.0, 175.0, 500.0 ),
+    // 相机的目标
+    posCameraTarget: new THREE.Vector3( 0, 0, 0 ),
+    // 近截面
+    near: 0.1,
+    // 远截面
+    far: 10000,
+    // 视景体夹角
+    fov: 45
+  };
+  // 3D 相机
+  this.camera = null;
+  // 3D 相机的目标，就是相机该盯着哪里看
+  this.cameraTarget = this.cameraDefaults.posCameraTarget;
+  // 3D 相机控制器，当然也可理解就是一个手势控制器
+  this.controls = null;
+};
+```
+构造方法主要是属性的定义，代码中添加了注释简要介绍了各个属性的作用，总体来说就是3D场景、3D 相机，相机控制器以及最重要的渲染器，渲染器绑定了 canvas，3D 场景及其所有的物件都会通过这个渲染器渲染到 canvas 中去。
+
+### 3、initGL()
+```js
+initGL: function() {
+  // 创建渲染器
+  this.renderer = new THREE.WebGLRenderer({
+    // 绑定 canvas
+    canvas: this.canvas,
+    // 抗锯齿
+    antialias: true,
+    autoClear: true
+  });
+  this.renderer.setClearColor( 0x050505 );
+
+  this.scene = new THREE.Scene();
+  // 初始化透视投影相机，这是一个三角的景锥体，物体在其里面呈现的效果是近大远小
+  this.camera = new THREE.PerspectiveCamera( this.cameraDefaults.fov, this.aspectRatio, this.cameraDefaults.near, this.cameraDefaults.far );
+  this.resetCamera();
+  // 初始化 controller
+  this.controls = new THREE.TrackballControls( this.camera, this.renderer.domElement );
+
+  // 添加环境光与平行光
+  var ambientLight = new THREE.AmbientLight( 0x404040 );
+  var directionalLight1 = new THREE.DirectionalLight( 0xC0C090 );
+  var directionalLight2 = new THREE.DirectionalLight( 0xC0C090 );
+
+  directionalLight1.position.set( -100, -50, 100 );
+  directionalLight2.position.set( 100, 50, -100 );
+
+  this.scene.add( directionalLight1 );
+  this.scene.add( directionalLight2 );
+  this.scene.add( ambientLight );
+  // 添加调试网格
+  var helper = new THREE.GridHelper( 1200, 60, 0xFF4444, 0x404040 );
+  this.scene.add( helper );
+},
+```
+initGL() 方法中初始化了各个属性，同时还添加了环境光与平行光源，以用于调试的网格帮助模型。在 3D 场景中很多物体都可看成是一个模型，如这里的光源。而 camera 在有一些渲染框架中也会被认为是一个模型，但其只是一个用于参与 3D 渲染时的参数。camera 最主要的作用是决定了投影矩阵，在投影矩阵内的物体可见，而不在里面则不可见。
+
+### 4、initContent()
+```js
+initContent: function () {
+  var modelName = 'female02';
+  this._reportProgress( { detail: { text: 'Loading: ' + modelName } } );
+
+  var scope = this;
+  // 声明 ObjLoader2 对象
+  var objLoader = new THREE.OBJLoader2();
+  // 模型加载完成的 call back，加载完成后便会把模型加载到场景中
+  var callbackOnLoad = function ( event ) {
+    scope.scene.add( event.detail.loaderRootNode );
+    console.log( 'Loading complete: ' + event.detail.modelName );
+    scope._reportProgress( { detail: { text: '' } } );
+  };
+  // 材质加载完成的回调，材质加载完成后便会进一步加 obj
+  var onLoadMtl = function ( materials ) {
+    objLoader.setModelName( modelName );
+    objLoader.setMaterials( materials );
+    objLoader.setLogging( true, true );
+    // 开始加载 obj
+    objLoader.load( 'models/obj/female02/female02.obj', callbackOnLoad, null, null, null, false );
+  };
+  // 开始加载材质
+  objLoader.loadMtl( 'models/obj/female02/female02.mtl', null, onLoadMtl );
+},
+```
+内容加载这一块是重点，其主要是通过 ObjLoader2 先是加载了材质然后加载模型。关于 obj 和 mtl 文件， 请打开 `female02.obj` 和 `female02.mtl`，可以发现它就是一个文本文件，通过注释来感受一下其文件格式如何。
+
+**female02.obj部分数据**
+```
+# Blender v2.54 (sub 0) OBJ File: ''
+# www.blender.org
+# obj对应的材质文件
+mtllib female02.mtl
+# o 对象名称(Object name)
+o mesh1.002_mesh1-geometry
+# 顶点
+v 15.257854 104.640892 8.680023
+v 14.044281 104.444138 11.718708
+v 15.763498 98.955704 11.529579
+......
+# 纹理坐标
+vt 0.389887 0.679023
+vt 0.361250 0.679023
+vt 0.361250 0.643346
+......
+# 顶点法线
+vn 0.945372 0.300211 0.126926
+vn 0.794275 0.212683 0.569079
+vn 0.792047 0.184729 0.581805
+......
+# group
+g mesh1.002_mesh1-geometry__03_-_Default1noCulli__03_-_Default1noCulli
+# 当前图元所用材质
+usemtl _03_-_Default1noCulli__03_-_Default1noCulli
+s off
+# v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3(索引起始于1)    
+f 1/1/1 2/2/2 3/3/3
+f 1/1/1 4/4/4 2/2/2
+f 4/4/4 1/1/1 5/5/5
+......
+```
+
+**female02.mtl部分数据**
+```
+......
+# 定义一个名为 _03_-_Default1noCulli__03_-_Default1noCulli 的材质
+newmtl _03_-_Default1noCulli__03_-_Default1noCulli
+# 反射指数 定义了反射高光度。该值越高则高光越密集，一般取值范围在0~1000。
+Ns 154.901961
+# 材质的环境光（ambient color）
+Ka 0.000000 0.000000 0.000000
+# 散射光（diffuse color）用Kd
+Kd 0.640000 0.640000 0.640000
+# 镜面光（specular color）用Ks
+Ks 0.165000 0.165000 0.165000
+# 折射值 可在0.001到10之间进行取值。若取值为1.0，光在通过物体的时候不发生弯曲。玻璃的折射率为1.5。
+Ni 1.000000
+# 渐隐指数描述 参数factor表示物体融入背景的数量，取值范围为0.0~1.0，取值为1.0表示完全不透明，取值为0.0时表示完全透明。
+d 1.000000
+# 指定材质的光照模型。illum后面可接0~10范围内的数字参数。各个参数代表不同的光照模型
+illum 2
+# 为漫反射指定颜色纹理文件
+map_Kd 03_-_Default1noCulling.JPG
+......
+```
+关于 obj 和 mtl 文件中各个字段的意思都在注释中有说明了，至于每个字段参数如何使用，就需要对 OpenGL 如何渲染模型有一定的了解了。继续来看材质的加载和obj 的加载。
+
+### 5、ObjectLoader2#loadMtl()
+```js
+loadMtl: function( url, content, onLoad, onProgress, onError, crossOrigin, materialOptions ) {
+  ......
+  this._loadMtl( resource, onLoad, onProgress, onError, crossOrigin, materialOptions );
+},
+```
+调用了内部的 `_loadMtl()`，`_loadMtl()` 函数的实现代码是有点多的，不过不要紧，我给做了精简。
+```js
+_loadMtl: function ( resource, onLoad, onProgress, onError, crossOrigin, materialOptions ) {
+  ......
+  // 7. 创建了 materialCreator 后，就会加载到这里。这里最后通过 onLoad 通知给调用者，调用者继续加载模型。
+  var processMaterials = function ( materialCreator ) {
+    ......
+    // 8.创建材质
+    materialCreator.preload();
+   // 9.回调给调用者
+    onLoad( materials, materialCreator );
+  }
+  ......
+  // 1. 构建一个 MTLLoader
+  var mtlLoader = new THREE.MTLLoader( this.manager );
+ // 4.文件加载成功后回调到 parseTextWithMtlLoader 这里
+  var parseTextWithMtlLoader = function ( content ) {
+    ......
+    contentAsText = THREE.LoaderUtils.decodeText( content );
+    ......
+    // 5.对文件内容进行解析，解析完成后得到一个 materialCreator 对象，然后再调用 processMaterials
+    processMaterials( mtlLoader.parse( contentAsText ) );
+  }
+  ......
+  // 2.构建一个 FileLoader
+  var fileLoader = new THREE.FileLoader( this.manager );
+  ......
+  // 3. 加载文件，文件加载成功能后回调 parseTextWithMtlLoader
+  fileLoader.load( resource.url, parseTextWithMtlLoader, onProgress, onError );
+}
+```
+注释里包含了材质加载的整个逻辑，一共 9 个步骤，但这里重点只需要关注以下 3 个步骤：
+
+**(1)文件加载——FileLoader#load()**
+```js
+load: function ( url, onLoad, onProgress, onError ) {
+  ......
+  var request = new XMLHttpRequest();
+  request.open( 'GET', url, true );
+  ......
+}
+```
+FileLoader 是 ThreeJs 库中的代码，关于 load() 方法中的前后代码这里都略去了，重点是知道了它是通过 Get 请求来获取的。
+
+**(2)文件parse——MTLLoader#parse()**
+```js
+parse: function ( text, path ) {
+  var lines = text.split( '\n' );
+  var info = {};
+  var delimiter_pattern = /\s+/;
+  var materialsInfo = {};
+  for ( var i = 0; i < lines.length; i ++ ) {
+    var line = lines[ i ];
+    line = line.trim();
+    if ( line.length === 0 || line.charAt( 0 ) === '#' ) {
+      // Blank line or comment ignore
+      continue;
+    }
+    var pos = line.indexOf( ' ' );
+
+    var key = ( pos >= 0 ) ? line.substring( 0, pos ) : line;
+    key = key.toLowerCase();
+
+    var value = ( pos >= 0 ) ? line.substring( pos + 1 ) : '';
+    value = value.trim();
+
+    if ( key === 'newmtl' ) {
+      // New material
+      info = { name: value };
+      materialsInfo[ value ] = info;
+    } else {
+      if ( key === 'ka' || key === 'kd' || key === 'ks' ) {
+        var ss = value.split( delimiter_pattern, 3 );
+        info[ key ] = [ parseFloat( ss[ 0 ] ), parseFloat( ss[ 1 ] ), parseFloat( ss[ 2 ] ) ];
+      } else {
+        info[ key ] = value;
+      }
+    }
+  }
+  var materialCreator = new THREE.MTLLoader.MaterialCreator( this.resourcePath || path, this.materialOptions );
+  materialCreator.setCrossOrigin( this.crossOrigin );
+  materialCreator.setManager( this.manager );
+  materialCreator.setMaterials( materialsInfo );
+  return materialCreator;
+}
+```
+
+`parse()` 方法的代码看起来有点多，但其实很简单，就是对着 mtl 文件一行一行的解析。这里的重点是创建了 MaterialCreator并且保存在了 materialsInfo 中。materialsInfo 是一个 map 对象，其中保存的值最重要的是包括了 `map_Kd`，这个在创建材质时要加载的纹理。
+
+
+**(3)创建材质——MaterialCreator#preload()**
+```js
+preload: function () {
+  for ( var mn in this.materialsInfo ) {
+    this.create( mn );
+  }
+}
+```
+preload() 中就遍历每一个 material 然后分别调用 create() 。而 create() 又是进一步调用了 `createMaterial_()` 方法。
+```js
+createMaterial_: function ( materialName ) {
+  // Create material
+  var scope = this;
+  var mat = this.materialsInfo[ materialName ];
+  var params = {
+    name: materialName,
+    side: this.side
+  };
+  function resolveURL( baseUrl, url ) {
+    if ( typeof url !== 'string' || url === '' )
+        return '';
+    // Absolute URL
+    if ( /^https?:\/\//i.test( url ) ) return url;
+    return baseUrl + url;
+  }
+  function setMapForType( mapType, value ) {
+    if ( params[ mapType ] ) return; // Keep the first encountered texture
+    var texParams = scope.getTextureParams( value, params );
+    var map = scope.loadTexture( resolveURL( scope.baseUrl, texParams.url ) );
+    map.repeat.copy( texParams.scale );
+    map.offset.copy( texParams.offset );
+    map.wrapS = scope.wrap;
+    map.wrapT = scope.wrap;
+    params[ mapType ] = map;
+  }
+  for ( var prop in mat ) {
+    var value = mat[ prop ];
+    var n;
+    if ( value === '' ) continue;
+    switch ( prop.toLowerCase() ) {
+      // Ns is material specular exponent
+      case 'kd':
+        // Diffuse color (color under white light) using RGB values
+        params.color = new THREE.Color().fromArray( value );
+        break;
+      case 'ks':
+        // Specular color (color when light is reflected from shiny surface) using RGB values
+        params.specular = new THREE.Color().fromArray( value );
+        break;
+      case 'map_kd':
+        // Diffuse texture map
+        setMapForType( "map", value );
+        break;
+      case 'map_ks':
+        // Specular map
+        setMapForType( "specularMap", value );
+        break;
+      case 'norm':
+        setMapForType( "normalMap", value );
+        break;
+      case 'map_bump':
+      case 'bump':
+        // Bump texture map
+        setMapForType( "bumpMap", value );
+        break;
+      case 'map_d':
+        // Alpha map
+        setMapForType( "alphaMap", value );
+        params.transparent = true;
+        break;
+      case 'ns':
+        // The specular exponent (defines the focus of the specular highlight)
+        // A high exponent results in a tight, concentrated highlight. Ns values normally range from 0 to 1000.
+        params.shininess = parseFloat( value );
+        break;
+      case 'd':
+        n = parseFloat( value );
+        if ( n < 1 ) {
+          params.opacity = n;
+          params.transparent = true;
+        }
+        break;
+      case 'tr':
+        n = parseFloat( value );
+        if ( this.options && this.options.invertTrProperty ) n = 1 - n;
+        if ( n > 0 ) {
+          params.opacity = 1 - n;
+          params.transparent = true;
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  this.materials[ materialName ] = new THREE.MeshPhongMaterial( params );
+  return this.materials[ materialName ];
+},
+```
+这里就是告知我们该怎么用 mtl 文件中的每个字段了，这里主要关注一下纹理图片是如何加载的，其他的字段参数再看看 mtl 的注释就可以理解了。map-kd、map_ks、norm、map_bump、bump 以及 map_d 的处理是调用了setMapForType()，他们都是去加载纹理的，只是纹理的形式不一样。
+```js
+function setMapForType( mapType, value ) {
+  ......
+  var map = scope.loadTexture( resolveURL( scope.baseUrl, texParams.url ) );
+  ......
+}
+```
+这里的 loadTexture() 就是加载纹理的实现，一般来说在材质文件中对纹理的地址要写成相对的，这里会根据材质的地址的 base url 来 resolve 出一个纹理的地址。继续来看loadTexture()。
+```js
+loadTexture: function ( url, mapping, onLoad, onProgress, onError ) {
+  ......
+  var loader = THREE.Loader.Handlers.get( url );
+  ......
+  loader = new THREE.TextureLoader( manager );
+  ......
+  texture = loader.load( url, onLoad, onProgress, onError );
+  return texture;
+}
+```
+其主要是构建一个 TextureLoader，然后调用其 load() 进行加载。
+```js
+load: function ( url, onLoad, onProgress, onError ) {
+  ......
+  var loader = new ImageLoader( this.manager );
+  ......
+  loader.load( url, function ( image ) {}
+}
+```
+又进一步通过了 ImageLoader 来加载。
+```js
+load: function ( url, onLoad, onProgress, onError ) {
+  ......
+  var image = document.createElementNS( 'http://www.w3.org/1999/xhtml', 'img' );
+  ......
+  image.src = url;
+  return image;
+}
+```
+原来图片的加载是通过创建一个 `<img>` 标记来加载的。创建一个 `<img>` 标记，在不添加到 dom 树中的情况下，只要给 src 赋了值，就会去下载图片了。
+
+到这里，终于把材质以及纹理的加载分析完了。接下来继续分析 obj 的加载。
+
+### 6、ObjLoader2#load()
+```js
+load: function ( url, onLoad, onProgress, onError, onMeshAlter, useAsync ) {
+  var resource = new THREE.LoaderSupport.ResourceDescriptor( url, 'OBJ' );
+  this._loadObj( resource, onLoad, onProgress, onError, onMeshAlter, useAsync );
+},
+```
+同样是进一步的调用，这里调用的是 `_loadObj()`。
+```js
+_loadObj: function ( resource, onLoad, onProgress, onError, onMeshAlter, useAsync ) {
+  ......
+  var fileLoaderOnLoad = function ( content ) {
+    ......
+    // 3.解析 obj
+    loaderRootNode: scope.parse( content ),
+    ......
+  },
+  // 1.构建 FileLoader
+  var fileLoader = new THREE.FileLoader( this.manager );
+  ......
+  // 2.加载文件，这里在加载 mtl 的时候已经分析过了，并且最后会回调到 fileLoaderOnLoad
+  fileLoader.load( resource.name, fileLoaderOnLoad, onProgress, onError );
+}
+```
+`_loadObj()` 的代码这里也精简了一下，并在注释中说明了逻辑。文件加载已经在前面分析过了，这里就关注一下解析 obj。
+```js
+/**
+* Parses OBJ data synchronously from arraybuffer or string.
+*
+* @param {arraybuffer|string} content OBJ data as Uint8Array or String
+*/
+parse: function ( content ) {
+  ......
+  // 1.初始化 meshBuilder
+  this.meshBuilder.init(); 
+  // 2.创建一个 Parser
+  var parser = new THREE.OBJLoader2.Parser();
+  ......
+  var onMeshLoaded = function ( payload ) {
+    // 4.从 meshBuilder 中获取 mesh ，并把 mesh 都加到节点中
+    var meshes = scope.meshBuilder.processPayload( payload );
+    var mesh;
+    for ( var i in meshes ) {
+      mesh = meshes[ i ];
+      scope.loaderRootNode.add( mesh );
+    }
+  } 
+  ......
+  // 3.解析文本，因为这里传输的就是文本
+  parser.parseText( content );
+  ......
+}
+```
+这里的重点是parseText()。
+```js
+parseText: function ( text ) {
+  ......
+  for ( var char, word = '', bufferPointer = 0, slashesCount = 0, i = 0; i < length; i++ ) {
+    ......
+    this.processLine( buffer, bufferPointer, slashesCount );
+    ......
+  }
+  ......
+}
+```
+同样，省略的部分这里可以先不看，来看一看具体解析 obj 文件的 processLine()。
+```js
+processLine: function ( buffer, bufferPointer, slashesCount ) {
+  if ( bufferPointer < 1 ) return;
+  var reconstructString = function ( content, legacyMode, start, stop ) {
+    var line = '';
+    if ( stop > start ) {
+      var i;
+      if ( legacyMode ) {
+        for ( i = start; i < stop; i++ ) line += content[ i ];
+      } else {
+        for ( i = start; i < stop; i++ ) line += String.fromCharCode( content[ i ] );
+      }
+      line = line.trim();
+    }
+    return line;
+  };
+  var bufferLength, length, i, lineDesignation;
+  lineDesignation = buffer [ 0 ];
+  switch ( lineDesignation ) {
+    case 'v':
+      this.vertices.push( parseFloat( buffer[ 1 ] ) );
+      this.vertices.push( parseFloat( buffer[ 2 ] ) );
+      this.vertices.push( parseFloat( buffer[ 3 ] ) );
+      if ( bufferPointer > 4 ) {
+        this.colors.push( parseFloat( buffer[ 4 ] ) );
+        this.colors.push( parseFloat( buffer[ 5 ] ) );
+        this.colors.push( parseFloat( buffer[ 6 ] ) );
+      }
+      break;
+    case 'vt':
+      this.uvs.push( parseFloat( buffer[ 1 ] ) );
+      this.uvs.push( parseFloat( buffer[ 2 ] ) );
+      break;
+    case 'vn':
+      this.normals.push( parseFloat( buffer[ 1 ] ) );
+      this.normals.push( parseFloat( buffer[ 2 ] ) );
+      this.normals.push( parseFloat( buffer[ 3 ] ) );
+      break;
+    case 'f':
+      bufferLength = bufferPointer - 1;
+      // "f vertex ..."
+      if ( slashesCount === 0 ) {
+        this.checkFaceType( 0 );
+        for ( i = 2, length = bufferLength; i < length; i ++ ) {
+          this.buildFace( buffer[ 1 ] );
+          this.buildFace( buffer[ i ] );
+          this.buildFace( buffer[ i + 1 ] );
+        }
+        // "f vertex/uv ..."
+      } else if  ( bufferLength === slashesCount * 2 ) {
+        this.checkFaceType( 1 );
+        for ( i = 3, length = bufferLength - 2; i < length; i += 2 ) {
+          this.buildFace( buffer[ 1 ], buffer[ 2 ] );
+          this.buildFace( buffer[ i ], buffer[ i + 1 ] );
+          this.buildFace( buffer[ i + 2 ], buffer[ i + 3 ] );
+        }
+        // "f vertex/uv/normal ..."
+      } else if  ( bufferLength * 2 === slashesCount * 3 ) {
+        this.checkFaceType( 2 );
+        for ( i = 4, length = bufferLength - 3; i < length; i += 3 ) {
+          this.buildFace( buffer[ 1 ], buffer[ 2 ], buffer[ 3 ] );
+          this.buildFace( buffer[ i ], buffer[ i + 1 ], buffer[ i + 2 ] );
+          this.buildFace( buffer[ i + 3 ], buffer[ i + 4 ], buffer[ i + 5 ] );
+        }
+        // "f vertex//normal ..."
+      } else {
+        this.checkFaceType( 3 );
+        for ( i = 3, length = bufferLength - 2; i < length; i += 2 ) {
+          this.buildFace( buffer[ 1 ], undefined, buffer[ 2 ] );
+          this.buildFace( buffer[ i ], undefined, buffer[ i + 1 ] );
+          this.buildFace( buffer[ i + 2 ], undefined, buffer[ i + 3 ] );
+        }
+      }
+      break;
+    case 'l':
+    case 'p':
+      bufferLength = bufferPointer - 1;
+      if ( bufferLength === slashesCount * 2 )  {
+        this.checkFaceType( 4 );
+        for ( i = 1, length = bufferLength + 1; i < length; i += 2 ) this.buildFace( buffer[ i ], buffer[ i + 1 ] );
+      } else {
+        this.checkFaceType( ( lineDesignation === 'l' ) ? 5 : 6  );
+        for ( i = 1, length = bufferLength + 1; i < length; i ++ ) this.buildFace( buffer[ i ] );
+      }
+      break;
+    case 's':
+      this.pushSmoothingGroup( buffer[ 1 ] );
+      break;
+    case 'g':
+      // 'g' leads to creation of mesh if valid data (faces declaration was done before), otherwise only groupName gets set
+      this.processCompletedMesh();
+      this.rawMesh.groupName = reconstructString( this.contentRef, this.legacyMode, this.globalCounts.lineByte + 2, this.globalCounts.currentByte );
+      break;
+    case 'o':
+      // 'o' is meta-information and usually does not result in creation of new meshes, but can be enforced with "useOAsMesh"
+      if ( this.useOAsMesh ) this.processCompletedMesh();
+      this.rawMesh.objectName = reconstructString( this.contentRef, this.legacyMode, this.globalCounts.lineByte + 2, this.globalCounts.currentByte );
+      break;
+    case 'mtllib':
+      this.rawMesh.mtllibName = reconstructString( this.contentRef, this.legacyMode, this.globalCounts.lineByte + 7, this.globalCounts.currentByte );
+      break;
+
+    case 'usemtl':
+      var mtlName = reconstructString( this.contentRef, this.legacyMode, this.globalCounts.lineByte + 7, this.globalCounts.currentByte );
+      if ( mtlName !== '' && this.rawMesh.activeMtlName !== mtlName ) {
+        this.rawMesh.activeMtlName = mtlName;
+        this.rawMesh.counts.mtlCount++;
+        this.checkSubGroup();
+      }
+      break;
+    default:
+      break;
+  }
+},
+```
+这段代码就比较长了，有 150 多行，但内容其实很简单，就是根据 obj 的文件格式进行解析。如果看到这里忘记了 obj 的文件格式，那建议先回顾一下。解析的过程已经非常细节了，就不详细展开了。这里最后的解析结果就是顶点，纹理坐标以及法向根据 face 的索引进行展开，得到的结果是 vvv | vtvt | vnvnvn 这样的 n 组顶点数组 以及 n 组索引数组。顶点数组，索引数组以及材质/纹理构成了用于渲染的3D网格 mesh。
+
+到这里 obj 的加载也分析完了。obj 的加载是主体，但也是最简单的。容易出问题的是在材质和纹理的加载上，需要注意的问题比较多。
+
+## 渲染(render)分析
+### 1、构建
+```js
+// 构建渲染器 WebGLRenderer            
+var renderer = new THREE.WebGLRenderer();
+// 设置显示比例
+renderer.setPixelRatio( window.devicePixelRatio );
+// 构建一个透视投影的相机
+var camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 2000 );
+// 构建一个轨道控制器，主要就是通过鼠标来控制相机沿目标物体旋转，从而达到像在旋转场景一样，可以从各个不同角度观察物体
+var controls = new THREE.OrbitControls( camera, renderer.domElement );
+// 构建场景
+var scene = new THREE.Scene();
+// 构建Phong网格材质MeshPhongMaterial，该材质可以模拟具有镜面高光的光泽表面，一个用于接收阴影的平面，一个用于场景中的物体 Box
+var matFloor = new THREE.MeshPhongMaterial();
+var matBox = new THREE.MeshPhongMaterial( { color: 0xaaaaaa } );
+// 构建几何体，同样分别用于 平面 和 Box
+var geoFloor = new THREE.PlaneBufferGeometry( 2000, 2000 );
+var geoBox = new THREE.BoxBufferGeometry( 3, 1, 2 );
+// 构建平面网格 mesh
+var mshFloor = new THREE.Mesh( geoFloor, matFloor );
+mshFloor.rotation.x = - Math.PI * 0.5;
+// 构建 box 网格 mesh
+var mshBox = new THREE.Mesh( geoBox, matBox );
+// 构建环境光
+var ambient = new THREE.AmbientLight( 0x111111 );
+// 构建 3 个不同颜色的 聚光灯（SpotLight）
+var spotLight1 = createSpotlight( 0xFF7F00 );
+var spotLight2 = createSpotlight( 0x00FF7F );
+var spotLight3 = createSpotlight( 0x7F00FF );
+// 声明用于描述聚光灯的 3 个不同光束帮助器
+var lightHelper1, lightHelper2, lightHelper3;
+```
+上面代码中，基本上每一行都添加了详细的注释，其中有调用了一个内部的函数 createSpotlight() ，如下。
+```js
+function createSpotlight( color ) {
+  var newObj = new THREE.SpotLight( color, 2 );
+
+  newObj.castShadow = true;
+  newObj.angle = 0.3;
+  newObj.penumbra = 0.2;
+  newObj.decay = 2;
+  newObj.distance = 50;
+
+  newObj.shadow.mapSize.width = 1024;
+  newObj.shadow.mapSize.height = 1024;
+
+  return newObj;
+}
+```
+
+### 2、初始化
+```js
+function init() {
+  ......
+
+  // 将平面，box，环境光以及光源辅助器等全部添加到 scene 中
+  scene.add( mshFloor );
+  scene.add( mshBox );
+  scene.add( ambient );
+  scene.add( spotLight1, spotLight2, spotLight3 );
+  scene.add( lightHelper1, lightHelper2, lightHelper3 );
+
+  document.body.appendChild( renderer.domElement );
+  onResize();
+  window.addEventListener( 'resize', onResize, false );
+
+  controls.target.set( 0, 7, 0 );
+  controls.maxPolarAngle = Math.PI / 2;
+  controls.update();
+}
+```
+初始化主要就是将平面，box ，光照这些都添加进场景中，但是要注意，相机并没有被添加进来。
+
+### 3、渲染
+```js
+function render() {
+  TWEEN.update();
+  if ( lightHelper1 ) lightHelper1.update();
+  if ( lightHelper2 ) lightHelper2.update();
+  if ( lightHelper3 ) lightHelper3.update();
+  renderer.render( scene, camera );
+  requestAnimationFrame( render );
+}
+```
+渲染函数 render() 中最关键的调用渲染器的 WebGLRenderer#render() 方法同时去渲染场景和相机。
+
+根据上面的分析，以及对 ThreeJs 源码的分析，梳理出如下 2 个类图关系。
+![](./assets/three/webgl-renderer.jpg)
+图中，渲染器负责同时渲染场景以及相机。而光照和网格都被添加到场景中。几何体以及材质都是网格的 2 个基本属性，也决定一个网格的形状和表面纹理。
+![](./assets/three/three-render-object.jpg)
+该图是对上图的补充，说明光照，相机以及网格都属于 Object3D 对象。在 ThreeJs 中还有许多的类都是继承自 Object3D 的。
+
+### 4、渲染分析
+#### 1、WebGL 的渲染管线
+
+先来看一下 WebGL 的流水线渲染管线图，如下所示。这个是必须要了解的，我们可以不必完全理解渲染管线的每个步骤，但我们必须要知道渲染管线的这个流程。
+![](./assets/three/three-webgl-processline.png)
+
+渲染管线指的是WebGL程序的执行过程，如上图所示，主要分为 4 个步骤：
+
+1、顶点着色器的处理，主要是一组矩阵变换操作，用来把3D模型（顶点和原型）投影到viewport上，输出是一个个的多边形，比如三角形。
+
+2、光栅化，也就是把三角形连接区域按一定的粒度逐行转化成片元（fragement），类似于2D空间中，可以把这些片元看做是3D空间的一个像素点。
+
+3、片元着色器的处理，为每个片元添加颜色或者纹理。只要给出纹理或者颜色，以及纹理坐标(uv)，管线就会根据纹理坐标进行插值运算，将纹理或者图片着色在相应的片元上。
+
+4、把3D空间的片元合并输出为2D像素数组并显示在屏幕上。
+
+
+#### 2、WebGL 一般的开发流程
+
+这里仅根据 Open GL ES 的开发流程，绘制出如下流程图。
+![](./assets/three/three-opengl-es.jpg)
+流程图中关键的第一步在于创建着色器(Shader)程序，着色器程序主要用 GLSL(GL Shading Language) 语言编写，其直接由 GPU 来执行。第二步是设置顶点，纹理以及其他属性，如我们创建的几何图元 Box，加载的 obj 文件，以及用于矩阵变换的模型矩阵，视图矩阵以及投影矩阵等。第三步便是进行顶点的绘制，如以点绘制，以直线绘制以及以三角形绘制，对于图元，大部分是以三角形绘制。
+
+#### 3、坐标系以及矩阵变换
+
+关于坐标系与矩阵变换，这里一个幅图总结的很不错，画的很详细，一眼就能看出其中的意思。
+![](./assets/three/three-x-y-z.png)
+
+#### 4、构造方法 WebGLRenderer()
+其初始化的属性很多。这里主要关注其 2 个最核心的属性 canvas 以及 context。
+```js
+function WebGLRenderer( parameters ) {
+  console.log( 'THREE.WebGLRenderer', REVISION );
+  parameters = parameters || {};
+  // 如果参数中有 canvas，就有参数中的，如果没有就通过 document.createElementNS() 来创建一个。和 2D 的概念一样，这里的 canvas 主要是用来进行 3D 渲染的画布。
+  var _canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElementNS( 'http://www.w3.org/1999/xhtml', 'canvas' ),
+      _context = parameters.context !== undefined ? parameters.context : null,
+  ......
+  // initialize
+  var _gl;
+  ......
+  // 从 canvas 中获取 context。参数 webgl 是其中之一，其还可以获取 2d 的。这里获取到 webgl 的 context，那就意味者可以通过它进行 3D 绘制了。
+  _gl = _context || _canvas.getContext( 'webgl', contextAttributes ) || _canvas.getContext( 'experimental-webgl', contextAttributes );
+  ......
+  function initGLContext() {
+    ......
+    _this.context = _gl;
+    ......
+  }
+  ......
+}
+```
+如上面的代码以及注释，canvas 就是 html 的标准元素 `<canvas>`，这玩意儿在 Android 那里也叫做 canvas，反正就代表画布的意思。而 context 则是从该画布获取到的 webgl 上下文，这个上下文是 WebGLRenderingContext，WebGLRenderingContext 接口提供基于 OpenGL ES 2.0 的绘图上下文，用于在 HTML `<canvas>` 元素内绘图。后续的关于 Open GL ES 的相关操作都是基于此进行的。当然，这里还只是创建了用于 Open GL ES 的 WebGLContext，还没有进行初始化。下面再来详细看看它在 initGLContext() 方法中是如何进行初始化的，初始化中具体又详细做了什么具体的事情。
+
+#### 5、初始化上下文方法 initGLContext()
+```js
+function initGLContext() {
+
+        /**
+         * 扩展特性
+         */
+        extensions = new WebGLExtensions( _gl );
+
+        capabilities = new WebGLCapabilities( _gl, extensions, parameters );
+
+        if ( ! capabilities.isWebGL2 ) {
+
+            extensions.get( 'WEBGL_depth_texture' );
+            extensions.get( 'OES_texture_float' );
+            extensions.get( 'OES_texture_half_float' );
+            extensions.get( 'OES_texture_half_float_linear' );
+            extensions.get( 'OES_standard_derivatives' );
+            extensions.get( 'OES_element_index_uint' );
+            extensions.get( 'ANGLE_instanced_arrays' );
+
+        }
+
+        extensions.get( 'OES_texture_float_linear' );
+        /**
+         * 工具类
+         */
+        utils = new WebGLUtils( _gl, extensions, capabilities );
+        /**
+         * 状态
+         */
+        state = new WebGLState( _gl, extensions, utils, capabilities );
+        state.scissor( _currentScissor.copy( _scissor ).multiplyScalar( _pixelRatio ) );
+        state.viewport( _currentViewport.copy( _viewport ).multiplyScalar( _pixelRatio ) );
+
+        info = new WebGLInfo( _gl );
+        properties = new WebGLProperties();
+        /**
+         * 纹理辅助类
+         */
+        textures = new WebGLTextures( _gl, extensions, state, properties, capabilities, utils, info );
+        /**
+         * 属性存储辅助类，主要实现 JavaScript 中的变量或者数组、纹理图片传递到 WebGL 中
+         */
+        attributes = new WebGLAttributes( _gl );
+        /**
+         * 几何图元
+         */
+        geometries = new WebGLGeometries( _gl, attributes, info );
+        /**
+         * Object 类存储类
+         */
+        objects = new WebGLObjects( geometries, info );
+        morphtargets = new WebGLMorphtargets( _gl );
+        /**
+         * WebGL program
+         */
+        programCache = new WebGLPrograms( _this, extensions, capabilities );
+        renderLists = new WebGLRenderLists();
+        renderStates = new WebGLRenderStates();
+        /**
+         * 背景
+         */
+        background = new WebGLBackground( _this, state, objects, _premultipliedAlpha );
+        /**
+         * Buffer
+         */
+        bufferRenderer = new WebGLBufferRenderer( _gl, extensions, info, capabilities );
+        indexedBufferRenderer = new WebGLIndexedBufferRenderer( _gl, extensions, info, capabilities );
+
+        info.programs = programCache.programs;
+
+        _this.context = _gl;
+        _this.capabilities = capabilities;
+        _this.extensions = extensions;
+        _this.properties = properties;
+        _this.renderLists = renderLists;
+        _this.state = state;
+        _this.info = info;
+
+}
+```
+initGLContext() 方法中初始化了很多的组件，有的组件很容易就能看出来是作什么用的，而有的组件可能就没那么好知道意思，需要等到具体分析 render() 方法时，用到时再来理解。不过，虽然 initGLContext() 方法中看起来有很多的组件初始化，但实质这些组件也只是进行一个最基本的构造而已，没有进一步更深入的过程。因此，这里也粗略的看一下即可。
+
+#### 6、WebGLRenderer#render() 函数分析
+整个 render 的过程是十分复杂的，也是漫长的，需要我们耐心去看，去理解。先来简单过一下它的时序图。
+![](./assets/three/three-webgl-renderer-process.jpg)
+从时序图可见，其涉及到的相对象以及步骤是比较多的，共 20 步。其中涉及到的主要对象有：Scene, Camera, WebGLRenderStates, WebGLRenderLists, WebGLBackground, WebGLProgram, `_gl`, WebGLBufferRenderer。我们比较熟悉的是 Scene，因为我们的Object / Mesh 都是被添加到它里面的，另外还有 Camera，我们必须要有一个相机来告诉我们以怎么样的视角来观看这个 3D 世界。另外一些不熟悉的对象，WebGLRenderList 管理着我们需要拿去 render 的 Object / Mesh，WebGLBackground 描述了场景的背景，WebGLProgram 则创建了用于链接、执行 Shader 的程序，而 WebGLBufferRenderer 则是整个 3D 世界被 render 到的目的地。
+这里不会按照时序图，逐步逐步地进行分析，而是挑重点，同时保持与前面所述的 OpenGL ES 的流程一致性上进行分析。
+
+##### render() 函数
+```js
+this.render = function ( scene, camera, renderTarget, forceClear ) {
+    // 前面是一些参数的校验，这里省略
+    // 1.reset caching for this frame
+    ......
+    // 2.update scene graph
+
+    if ( scene.autoUpdate === true ) scene.updateMatrixWorld();
+
+    // 3.update camera matrices and frustum
+
+    if ( camera.parent === null ) camera.updateMatrixWorld();
+
+    .....
+
+    // 4. init WebGLRenderState
+
+    currentRenderState = renderStates.get( scene, camera );
+    currentRenderState.init();
+
+    scene.onBeforeRender( _this, scene, camera, renderTarget );
+    // 5.视景体矩阵计算，为相机的投影矩阵与相机的世界矩阵的逆矩阵的叉乘？
+    _projScreenMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+    _frustum.setFromMatrix( _projScreenMatrix );
+      
+    _localClippingEnabled = this.localClippingEnabled;
+    _clippingEnabled = _clipping.init( this.clippingPlanes, _localClippingEnabled, camera );
+   // 6.WebGLRenderList 的初始化
+    currentRenderList = renderLists.get( scene, camera );
+    currentRenderList.init();
+
+    projectObject( scene, camera, _this.sortObjects );
+
+    ......
+
+    // 7. shadow 的绘制
+
+    if ( _clippingEnabled ) _clipping.beginShadows();
+
+    var shadowsArray = currentRenderState.state.shadowsArray;
+
+    shadowMap.render( shadowsArray, scene, camera );
+
+    currentRenderState.setupLights( camera );
+
+    if ( _clippingEnabled ) _clipping.endShadows();
+
+    //
+
+    if ( this.info.autoReset ) this.info.reset();
+
+    if ( renderTarget === undefined ) {
+
+        renderTarget = null;
+
+    }
+
+    this.setRenderTarget( renderTarget );
+
+    // 8.背景的绘制
+
+    background.render( currentRenderList, scene, camera, forceClear );
+
+    // 9.render scene
+
+    var opaqueObjects = currentRenderList.opaque;
+    var transparentObjects = currentRenderList.transparent;
+
+    if ( scene.overrideMaterial ) {
+                    // 10.强制使用场景的材质 overrideMaterial 来统一 render 物体。
+        var overrideMaterial = scene.overrideMaterial;
+
+        if ( opaqueObjects.length ) renderObjects( opaqueObjects, scene, camera, overrideMaterial );
+        if ( transparentObjects.length ) renderObjects( transparentObjects, scene, camera, overrideMaterial );
+
+    } else {
+                    // 11.分别对 opaque 和 transparent 的物体进行 render
+        // opaque pass (front-to-back order)
+
+        if ( opaqueObjects.length ) renderObjects( opaqueObjects, scene, camera );
+
+        // transparent pass (back-to-front order)
+
+        if ( transparentObjects.length ) renderObjects( transparentObjects, scene, camera );
+
+    }
+
+    // Generate mipmap if we're using any kind of mipmap filtering
+            .....
+
+    // Ensure depth buffer writing is enabled so it can be cleared on next render
+
+    state.buffers.depth.setTest( true );
+    state.buffers.depth.setMask( true );
+    state.buffers.color.setMask( true );
+
+    state.setPolygonOffset( false );
+
+    scene.onAfterRender( _this, scene, camera );
+
+    ......
+    currentRenderList = null;
+    currentRenderState = null;
+
+};
+```
+
+
+
 
 
 

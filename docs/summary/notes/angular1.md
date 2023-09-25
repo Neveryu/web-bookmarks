@@ -1102,6 +1102,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http"
   "options": {
     "proxyConfig": "proxy.conf.json"
   },
+}
 ```
 
 ## 十五、NgRx

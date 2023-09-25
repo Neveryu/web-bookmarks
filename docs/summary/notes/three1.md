@@ -1,4 +1,4 @@
-# Three.js
+# Three.js开发指南（第3版）
 
 ::: tip 说明
 本节笔记来源：Three.js开发指南（第3版）
