@@ -1010,6 +1010,427 @@ this.render = function ( scene, camera, renderTarget, forceClear ) {
 
 };
 ```
+render() 是渲染的核心，粗略地看它做了大概以下的事情。
+
+1. reset caching for this frame。
+2. update scene graph。
+3. update camera matrices and frustum。
+4. init WebGLRenderState。
+5. 视景体矩阵计算，为相机的投影矩阵与相机的世界矩阵的逆矩阵的叉乘。
+6. WebGLRenderList 的初始化。
+7. shadow 的绘制。
+8. 背景的绘制。
+9. render scene。
+10. 如果overrideMaterial，则强制使用场景的材质 overrideMaterial 来统一 render 物体。
+11. 分别对 opaque 和 transparent 的物体进行 render。
+
+但这里我们不必关注每个处理的细节，仅从几个重要的点着手去理解以及分析。
+
+#### WebGLRenderList 的初始化
+WebGLRenderList 的初始化init()方法本身并没有什么，其只是在 WebGLRenderLists 中通过将 scene.id 和 camera.id 建立起一定的关联。而这里更重要的目的是确定有哪些对象是要被渲染出来的，这个最主要的实现就在 projectObject() 方法中。
+```js
+function projectObject( object, camera, sortObjects ) {
+  if ( object.visible === false ) return;
+  var visible = object.layers.test( camera.layers );
+  if ( visible ) {
+    // 是否为光照
+    if ( object.isLight ) {
+      currentRenderState.pushLight( object );
+      ......
+    } else if ( object.isSprite ) {
+      // 是否为精灵
+      if ( ! object.frustumCulled || _frustum.intersectsSprite( object ) ) {
+        ......
+        currentRenderList.push( object, geometry, material, _vector3.z, null );
+      }
+    } else if ( object.isImmediateRenderObject ) {
+      // 是否为立即要渲染的 Object
+      ......
+      currentRenderList.push( object, null, object.material, _vector3.z, null );
+    } else if ( object.isMesh || object.isLine || object.isPoints ) {
+      // 是否为 mesh,line,points 
+      ......
+      if ( ! object.frustumCulled || _frustum.intersectsObject( object ) ) {
+        ......
+        if ( Array.isArray( material ) ) {
+          var groups = geometry.groups;
+          for ( var i = 0, l = groups.length; i < l; i ++ ) {
+            ......
+            if ( groupMaterial && groupMaterial.visible ) {
+              currentRenderList.push( object, geometry, groupMaterial, _vector3.z, group );
+            }
+          }
+        } else if ( material.visible ) {
+          // 可见即可渲染
+          currentRenderList.push( object, geometry, material, _vector3.z, null );
+        }
+      }
+    }
+  }
+
+  // 对每个孩子进行递归遍历
+  var children = object.children;
+  for ( var i = 0, l = children.length; i < l; i ++ ) {
+    projectObject( children[ i ], camera, sortObjects );
+  }
+}
+```
+从方法中，我们大致得到如下结论：
+
+1、只有可见的光照，精灵，mesh，line，point 会被实际渲染出来。而如果我们只是 new 一个 Object3D 而被指到具体的 3D 对象上，那么理论上它是不会被渲染的。
+
+2、光照与其他 Object3D 不一样，它是另外单独被放在 currentRenderState 中的。
+
+3、对于整个要渲染的场景图利用递归进行遍历，以确保场景图中的每一个可渲染的 3D object 都可以被渲染出来。这里简单回顾一下，Sence 也是继承自 Object3D 的，而灯光以及可被渲染的 Object 都是作为它的孩子被加入到 Sence 中的。
+
+
+通过 WebGLRenderList 的初始化基本就确定了当前哪些 Object3D 对象是需要渲染的，接下来就是逐个 Object3D 的渲染了。
+
+#### renderObjects
+```js
+function renderObjects( renderList, scene, camera, overrideMaterial ) {
+  for ( var i = 0, l = renderList.length; i < l; i ++ ) {
+    var renderItem = renderList[ i ];
+    ......
+    if ( camera.isArrayCamera ) {
+      ......
+    } else {
+      _currentArrayCamera = null;
+      renderObject( object, scene, camera, geometry, material, group );
+    }
+  }
+}
+```
+renderObjects 就是遍历所有的 Object3D 对象，然后调用 renderObject() 方法进行进一步渲染。看来脏活都交给了 renderObject()。
+
+#### renderObject
+```js
+function renderObject( object, scene, camera, geometry, material, group ) {
+  ......
+  // 计算 mode view matrix 以及 normal matrix
+  object.modelViewMatrix.multiplyMatrices( camera.matrixWorldInverse, object.matrixWorld );
+  object.normalMatrix.getNormalMatrix( object.modelViewMatrix );
+  if ( object.isImmediateRenderObject ) {
+    ......
+  } else {
+    _this.renderBufferDirect( camera, scene.fog, geometry, material, object, group );
+  }
+  ......
+}
+```
+关于计算 mode view matrix 以及 normal matrix，这里我也不太看明白，所以我选择先跳过。先分析后面的步骤。这里不管是否 isImmediateRenderObject 其流程上差不太多，所以这里先分析 renderBufferDirect()。
+
+#### renderBufferDirect()方法
+```js
+this.renderBufferDirect = function ( camera, fog, geometry, material, object, group ) {
+  ......
+  // 1.通过WebGLState设置材质的一些属性
+  state.setMaterial( material, frontFaceCW );
+  // 2.设置 program
+  var program = setProgram( camera, fog, material, object );
+  ......
+  if ( updateBuffers ) {
+  // 3.设置顶点属性
+    setupVertexAttributes( material, program, geometry );
+    if ( index !== null ) {
+      // 4.绑定 buffer
+      _gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, attribute.buffer );
+    }
+  }
+  ......
+  // 5.根据不同网格类型确定相应的绘制模式
+  if ( object.isMesh ) {
+    if ( material.wireframe === true ) {
+      ......
+      renderer.setMode( _gl.LINES );
+    } else {
+      switch ( object.drawMode ) {
+        case TrianglesDrawMode:
+          renderer.setMode( _gl.TRIANGLES );
+          break;
+        case TriangleStripDrawMode:
+          renderer.setMode( _gl.TRIANGLE_STRIP );
+          break;
+        case TriangleFanDrawMode:
+          renderer.setMode( _gl.TRIANGLE_FAN );
+          break;
+      }
+    }
+  } else if ( object.isLine ) {
+    ......
+    if ( object.isLineSegments ) {
+      renderer.setMode( _gl.LINES );
+    } else if ( object.isLineLoop ) {
+      renderer.setMode( _gl.LINE_LOOP );
+    } else {
+      renderer.setMode( _gl.LINE_STRIP );
+    }
+  } else if ( object.isPoints ) {
+    renderer.setMode( _gl.POINTS );
+  } else if ( object.isSprite ) {
+    renderer.setMode( _gl.TRIANGLES );
+  }
+  if ( geometry && geometry.isInstancedBufferGeometry ) {
+    if ( geometry.maxInstancedCount > 0 ) {
+      renderer.renderInstances( geometry, drawStart, drawCount );
+    }
+  } else {
+    // 6.调用 WebGLBufferRenderer#render() 方法进行渲染
+    renderer.render( drawStart, drawCount );
+  }
+};
+```
+renderBufferDirect()方法是一个比较重要的方法，在这里可以看到一个物体被渲染的“最小完整流程”。
+
+1、通过WebGLState设置材质的一些属性。这个比较形象，因为整个 OpenGL / ES 它就是一个状态机。这里所设置的材质属性也是直接调用底层的 gl_xxx() 之类的方法。而这里实际就是设置了如 CULL_FACE，depthTest，depthWrite，colorWrite 等等。
+
+2、设置 program。
+```js
+function setProgram( camera, fog, material, object ) {
+  .....
+  .....
+  var materialProperties = properties.get( material );
+  var lights = currentRenderState.state.lights;
+  if ( material.needsUpdate ) {
+    initMaterial( material, fog, object );
+    material.needsUpdate = false;
+  }
+  ......
+  // 这里的 program 即 WebGLProgram，也就是我们在流程图中所说的创建程序
+  var program = materialProperties.program,
+    p_uniforms = program.getUniforms(),
+    m_uniforms = materialProperties.shader.uniforms;
+  if ( state.useProgram( program.program ) ) {
+    refreshProgram = true;
+    refreshMaterial = true;
+    refreshLights = true;
+  }
+  ......
+  p_uniforms.setValue( _gl, 'modelViewMatrix', object.modelViewMatrix );
+  p_uniforms.setValue( _gl, 'normalMatrix', object.normalMatrix );
+  p_uniforms.setValue( _gl, 'modelMatrix', object.matrixWorld );
+  return program;
+}
+```
+这个方法本身是很长的，这里省略了一万字....
+我们再来看看其主要所做的事情，这里的 program 就是 WebGLProgram。而想知道 program 具体是什么，这里就涉及到了 WebGLProgram 的初始化。
+
+```js
+function WebGLProgram( renderer, extensions, code, material, shader, parameters, capabilities ) {
+  var gl = renderer.context;
+  var defines = material.defines;
+  // 获取顶点 shader 以及片元 shader
+  var vertexShader = shader.vertexShader;
+  var fragmentShader = shader.fragmentShader;
+  ......
+  // 创建 program 
+  var program = gl.createProgram();
+  ......
+  // 构造最终用于进行渲染的 glsl，并且调用 WebGLShader 构造出 shader
+  var vertexGlsl = prefixVertex + vertexShader;
+  var fragmentGlsl = prefixFragment + fragmentShader;
+  // console.log( '*VERTEX*', vertexGlsl );
+  // console.log( '*FRAGMENT*', fragmentGlsl );
+  var glVertexShader = WebGLShader( gl, gl.VERTEX_SHADER, vertexGlsl );
+  var glFragmentShader = WebGLShader( gl, gl.FRAGMENT_SHADER, fragmentGlsl );
+  // 将 program 关联 shader
+  gl.attachShader( program, glVertexShader );
+  gl.attachShader( program, glFragmentShader );
+  ......
+  // 链接 program
+  gl.linkProgram( program );
+  ......
+}
+```
+program 的初始化方法也是非常多的，这里简化出关键部分。再回忆一下前面的流程图，就会明白这里主要就是创建 program、shader ，关联 program 和 shader，以及链接程序。链接好了程序之后接下来就可以通过 useProgram() 使用 program 了，这一步骤在 setProgram() 中创建好 program 就调用了。
+
+3、设置顶点属性，就是将我们在外面所构造的 geometry 的顶点送到 shader 中去。
+4、绑定 buffer。
+5、根据不同网格类型确定相应的绘制模式，如以 LINES 进行绘制，以TRIANGLES 进行绘制。
+6、调用 WebGLBufferRenderer#render() 方法进行渲染。如下，就是进行最后的 drawArrays() 调用，将上层创建的 geometry 以及 material(组合起来就叫做 mesh) 渲染到 3D 场景的 canvas 中。
+
+```js
+function render( start, count ) {
+  gl.drawArrays( mode, start, count );
+  info.update( count, mode );
+}
+```
+
+## 图形绘制基础
+WebGL 本质上也是在 canvas 上作画，只不过它基于是一个 3D 的场景。而在 ThreeJs 中，提供了一套 Shape 和 Curve 相关的 API 来帮助我们在 3D 场景中绘制出我们想要的图形。
+
+### 图形绘制主要流程
+图形绘制一般流程为：构造 Shape、构造 BufferGeometry 、构造 Mesh 并添加到场景中。
+
+#### 构造 Shape
+在构造 Shape 之前，我们先来了解一下 ThreeJs 中的图形绘制基础。
+
+图形绘制的基础有 3 个比较核心的类：Curve，Path 以及 Shape。如下是用于进行图形绘制的一个比较全局的类图。
+
+![](./assets/three/three-draw-img.jpg)
+
+在实际的开发过程中，我们一般使用 Shape 来绘制出我们想要的形状，和 canvas 一样，也可以绘制出矩形、三角形、直线、圆弧等，甚至可以一并绘制出更复杂的图形，如鱼形、剪刀等。
+
+而在上图中，Shape 继承自 Path，Path 又间接继承自 Curve，Path 封装了各种绘制图形的 API 接口，如 ：
+- lineTo: 绘制直线
+- quadraticCurveTo: 二次贝塞尔曲线
+- bezierCurveTo: 三次贝塞尔曲线
+- arc: 弧线
+- ellipse: 椭圆
+
+在 Path 的各种绘制 API 中，又是进一步构造相应的曲线，如 new 一个 LineCurve，CubicBezierCurve 等，从而完成曲线的构造。
+
+有了这些图形绘制的 API，在 3D 场景中，利用这些 API 不仅可以绘制 2D 的图形，还可以绘制 3D 的图形。上面类图中，`***Curve` 带后缀 3 的都是进行 3D 的图形绘制，其他自然就都是 2D 的绘制了。
+
+如下，我们利用 Bezier 来构造一个圆。关于如何用 Bezier 来构造圆，就不在这里展开了。
+```js
+var circleRadius = 40;
+var circleShape = new THREE.Shape();
+circleShape.moveTo( 0, circleRadius );
+
+circleShape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
+circleShape.quadraticCurveTo( circleRadius, - circleRadius, 0, - circleRadius );
+circleShape.quadraticCurveTo( - circleRadius, - circleRadius, - circleRadius, 0 );
+circleShape.quadraticCurveTo( - circleRadius, circleRadius, 0, circleRadius );
+```
+
+#### 构造 BufferGeometry
+上面通过 Shape 构造出了我们想要的图形，下一步我们需要获取图形的所有点，并从这些点构造 BufferGeometry。
+
+Shape 是间接继承自 Curve ，Curve 定义了 getPoints() 的基础。Shape 的 getPoints() 的具体实现在 CurvePath 中的实现，从而获取构造这个图形所需要的点。
+```js
+var points = shape.getPoints();
+var geometryPoints = new THREE.BufferGeometry().setFromPoints( subPoints );
+```
+
+#### 构造网格
+拿到 BufferGeometry 就可以构造出我们要的物体了。这里为了效果上表达明显一点，并且炫酷一点，就用 Line 逐段逐段绘制出了我们前面所构造的圆。
+
+实现代码如下：
+```js
+function addLineShape( shape, color, x, y, z, rx, ry, rz, s ) {
+  // lines
+  shape.autoClose = true;
+  var points = shape.getPoints();
+  console.log( "addLineShape ", points );
+  let length = points.length;
+  let val = 0;
+  function drawLine(  ) {
+    if(val == length) return;
+
+    let subPoints1 = points[val];
+    let subPoints2 = points[(val + 1) % length];
+
+    let subPoints = [];
+    subPoints.push(subPoints1);
+    subPoints.push(subPoints2);
+
+    var geometryPoints = new THREE.BufferGeometry().setFromPoints( subPoints );
+
+    // solid line
+
+    var line = new THREE.Line( geometryPoints, new THREE.LineBasicMaterial( { color: color } ) );
+    line.position.set( x, y, z );
+    line.rotation.set( rx, ry, rz );
+    line.scale.set( s, s, s );
+    scene.add( line );
+
+    val++;
+
+    setTimeout(drawLine,16);
+  }
+  drawLine();
+}
+```
+
+## 光和影
+光的基类是 Light，其是继承自 Object3D 的。它作为一个对象被添加进了 Scene 中，从而进行渲染的。影的基类是 LightShadow，它是作为光的内部类，供光照在内部进行阴影计算的，我们不能直接构造它。如图，并不是所有的光照都会产生阴影，是否会产生阴影与光照所具备的特性有关。
+![](./assets/three/three-light.jpg)
+
+### Light
+![](./assets/three/three-light-1.jpg)
+
+### AmbientLight
+![](./assets/three/three-light-2.jpg)
+
+### DirectionalLight
+![](./assets/three/three-light-3.jpg)
+
+### HemisphereLight
+![](./assets/three/three-light-4.jpg)
+
+### PointLight
+![](./assets/three/three-light-5.jpg)
+
+### RectAreaLight
+![](./assets/three/three-light-6.jpg)
+
+### SpotLight
+![](./assets/three/three-light-7.jpg)
+
+### 总结
+![](./assets/three/three-light-8.jpg)
+
+
+## 纹理
+渲染一个 3D 物体时，网格 Mesh 决定了这个物体的形状态，如一个球，一辆车，一个人等。而纹理决定了这个物体的表面具体长什么样子。一个球包上一层篮球的花纹就是篮球了，而如果包上的是一层足球的花纹那可能就是足球了。
+
+![](./assets/three/three-texture.jpg)
+
+纹理的基类是 Texture，一般我们都使用这个类，通过给其属性 Image 传入一个图片从而构造出一个纹理。纹理是材质的属性，材质和几何体 Gemotry 构成 Mesh ，然后被添加到 Scene 中进行渲染。纹理决定了物体的表面该是什么样子，而材质则决定了物体具备什么样的“气质”。后面还会再专门学习材质，下面再详细地看一看各个纹理的作用及其使用场景。
+
+
+### CanvasTexture
+CanvasTexture 主要是用于将 Dom 元素 `<canvas>` 中绘制的内容，以纹理的方式贴到模型上。在 canvas 中我们可以绘制任何我们想要绘制的图形或者文字。以下代码就是在 Canvas 中绘制文本，从而创建一个 CanvasTexture。
+
+### CompressedTexture
+压缩的纹理，基于被压缩的数据，创建一个纹理贴图，例如从一个DDS文件中
+
+### CubeTexture
+立方纹理，创建一个由6张图片所组成的纹理对象
+
+特性：一般用于环境贴图，一般由 CubeTextureLoader 来创建，创建时传入一个包括6张独立图片的数组
+
+### DataTexture
+数据纹理，直接从原始数据，宽度和高度创建纹理
+
+属性：data，用于构造纹理的数据，其类型必须是ArrayBufferView
+
+### DataTexture3D
+创建一个三维的纹理贴图，这种纹理贴图只能被用于webgl2 渲染环境中
+
+### DepthTexture
+创建一个作为深度纹理贴图来使用的纹理，需要支持WEBGL_depth_texture扩展。
+
+对于深度纹理贴图，这里首先要弄明白什么是深度图。深度图像包含了普通的RGB三通道彩色图像和Depth Map。而通俗的讲，深度就是每个像素距离当时相机所在位置的距离。
+
+### VideoTexture
+创建一个使用视频来作为贴图的纹理对象
+
+## 材质
+
+材质和纹理有那么一点微妙的关系，纹理决定了物体的表面，而材质则决定了物体的“气质”，比如说，反射度，光滑度，金属感，塑料感或者玻璃的模仿等。当然，在 ThreeJs 中，纹理想要被展示出来是要被依附在材质中的。
+
+![](./assets/three/three-material.jpg)
+
+[所有纹理全介绍](https://www.jianshu.com/p/f708c0930edd)
+
+## 场景和雾
+
+[ThreeJs 认识场景和雾](https://www.jianshu.com/p/c89b0c8d4123)
+
+
+## 相机
+
+[ThreeJs 认识相机](https://www.jianshu.com/p/6c5a69d5cbc1)
+
+## 核心类
+
+[ThreeJs 认识核心类](https://www.jianshu.com/p/389a9d0651be)
+
+## 补充
+
+[基于 Canvas 手撸一个六边形能力图](https://www.jianshu.com/p/122bd50bc42b)
 
 
 
