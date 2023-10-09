@@ -1,4 +1,4 @@
-# THREE 教程 【本文面向小白???】
+# THREE 知识体系梳理
 
 ## 如何系统的了解和学习 Three.js
 【准备资料】提前下载好一个你当前想使用的 [three.js 版本](https://github.com/mrdoob/three.js/releases) 到你的电脑本地来。
