@@ -1108,12 +1108,1007 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http"
 ## 十五、NgRx
 ### 15.1、概述
 NgRx 是 Angular 应用中实现全局状态管理的 Redux 架构解决方案。
+![](./assets/angular/ngrx/ngrx-0.png)
 
-<p style="color: green;">作者著：还没用到，先暂停更新</p>
+1. @ngrx/store：全局状态管理模块
+2. @ngrx/effects：处理副作用
+3. @ngrx/store-devtools：浏览器调试工具，需要依赖 Redux Devtools Extension
+4. @ngrx/schematics：命令行工具，快速生成 NgRx 文件
+5. @ngrx/entity：提高开发者在 Reducer 中操作数据的效率
+6. @ngrx/router-store：将路由状态同步到全局 Store
+
+### 15.2、快速开始
+1. 下载 NgRx
+```bash
+npm install @ngrx/store @ngrx/effects @ngrx/entity @ngrx/router-store @ngrx/store-devtools @ngrx/schematics
+```
+
+2. 配置 NgRx CLI
+
+默认情况下，Angular 的 CLI 工具是没有 `NgRx` 相关的命令的。配置了 `NgRx CLI` 工具以后，`NgRx` 的相关命令就可以使用了。就可以使用命令来创建 Store、Action、Reducer 之类等等。配置方法如下：
+```bash
+ng config cli.defaultCollection @ngrx/schematics
+```
+// or 在配置文件中自己手动配置
+```json
+// angular.json
+"cli": {
+  "defaultCollection": "@ngrx/schematics"
+}
+```
+
+3. 创建 Store
+```bash
+ng g store State --root --module app.module.ts --statePath store --stateInterface AppState
+```
+
+4. 创建 Action
+```bash
+ng g action store/actions/counter --skipTests
+```
+*`--skipTexts` 忽略测试文件（不创建测试文件）*
+
+```ts
+import { createAction } from "@ngrx/store"
+
+export const increment = createAction("increment")
+export const decrement = createAction("decrement")
+```
+
+5. 创建 Reducer
+```
+ng g reducer store/reducers/counter --skipTests --reducers=../index.ts
+```
+
+```ts
+import { createReducer, on } from "@ngrx/store"
+import { decrement, increment } from "../actions/counter.actions"
+
+export const counterFeatureKey = "counter"
+
+export interface State {
+  count: number
+}
+
+export const initialState: State = {
+  count: 0
+}
+
+export const reducer = createReducer(
+  initialState,
+  on(increment, state => ({ count: state.count + 1 })),
+  on(decrement, state => ({ count: state.count - 1 }))
+)
+```
+
+6. 创建 Selector
+用来从 Store 中获取数据的。为了把复杂的获取数据的过程从组件代码当中抽离出来。组件就可以从 Selector 当中获取想要的数据。（简化组件获取数据的流程）
+```bash
+ng g selector store/selectors/counter --skipTests
+```
+```ts
+// createFeatureSelector获取最外层的那个状态，createSelector是获取里层状态。
+import { createFeatureSelector, createSelector } from "@ngrx/store"
+import { counterFeatureKey, State } from "../reducers/counter.reducer"
+import { AppState } from ".."
+
+export const selectCounter = createFeatureSelector<AppState, State>(counterFeatureKey)
+// 先获取到selectCounter，才能获取里面的count。
+export const selectCount = createSelector(selectCounter, state => state.count)
+```
+
+7. 组件类触发 Action、获取状态
+```ts
+import { select, Store } from "@ngrx/store"
+import { Observable } from "rxjs"
+import { AppState } from "./store"
+import { decrement, increment } from "./store/actions/counter.actions"
+import { selectCount } from "./store/selectors/counter.selectors"
+
+export class AppComponent {
+  count: Observable<number>
+  constructor(private store: Store<AppState>) {
+    this.count = this.store.pipe(select(selectCount))
+  }
+  increment() {
+    this.store.dispatch(increment())
+  }
+  decrement() {
+    this.store.dispatch(decrement())
+  }
+}
+```
+
+8. 组件模板显示状态
+```html
+<button (click)="increment()">+</button>
+<span>{{ count | async }}</span>
+<button (click)="decrement()">-</button>
+```
+*`count` 是一个 Observable 类型数据， 通过 `async` 管道修饰符解析后才能读取 `count` 数据。*
+
+### 15.3、Action Payload
+> 如何在触发 action 的时候传递参数
+
+1. 在组件中使用 dispatch 触发 Action 时传递参数，参数最终会被放置在 Action 对象中。
+```ts
+this.store.dispatch(increment({ count: 5 }))
+```
+
+2. 在创建 Action Creator 函数时，获取参数并指定参数类型。
+```ts
+import { createAction, props } from "@ngrx/store"
+// 第二个参数是props方法的调用
+export const increment = createAction("increment", props<{ count: number }>())
+```
+
+```ts
+// 为什么props方法的调用要传入object类型，因为源码中是这样定义的：
+export declare function props<P extends object>(): Props<P>;
+```
+
+3. 在 Reducer 中通过 Action 对象获取参数。
+```ts
+export const reducer = createReducer(
+  initialState,
+  on(increment, (state, action) => ({ count: state.count + action.count }))
+)
+```
+
+### 15.4、MetaReducer
+metaReducer 是 Action -> Reducer 之间的钩子，允许开发者对 Action 进行预处理 (在普通 Reducer 函数调用之前调用)。
+> metaReducer是redux中，中间件的概念。当执行action的时候，会先执行metaReducer再执行reducer。
+> 虽然metaReducer是钩子函数，但它的名字是随意的。 
+```ts
+function debug(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function (state, action) {
+    return reducer(state, action)
+  }
+}
+
+export const metaReducers: MetaReducer<AppState>[] = !environment.production
+  ? [debug]
+  : []
+```
+第二个使用示例：
+```ts
+function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
+  return function (state, action) {
+    let result = reducer(state, action) // reducer返回的值其实就是最新的内容
+    console.log('上一次的状态: ', state)
+    console.log('action: ', action)
+    console.log('最新的状态: ', result)
+    return result
+  }
+}
+
+export const metaReducers: MetaReducer<AppState>[] = !environment.production
+  ? [logger]
+  : []
+```
+
+
+### 15.5、Effect（副作用）
+需求：在页面中新增一个按钮，点击按钮后延迟一秒让数值增加。
+
+1. 在组件模板中新增一个用于异步数值增加的按钮，按钮被点击后执行 increment_async 方法
+```html
+<button (click)="increment_async()">async</button>
+```
+
+2. 在组件类中新增 increment_async 方法，并在方法中触发执行异步操作的 Action
+```ts
+increment_async() {
+  this.store.dispatch(increment_async())
+}
+```
+
+3. 在 Action 文件中新增执行异步操作的 Action
+```ts
+export const increment_async = createAction("increment_async")
+```
+
+4. 创建 Effect，接收 Action 并执行副作用，继续触发 Action
+```
+ng g effect store/effects/counter --root --module app.module.ts --skipTests
+```
+Effect 功能由 @ngrx/effects 模块提供，所以在根模块中需要导入相关的模块依赖
+```ts
+import { Injectable } from "@angular/core"
+import { Actions, createEffect, ofType } from "@ngrx/effects"
+import { increment, increment_async } from "../actions/counter.actions"
+import { mergeMap, map } from "rxjs/operators"
+import { timer } from "rxjs"
+
+// createEffect
+// 用于创建 Effect, Effect 用于执行副作用.
+// 调用方法时传递回调函数, 回调函数中返回 Observable 对象, 对象中要发出副作用执行完成后要触发的 Action 对象
+// 回调函数的返回值在 createEffect 方法内部被继续返回, 最终返回值被存储在了 Effect 类的属性中
+// NgRx 在实例化 Effect 类后, 会订阅 Effect 类属性, 当副作用执行完成后它会获取到要触发的 Action 对象并触发这个 Action
+
+// Actions
+// 当组件触发 Action 时, Effect 需要通过 Actions 服务接收 Action, 所以在 Effect 类中通过 constructor 构造函数参数的方式将 Actions 服务类的实例对象注入到 Effect 类中
+// Actions 服务类的实例对象为 Observable 对象, 当有 Action 被触发时, Action 对象本身会作为数据流被发出
+
+// ofType
+// 对目标 Action 对象进行过滤，将你要操作的action过滤出来
+// 参数为目标 Action 的 Action Creator 函数
+// 如果未过滤出目标 Action 对象, 本次不会继续发送数据流
+// 如果过滤出目标 Action 对象, 会将 Action 对象作为数据流继续发出
+
+@Injectable()
+export class CounterEffects {
+  constructor(private actions: Actions) {
+    // this.loadCount.subscribe(console.log)
+  }
+  loadCount = createEffect(() => {
+    return this.actions.pipe(
+      ofType(increment_async),
+      mergeMap(() => timer(1000).pipe(map(() => increment({ count: 10 }))))
+      // mergeMap：合并Observable对象；
+    )
+  })
+}
+```
+
+### 15.6、Entity
+#### 15.6.1、概述
+Entity 译为实体（实体是面向对象当中的一个概念），实体就是集合中的一条数据。
+
+NgRx 中提供了实体适配器对象，在实体适配器对象下面提供了各种操作集合中实体的方法（增删改查），目的就是提高开发者操作实体的效率。
+
+*<font style="color: blue">下面列举一个正常情况下使用 ngrx action 的例子： 输入框敲击回车键后，过滤输入框内容，把输入框内容调用 addTodo action 来执行。</font>*
+
+```ts
+// app.component.ts
+export class AppComponent implements AfterViewInit {
+  @ViewChild('AddTodoInput') AddTodoInput!: ElementRef
+  todos: Observable<Todo[]>
+
+  constructor(private store: Store<AppState>) {
+    this.todos = this.store.pipe(select(selectTodos)) // 用于展示
+  }
+
+  ngAfterViewInit() {
+    // 输入框增加回车事件，添加一条数据
+    fromEvent<KeyboardEvent>(this.AddTodoInput.nativeElement, "keyup")
+      .pipe(
+        filter(event => event.key === 'Enter'),
+        map(event => (<HTMLInputElement>event.target).value),
+        map(title => title.trim()),
+        filter(title => title !== '')
+      ).subscribe(title => {
+        this.store.dispatch(addTodo({ title }))
+        this.AddTodoInput.nativeElement.value = ''
+      })
+  }
+  deleteTodo(id) {
+    this.store.dispatch(deleteTodo({id}))
+  }
+}
+```
+
+```html
+<ul class="list-group">
+  <li *ngFor="let todo of todos | async" class="list-group-item d-flex">
+    {{ todo.title }}
+    <button type="button" class="btn btn-danger" (click)="deleteTodo(todo.id)">删除</button>
+  </li>
+</ul>
+```
+
+*<font style="color: blue">下面我们来加入Entity简化实体操作</font>*
+
+#### 15.6.2、核心
+1. EntityState：实体类型接口
+```ts
+/*
+  {
+    ids: [1, 2],
+    entities: {
+      1: { id: 1, title: "Hello Angular" },
+      2: { id: 2, title: "Hello NgRx" }
+    }
+  }
+*/
+export interface State extends EntityState<Todo> {}
+```
+存储数据的格式要符合要求：
+```ts
+{
+  ids: Array,
+  entities: Object
+}
+```
+
+2. createEntityAdapter： 创建实体适配器对象。（使用 `createEntityAdapter` 来创建实体适配器对象）
+```ts
+export const adapter: EntityAdapter<Todo> = createEntityAdapter<Todo>()
+```
+
+3. EntityAdapter：实体适配器对象类型接口
+```ts
+export const adapter: EntityAdapter<Todo> = createEntityAdapter<Todo>()
+
+// 获取初始状态，可以传递对象参数，也可以不传
+export const initialState: State = adapter.getInitialState()
+// 会返回一个类似这样格式的对象
+// {ids: [], entities: {}}
+```
+
+完整代码：
+```ts
+// todo.reducer.ts
+
+export interface Todo {
+  id: string,
+  title: string
+}
+
+// 定义数据类型由原来的
+export interface State {
+  todos: Todo[]
+}
+// 改为实体接口类型
+export interface State extends EntityState<Todo> {}
+
+// 创建实体
+export const adapter: EntityAdapter<Todo> = createEntityAdapter<Todo>()
+
+// 初始化数据由原来的
+export const initialState: State = {
+  todos: []
+}
+// 改为
+export const initialState: State = adapter.getInitialState()
+
+// 添加/删除数据代码由原来的
+export const reducer = createReducer(
+  initialState,
+  on(addTodo, (state, action) => ({
+    ...state,
+    todos: [
+      ...state.todos,
+      {
+        id: uuidv4(),
+        title: action.title
+      }
+    ]
+  })),
+  on(deleteTodo, (state, action) => {
+    const newState: State = JSON.parse(JSON.stringify(state))
+    const index = newState.todos.findIndex(todo => todo.id === action.id)
+    newState.todos.splice(index, 1)
+    return newState
+  })
+)
+// 改为：
+export const reducer = createReducer(
+  initialState,
+  on(addTodo, (state, action) => 
+    adapter.addOne({ id: uuidv4(), title: action.title }, state) // addOne第一个参数是添加的数据，第二个参数是往哪添加
+  ),
+  on(deleteTodo, (state, action) => adapter.removeOne(action.id, state)) // removeOne第一个参数是要删除的数据id，第二个参数是从哪里面删除
+)
+```
+
+#### 15.6.3、实例方法
+adapter 有哪些方法：
+
+[https://ngrx.io/guide/entity/adapter#adapter-collection-methods](https://ngrx.io/guide/entity/adapter#adapter-collection-methods)
+
+#### 15.6.4、选择器
+```ts
+// selectTotal 获取数据条数
+// selectAll 获取所有数据 以数组形式呈现
+// selectEntities 获取实体集合 以字典形式呈现
+// selectIds 获取id集合, 以数组形式呈现
+const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors();
+```
+
+```ts
+export const selectTodo = createFeatureSelector<AppState, State>(todoFeatureKey)
+
+// 由原来的
+export const selectTodos = createSelector(selectTodo, state => state.todos)
+// 改为
+export const selectTodos = createSelector(selectTodo, selectAll)
+
+// 其他可扩展的更多写法还有如下，看你自己的需求
+export const selectTodos = createSelector(selectTodo, selectIds)
+export const selectTodos = createSelector(selectTodo, selectEntities)
+export const selectTodos = createSelector(selectTodo, selectTotal)
+```
+
+### 15.7、Router Store
+#### 15.7.1、同步路由状态
+1. 引入模块
+```ts
+import { StoreRouterConnectingModule } from "@ngrx/router-store"
+
+@NgModule({
+  imports: [
+    StoreRouterConnectingModule.forRoot()
+  ]
+})
+export class AppModule {}
+```
+
+2. 将路由状态集成到 Store
+```ts
+import * as fromRouter from "@ngrx/router-store"
+
+export interface AppState {
+  router: fromRouter.RouterReducerState
+}
+export const reducers: ActionReducerMap<AppState> = {
+  router: fromRouter.routerReducer
+}
+```
+
+#### 15.7.2、创建获取路由状态的 Selector
+```ts
+// router.selectors.ts
+import { createFeatureSelector } from "@ngrx/store"
+import { AppState } from ".."
+import { RouterReducerState, getSelectors } from "@ngrx/router-store"
+
+// 创建获取路由状态的 Selector
+const selectRouter = createFeatureSelector<AppState, RouterReducerState>(
+  "router"
+)
+
+export const {
+  // 获取和当前路由相关的信息 (路由参数、路由配置等)
+  selectCurrentRoute,
+  // 获取地址栏中 # 号后面的内容
+  selectFragment,
+  // 获取路由查询参数
+  selectQueryParams,
+  // 获取具体的某一个查询参数 selectQueryParam('name')
+  selectQueryParam,
+  // 获取动态路由参数
+  selectRouteParams,
+  // 获取某一个具体的动态路由参数 selectRouteParam('name')
+  selectRouteParam,
+  // 获取路由自定义数据
+  selectRouteData,
+  // 获取路由的实际访问地址
+  selectUrl
+} = getSelectors(selectRouter)
+```
+```ts
+// home.component.ts
+import { select, Store } from "@ngrx/store"
+import { AppState } from "src/app/store"
+// 调用router.selectors.ts中导出的功能/方法
+import { selectQueryParams, selectCurrentRoute } from "src/app/store/selectors/router.selectors"
+
+export class AboutComponent {
+  constructor(private store: Store<AppState>) {
+    this.store.pipe(select(selectCurrentRoute)).subscribe(console.log) // 会打印出当前route的数据信息
+    this.store.pipe(select(selectQueryParams)).subscribe(console.log) // 会打印出路由查询参数
+  }
+}
+```
 
 ## 十六、动画
-### 16.1、状态
-#### 16.6.1、什么是状态
-状态表示的是要进行运动的元素在运动的不同时期所呈现的样式。
+![](./assets/angular/animation/animation-1.gif)
 
-<p style="color: green;">作者著：还没用到，先暂停更新</p>
+在实现动画之前，我们需要先来了解一个概念：<font style="color: red">状态。</font>
+
+### 16.1、状态
+#### 16.1.1、什么是状态
+状态表示的是要进行运动的元素在运动的不同时期所呈现的样式。
+![](./assets/angular/animation/animation-2.png)
+
+#### 16.1.2、状态的种类
+在 Angular 中，有三种类型的状态，分别为：`void`、 `*`、 `custom`
+![](./assets/angular/animation/animation-3.png)
+
+`void`：当元素在内存中创建好但尚未被添加到 DOM 中或将元素从 DOM 中删除时会发生此状态。
+
+`*`：元素被插入到 DOM 树之后的状态，或者是已经在DOM树中的元素的状态，也叫默认状态。
+
+`custom`：自定义状态，元素默认就在页面之中，从一个状态运动到另一个状态，比如面板的折叠和展开。
+
+#### 16.1.3、进出场动画
+进场动画是指元素被创建后以动画的形式出现在用户面前，进场动画的状态用 `void => *` 表示，别名为 `:enter`
+![](./assets/angular/animation/animation-4.png)
+
+出场动画是指元素在被删除前执行的一段告别动画，出场动画的状态用 `* => void`，别名为 `:leave`
+![](./assets/angular/animation/animation-5.png)
+
+### 16.2、快速上手
+1. 在使用动画功能之前，需要引入动画模块，即 BrowserAnimationsModule
+```ts
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
+
+@NgModule({
+  imports: [BrowserAnimationsModule],
+})
+export class AppModule {}
+```
+
+2. 默认代码解析，todo 之[删除任务] 和 [添加任务]
+```html
+<!-- 在 index.html 文件中引入 bootstrap.min.css -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
+```
+
+```html
+<div class="container">
+  <h2>Todos</h2>
+  <div class="form-group">
+    <input (keyup.enter)="addItem(input)" #input type="text" class="form-control" placeholder="add todos" />
+  </div>
+  <ul class="list-group">
+    <li (click)="removeItem(i)" *ngFor="let item of todos; let i = index" class="list-group-item">
+      {{ item }}
+    </li>
+  </ul>
+</div>
+```
+
+```ts
+import { Component } from "@angular/core"
+
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styles: []
+})
+export class AppComponent {
+  // todo 列表
+  todos: string[] = ["Learn Angular", "Learn RxJS", "Learn NgRx"]
+  // 添加 todo
+  addItem(input: HTMLInputElement) {
+    this.todos.push(input.value)
+    input.value = ""
+  }
+  // 删除 todo
+  removeItem(index: number) {
+    this.todos.splice(index, 1)
+  }
+}
+
+```
+
+3. 创建动画
+
+    1. trigger 方法用于创建动画，指定动画名称。
+    2. transition 方法用于指定动画的运动状态，出场动画或者入场动画，或者自定义状态动画。
+    3. style 方法用于设置元素在不同的状态下所对应的样式。
+    4. animate 方法用于设置运动参数，比如动画运动时间，延迟事件，运动形式。
+
+在哪里定义动画呢，在组件的 `@Component` 装饰器中，有一个属性叫做 animations。    
+```ts
+@Component({
+  animations: [
+    // 创建动画, 动画名称为 slide
+    trigger("slide", [
+      // 指定入场动画 注意: 字符串两边不能有空格, 箭头两边可以有也可以没有空格
+      // void => * 可以替换为 :enter
+      transition("void => *", [
+        // 指定元素未入场前的样式
+        style({ opacity: 0, transform: "translateY(40px)" }),
+        // 指定元素入场后的样式及运动参数
+        animate(250, style({ opacity: 1, transform: "translateY(0)" }))
+      ]),
+      // 指定出场动画
+      // * => void 可以替换为 :leave
+      transition("* => void", [
+        // 指定元素出场后的样式和运动参数
+        animate(600, style({ opacity: 0, transform: "translateX(100%)" }))
+      ])
+    ])
+  ]
+})
+```
+注意：入场动画中可以不指定元素的默认状态，Angular 会将 void 状态清空作为默认状态
+```ts
+trigger("slide", [
+  transition(":enter", [
+    style({ opacity: 0, transform: "translateY(40px)" }),
+    animate(250)
+  ]),
+  transition(":leave", [
+    animate(600, style({ opacity: 0, transform: "translateX(100%)" }))
+  ])
+])
+```
+注意：要设置动画的运动参数，需要将 animate 方法的第一个参数更改为字符串类型
+```ts
+// 参数顺序： 动画执行总时间 延迟时间 (可选) 运动形式 (可选)
+animate("600ms 1s ease-out", style({ opacity: 0, transform: "translateX(100%)" }))
+```
+
+### 16.3、关键帧动画
+关键帧动画使用 keyframes 方法定义
+```ts
+transition(":leave", [
+  animate(
+    600,
+    keyframes([
+      style({ offset: 0.3, transform: "translateX(-80px)" }), // 帧位置offset取值范围：0.1 - 1
+      style({ offset: 1, transform: "translateX(100%)" })
+    ])
+  )
+])
+```
+
+### 16.4、动画回调
+Angular 提供了和动画相关的两个回调函数，分别为【动画开始执行时的回调函数】和【动画执行完成后的回调函数】
+```html
+<li @slide (@slide.start)="start($event)" (@slide.done)="done($event)"></li>
+```
+
+```ts
+import { AnimationEvent } from "@angular/animations"
+
+start(event: AnimationEvent) {
+  console.log(event)
+}
+done(event: AnimationEvent) {
+  console.log(event)
+}
+```
+
+### 16.5、创建可重用动画
+如果只在当前组件的 `@Component` 中定义动画，这个动画只有当前组件可以调用；如果想在其他组件中也调用这个动画，该怎么做呢？
+
+1. 将动画的定义放置在单独的文件中，方便多组件调用。
+```ts
+import { animate, keyframes, style, transition, trigger } from "@angular/animations"
+
+export const slide = trigger("slide", [
+  transition(":enter", [
+    style({ opacity: 0, transform: "translateY(40px)" }),
+    animate(250)
+  ]),
+  transition(":leave", [
+    animate(
+      600,
+      keyframes([
+        style({ offset: 0.3, transform: "translateX(-80px)" }),
+        style({ offset: 1, transform: "translateX(100%)" })
+      ])
+    )
+  ])
+])
+```
+
+```ts
+import { slide } from "./animations"
+
+@Component({
+  animations: [slide]
+})
+```
+
+2. 抽取具体的动画定义，方便多动画调用。
+> 使用 animation 方法来抽取动画的定义；使用 useAnimation 来调用 animation 定义的动画。
+```ts
+import {animate, animation, keyframes, style, transition, trigger, useAnimation} from "@angular/animations"
+
+export const slideInUp = animation([
+  style({ opacity: 0, transform: "translateY(40px)" }),
+  animate(250)
+])
+
+export const slideOutLeft = animation([
+  animate(
+    600,
+    keyframes([
+      style({ offset: 0.3, transform: "translateX(-80px)" }),
+      style({ offset: 1, transform: "translateX(100%)" })
+    ])
+  )
+])
+
+export const slide = trigger("slide", [
+  transition(":enter", useAnimation(slideInUp)),
+  transition(":leave", useAnimation(slideOutLeft))
+])
+
+```
+
+3. 调用动画时传递运动总时间，延迟时间，运动形式
+> 之前的示例中的动画时间，延迟时间，运动形式都是写死的；可以使用参数 `params` 来定义默认值，并支持传入这些值。
+```ts
+export const slideInUp = animation(
+  [
+    style({ opacity: 0, transform: "translateY(40px)" }),
+    animate("{{ duration }} {{ delay }} {{ easing }}")
+  ],
+  {
+    params: {
+      duration: "400ms",
+      delay: "0s",
+      easing: "ease-out"
+    }
+  }
+)
+```
+
+```ts
+transition(":enter", useAnimation(slideInUp, {params: {delay: "1s"}}))
+```
+
+### 16.6、查询元素执行动画
+Angular 中提供了 query 方法查找元素并为元素创建动画
+```ts
+import { slide } from "./animations"
+
+animations: [
+  slide,
+  trigger("todoAnimations", [
+    transition(":enter", [
+      query("h2", [ // query查询的是子元素，所以todoAnimations要放在h2的父元素上
+        style({ transform: "translateY(-30px)" }),
+        animate(300)
+      ]),
+      // 查询子级动画，使其执行，否则子级动画不会执行
+      query("@slide", animateChild())
+    ])
+  ])
+]
+
+```
+
+```html
+<div class="container" @todoAnimations>
+  <h2>Todos</h2>
+  <ul class="list-group">
+    <li
+      @slide
+      (click)="removeItem(i)"
+      *ngFor="let item of todos; let i = index"
+      class="list-group-item"
+    >
+      {{ item }}
+    </li>
+  </ul>
+</div>
+```
+
+默认情况下，父级动画和子级动画按照顺序执行，先执行父级动画，再执行子级动画，可以使用 group(编组) 方法让其并行。
+
+```ts
+trigger("todoAnimations", [
+  transition(":enter", [
+    group([
+      query("h2", [
+        style({ transform: "translateY(-30px)" }),
+        animate(300)
+      ]),
+      query("@slide", animateChild())
+    ])
+  ])
+])
+```
+
+### 16.7、交错动画
+Angular 提供了 stagger 方法，在**多个元素同时执行同一个动画**时，让每个元素动画的执行依次延迟。
+```ts
+transition(":enter", [
+  group([
+    query("h2", [
+      style({ transform: "translateY(-30px)" }),
+      animate(300)
+    ]),
+    query("@slide", stagger(200, animateChild()))
+  ])
+])
+```
+> 注意：stagger 方法只能在 query 方法内部使用。
+
+### 16.8、自定义状态动画
+Angular 提供了 state 方法用于定义状态。
+![](./assets/angular/animation/animation-6.gif)
+
+1. 默认代码解析
+```html
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading" (click)="toggle()">
+      一套框架, 多种平台, 移动端 & 桌面端
+    </div>
+    <div class="panel-body">
+      <p>
+        使用简单的声明式模板，快速实现各种特性。使用自定义组件和大量现有组件，扩展模板语言。在几乎所有的
+        IDE 中获得针对 Angular
+        的即时帮助和反馈。所有这一切，都是为了帮助你编写漂亮的应用，而不是绞尽脑汁的让代码“能用”。
+      </p>
+      <p>
+        从原型到全球部署，Angular 都能带给你支撑 Google
+        大型应用的那些高延展性基础设施与技术。
+      </p>
+      <p>
+        通过 Web Worker 和服务端渲染，达到在如今(以及未来）的 Web
+        平台上所能达到的最高速度。 Angular 让你有效掌控可伸缩性。基于
+        RxJS、Immutable.js 和其它推送模型，能适应海量数据需求。
+      </p>
+      <p>
+        学会用 Angular
+        构建应用，然后把这些代码和能力复用在多种多种不同平台的应用上 ——
+        Web、移动 Web、移动应用、原生应用和桌面原生应用。
+      </p>
+    </div>
+  </div>
+</div>
+<style>
+  .container {
+    margin-top: 100px;
+  }
+  .panel-heading {
+    cursor: pointer;
+  }
+</style>
+```
+
+```ts
+import { Component } from "@angular/core"
+
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styles: []
+})
+export class AppComponent {
+  isExpended: boolean = false
+  toggle() {
+    this.isExpended = !this.isExpended
+  }
+}
+```
+
+2. 创建动画
+```ts
+trigger("expandCollapse", [
+  // 使用 state 方法定义折叠状态元素对应的样式
+  state(
+    "collapsed",
+    style({
+      height: 0,
+      overflow: "hidden",
+      paddingTop: 0,
+      paddingBottom: 0
+    })
+  ),
+  // 使用 state 方法定义展开状态元素对应的样式
+  state("expanded", style({ height: "*", overflow: "auto" })),
+  // 定义展开动画
+  transition("collapsed => expanded", animate("400ms ease-out")),
+  // 定义折叠动画
+  transition("expanded => collapsed", animate("400ms ease-in"))
+])
+```
+
+```html
+<div class="panel-body" [@expandCollapse]="isExpended ? 'expanded' : 'collapsed'"></div>
+```
+
+### 16.9、路由动画
+![](./assets/angular/animation/animation-7.gif)
+
+1. 为路由添加状态标识，此标识即为路由执行动画时的自定义状态
+```ts
+const routes: Routes = [
+  {
+    path: "",
+    component: HomeComponent,
+    pathMatch: "full",
+    data: {
+      animation: "one" 
+    }
+  },
+  {
+    path: "about",
+    component: AboutComponent,
+    data: {
+      animation: "two"
+    }
+  },
+  {
+    path: "news",
+    component: NewsComponent,
+    data: {
+      animation: "three"
+    }
+  }
+]
+```
+
+2. 通过路由插座对象获取路由状态标识，并将标识传递给动画的调用者，让动画执行当前要执行的状态是什么
+```html
+<div class="routerContainer" [@routerAnimations]="prepareRoute(outlet)">
+  <!-- outlet是路由插座实例对象，上面行就可以使用outlet了 -->
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>
+```
+
+```ts
+import { RouterOutlet } from "@angular/router"
+
+export class AppComponent {
+  prepareRoute(outlet: RouterOutlet) {
+    return (
+      outlet &&
+      outlet.activatedRouteData &&
+      outlet.activatedRouteData.animation
+    )
+  }
+}
+```
+
+3. 将 routerContainer 设置为相对定位，将它的直接一级子元素设置成绝对定位
+```css
+/* styles.css */
+.routerContainer {
+  position: relative;
+}
+
+.routerContainer > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+```
+
+4. 创建动画
+```ts
+trigger("routerAnimations", [
+  transition("one => two, one => three, two => three", [
+    query(":enter", style({ transform: "translateX(100%)", opacity: 0 })),
+    group([
+      query(
+        ":enter",
+        animate(
+          "0.4s ease-in",
+          style({ transform: "translateX(0)", opacity: 1 })
+        )
+      ),
+      query(
+        ":leave",
+        animate(
+          "0.4s ease-out",
+          style({
+            transform: "translateX(-100%)",
+            opacity: 0
+          })
+        )
+      )
+    ])
+  ]),
+  transition("three => two, three => one, two => one", [
+    query(
+      ":enter",
+      style({ transform: "translateX(-100%)", opacity: 0 })
+    ),
+    group([
+      query(
+        ":enter",
+        animate(
+          "0.4s ease-in",
+          style({ transform: "translateX(0)", opacity: 1 })
+        )
+      ),
+      query(
+        ":leave",
+        animate(
+          "0.4s ease-out",
+          style({
+            transform: "translateX(100%)",
+            opacity: 0
+          })
+        )
+      )
+    ])
+  ])
+])
+```
+
+------------【完】---------------
+
