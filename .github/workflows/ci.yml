@@ -30,7 +30,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '16.x'
 
       - name: Install and Build
         run: yarn && yarn build
