@@ -6,13 +6,12 @@ module.exports = {
   description: "前端工程师知识技能储备库",
   base: "/web-bookmarks/",
   plugins: [
-    "@vuepress/back-to-top",
-    "@vuepress/pwa",
-    {
+    ["@vuepress/back-to-top"],
+    ["@vuepress/pwa", {
       serviceWorker: true,
       popupComponent: "MySWUpdatePopup",
       updatePopup: true,
-    },
+    }]
   ],
   head: [
     ["link", { rel: "icon", href: "/favicon.ico" }],
