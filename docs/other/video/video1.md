@@ -1,7 +1,7 @@
-# 视频
+# 《寄生虫》
 
-::: tip
-《寄生虫》
+::: tip 简介
+《寄生虫》 - 奉俊昊 - 韩国
 :::
 
 <video controls="controls" preload="auto" style="max-width: 100%;">

@@ -51,12 +51,12 @@ module.exports = {
       {
         text: "基础",
         items: [
-          { text: "HTML", link: "/base/html/" },
-          { text: "CSS", link: "/base/css/" },
-          { text: "JavaScript", link: "/base/javascript/" },
-          { text: "Color", link: "/base/color/" },
-          { text: "正则", link: "/base/regx/" },
-          { text: "名词释义", link: "/base/word-interpretation/" },
+          { text: "HTML", link: "/base/html/a1" },
+          { text: "CSS", link: "/base/css/a1" },
+          { text: "JavaScript", link: "/base/javascript/a1" },
+          { text: "Color", link: "/base/color/a1" },
+          { text: "正则", link: "/base/regx/a1" },
+          { text: "名词释义", link: "/base/word-interpretation/a1" },
         ],
       },
 
