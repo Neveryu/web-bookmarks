@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>sass、Compass 安装使用 | web-bookmarks</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/web-bookmarks/favicon.ico">
+    <link rel="manifest" href="/web-bookmarks/manifest.json">
+    <link rel="apple-touch-icon" href="/web-bookmarks/icons/apple-touch-icon-152x152.png">
+    <link rel="mask-icon" href="/web-bookmarks/icons/safari-pinned-tab.svg" color="#3eaf7c">
+    <meta name="description" content="前端工程师知识技能储备库">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-TileImage" content="/icons/msapplication-icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    
+    <link rel="preload" href="/web-bookmarks/assets/css/0.styles.9db6d48b.css" as="style"><link rel="preload" href="/web-bookmarks/assets/js/app.fc0ecec0.js" as="script"><link rel="preload" href="/web-bookmarks/assets/js/2.4dc64ba3.js" as="script"><link rel="preload" href="/web-bookmarks/assets/js/1.2109ca04.js" as="script"><link rel="preload" href="/web-bookmarks/assets/js/149.8dc39d4c.js" as="script"><link rel="prefetch" href="/web-bookmarks/assets/js/10.6dff66c1.js"><link rel="prefetch" href="/web-bookmarks/assets/js/100.6c034008.js"><link rel="prefetch" href="/web-bookmarks/assets/js/101.3876b4b9.js"><link rel="prefetch" href="/web-bookmarks/assets/js/102.0a03f89b.js"><link rel="prefetch" href="/web-bookmarks/assets/js/103.42b0821e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/104.0a91aea0.js"><link rel="prefetch" href="/web-bookmarks/assets/js/105.180edbe3.js"><link rel="prefetch" href="/web-bookmarks/assets/js/106.294791e3.js"><link rel="prefetch" href="/web-bookmarks/assets/js/107.594c77be.js"><link rel="prefetch" href="/web-bookmarks/assets/js/108.d7e65c9e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/109.8d10ea6c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/11.a6c9068e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/110.1bc2bb08.js"><link rel="prefetch" href="/web-bookmarks/assets/js/111.2dfa13ef.js"><link rel="prefetch" href="/web-bookmarks/assets/js/112.8dfcff54.js"><link rel="prefetch" href="/web-bookmarks/assets/js/113.b06d4ded.js"><link rel="prefetch" href="/web-bookmarks/assets/js/114.565afcb2.js"><link rel="prefetch" href="/web-bookmarks/assets/js/115.7f6c3c3c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/116.75a1e2d5.js"><link rel="prefetch" href="/web-bookmarks/assets/js/117.fbd0754e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/118.f42ac068.js"><link rel="prefetch" href="/web-bookmarks/assets/js/119.bcb3e0d8.js"><link rel="prefetch" href="/web-bookmarks/assets/js/12.36ee7c6c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/120.457bd54e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/121.2d1ee41d.js"><link rel="prefetch" href="/web-bookmarks/assets/js/122.5f5e79b0.js"><link rel="prefetch" href="/web-bookmarks/assets/js/123.ff636e96.js"><link rel="prefetch" href="/web-bookmarks/assets/js/124.95ff7a51.js"><link rel="prefetch" href="/web-bookmarks/assets/js/125.9d407f2a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/126.446bac21.js"><link rel="prefetch" href="/web-bookmarks/assets/js/127.895e14d3.js"><link rel="prefetch" href="/web-bookmarks/assets/js/128.4fbcfff6.js"><link rel="prefetch" href="/web-bookmarks/assets/js/129.3af762eb.js"><link rel="prefetch" href="/web-bookmarks/assets/js/13.1d41021e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/130.32143b6c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/131.883056ce.js"><link rel="prefetch" href="/web-bookmarks/assets/js/132.c3701cdb.js"><link rel="prefetch" href="/web-bookmarks/assets/js/133.e0d91ee0.js"><link rel="prefetch" href="/web-bookmarks/assets/js/134.fdc52b40.js"><link rel="prefetch" href="/web-bookmarks/assets/js/135.6c2f57a3.js"><link rel="prefetch" href="/web-bookmarks/assets/js/136.4661be4c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/137.2f9561b7.js"><link rel="prefetch" href="/web-bookmarks/assets/js/138.8c6fe740.js"><link rel="prefetch" href="/web-bookmarks/assets/js/139.67597042.js"><link rel="prefetch" href="/web-bookmarks/assets/js/14.4e18a29a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/140.e37483ca.js"><link rel="prefetch" href="/web-bookmarks/assets/js/141.5beb88ed.js"><link rel="prefetch" href="/web-bookmarks/assets/js/142.c1ee1358.js"><link rel="prefetch" href="/web-bookmarks/assets/js/143.dafb98cb.js"><link rel="prefetch" href="/web-bookmarks/assets/js/144.dde1f3fc.js"><link rel="prefetch" href="/web-bookmarks/assets/js/145.7cde9954.js"><link rel="prefetch" href="/web-bookmarks/assets/js/146.fcd394ad.js"><link rel="prefetch" href="/web-bookmarks/assets/js/147.90a5fc14.js"><link rel="prefetch" href="/web-bookmarks/assets/js/148.0fcd7a63.js"><link rel="prefetch" href="/web-bookmarks/assets/js/15.5ea75de4.js"><link rel="prefetch" href="/web-bookmarks/assets/js/150.23df5e05.js"><link rel="prefetch" href="/web-bookmarks/assets/js/151.9475faf9.js"><link rel="prefetch" href="/web-bookmarks/assets/js/152.03417773.js"><link rel="prefetch" href="/web-bookmarks/assets/js/153.e1687f19.js"><link rel="prefetch" href="/web-bookmarks/assets/js/154.9cea13c8.js"><link rel="prefetch" href="/web-bookmarks/assets/js/155.c77a2adf.js"><link rel="prefetch" href="/web-bookmarks/assets/js/156.aa9a42f9.js"><link rel="prefetch" href="/web-bookmarks/assets/js/157.0897c529.js"><link rel="prefetch" href="/web-bookmarks/assets/js/158.e6f21a3c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/159.24bb0bae.js"><link rel="prefetch" href="/web-bookmarks/assets/js/16.11cc0ddc.js"><link rel="prefetch" href="/web-bookmarks/assets/js/160.b61ca2c5.js"><link rel="prefetch" href="/web-bookmarks/assets/js/161.65243789.js"><link rel="prefetch" href="/web-bookmarks/assets/js/162.ad9a7dc9.js"><link rel="prefetch" href="/web-bookmarks/assets/js/163.83500633.js"><link rel="prefetch" href="/web-bookmarks/assets/js/164.f6870e02.js"><link rel="prefetch" href="/web-bookmarks/assets/js/165.6918e26b.js"><link rel="prefetch" href="/web-bookmarks/assets/js/166.f48408e7.js"><link rel="prefetch" href="/web-bookmarks/assets/js/167.5266695a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/168.fedd7981.js"><link rel="prefetch" href="/web-bookmarks/assets/js/169.53c33653.js"><link rel="prefetch" href="/web-bookmarks/assets/js/17.6e198f06.js"><link rel="prefetch" href="/web-bookmarks/assets/js/170.bd6ae6ec.js"><link rel="prefetch" href="/web-bookmarks/assets/js/171.adcc1486.js"><link rel="prefetch" href="/web-bookmarks/assets/js/172.9ae3d3d0.js"><link rel="prefetch" href="/web-bookmarks/assets/js/173.bc3b7a88.js"><link rel="prefetch" href="/web-bookmarks/assets/js/174.e865e296.js"><link rel="prefetch" href="/web-bookmarks/assets/js/175.7c1452c9.js"><link rel="prefetch" href="/web-bookmarks/assets/js/176.e81513bc.js"><link rel="prefetch" href="/web-bookmarks/assets/js/177.ade130f4.js"><link rel="prefetch" href="/web-bookmarks/assets/js/18.d54be358.js"><link rel="prefetch" href="/web-bookmarks/assets/js/19.fd46b02a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/20.383cec93.js"><link rel="prefetch" href="/web-bookmarks/assets/js/21.b300b18c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/22.08013b47.js"><link rel="prefetch" href="/web-bookmarks/assets/js/23.63c198f3.js"><link rel="prefetch" href="/web-bookmarks/assets/js/24.3d722b12.js"><link rel="prefetch" href="/web-bookmarks/assets/js/25.badd3f59.js"><link rel="prefetch" href="/web-bookmarks/assets/js/26.99fd9d25.js"><link rel="prefetch" href="/web-bookmarks/assets/js/27.16d3aa61.js"><link rel="prefetch" href="/web-bookmarks/assets/js/28.eb37b96c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/29.d493ac91.js"><link rel="prefetch" href="/web-bookmarks/assets/js/3.68f774f4.js"><link rel="prefetch" href="/web-bookmarks/assets/js/30.0d5f36cd.js"><link rel="prefetch" href="/web-bookmarks/assets/js/31.d8922650.js"><link rel="prefetch" href="/web-bookmarks/assets/js/32.216a155a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/33.e70ae0a5.js"><link rel="prefetch" href="/web-bookmarks/assets/js/34.2885e60e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/35.4e0dec8a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/36.72f17060.js"><link rel="prefetch" href="/web-bookmarks/assets/js/37.e9147c45.js"><link rel="prefetch" href="/web-bookmarks/assets/js/38.4a58b1a5.js"><link rel="prefetch" href="/web-bookmarks/assets/js/39.1aa3876e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/4.65d1c216.js"><link rel="prefetch" href="/web-bookmarks/assets/js/40.abfb86a9.js"><link rel="prefetch" href="/web-bookmarks/assets/js/41.feb60f3e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/42.d41b9db0.js"><link rel="prefetch" href="/web-bookmarks/assets/js/43.f20e19cd.js"><link rel="prefetch" href="/web-bookmarks/assets/js/44.2d0059de.js"><link rel="prefetch" href="/web-bookmarks/assets/js/45.fb1f6316.js"><link rel="prefetch" href="/web-bookmarks/assets/js/46.5678b332.js"><link rel="prefetch" href="/web-bookmarks/assets/js/47.076baefd.js"><link rel="prefetch" href="/web-bookmarks/assets/js/48.8d500d1a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/49.d5483f97.js"><link rel="prefetch" href="/web-bookmarks/assets/js/5.b691d1df.js"><link rel="prefetch" href="/web-bookmarks/assets/js/50.5bf9e264.js"><link rel="prefetch" href="/web-bookmarks/assets/js/51.1286b3fa.js"><link rel="prefetch" href="/web-bookmarks/assets/js/52.029f40bd.js"><link rel="prefetch" href="/web-bookmarks/assets/js/53.1553483a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/54.efe507e6.js"><link rel="prefetch" href="/web-bookmarks/assets/js/55.0f81f59b.js"><link rel="prefetch" href="/web-bookmarks/assets/js/56.45c37979.js"><link rel="prefetch" href="/web-bookmarks/assets/js/57.58059d32.js"><link rel="prefetch" href="/web-bookmarks/assets/js/58.b0418aca.js"><link rel="prefetch" href="/web-bookmarks/assets/js/59.cdc25917.js"><link rel="prefetch" href="/web-bookmarks/assets/js/6.9ca7f1b5.js"><link rel="prefetch" href="/web-bookmarks/assets/js/60.6409e312.js"><link rel="prefetch" href="/web-bookmarks/assets/js/61.c18fb77b.js"><link rel="prefetch" href="/web-bookmarks/assets/js/62.ddd1ae99.js"><link rel="prefetch" href="/web-bookmarks/assets/js/63.50e3789e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/64.1dfe080c.js"><link rel="prefetch" href="/web-bookmarks/assets/js/65.dc4d845a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/66.03fed510.js"><link rel="prefetch" href="/web-bookmarks/assets/js/67.3b032eb5.js"><link rel="prefetch" href="/web-bookmarks/assets/js/68.e6b6d0d9.js"><link rel="prefetch" href="/web-bookmarks/assets/js/69.21530d47.js"><link rel="prefetch" href="/web-bookmarks/assets/js/7.cdf55584.js"><link rel="prefetch" href="/web-bookmarks/assets/js/70.a046a64b.js"><link rel="prefetch" href="/web-bookmarks/assets/js/71.43787928.js"><link rel="prefetch" href="/web-bookmarks/assets/js/72.8b3c654f.js"><link rel="prefetch" href="/web-bookmarks/assets/js/73.d3728514.js"><link rel="prefetch" href="/web-bookmarks/assets/js/74.a279592f.js"><link rel="prefetch" href="/web-bookmarks/assets/js/75.d36e1346.js"><link rel="prefetch" href="/web-bookmarks/assets/js/76.c547a7e1.js"><link rel="prefetch" href="/web-bookmarks/assets/js/77.95c81ba3.js"><link rel="prefetch" href="/web-bookmarks/assets/js/78.dcb0b2a0.js"><link rel="prefetch" href="/web-bookmarks/assets/js/79.9284f6dc.js"><link rel="prefetch" href="/web-bookmarks/assets/js/80.08e5b009.js"><link rel="prefetch" href="/web-bookmarks/assets/js/81.8de50c90.js"><link rel="prefetch" href="/web-bookmarks/assets/js/82.dded058d.js"><link rel="prefetch" href="/web-bookmarks/assets/js/83.28d8ecfb.js"><link rel="prefetch" href="/web-bookmarks/assets/js/84.e0fa28ec.js"><link rel="prefetch" href="/web-bookmarks/assets/js/85.0bcfbf58.js"><link rel="prefetch" href="/web-bookmarks/assets/js/86.f84b48c5.js"><link rel="prefetch" href="/web-bookmarks/assets/js/87.ad0d90d2.js"><link rel="prefetch" href="/web-bookmarks/assets/js/88.19066b6b.js"><link rel="prefetch" href="/web-bookmarks/assets/js/89.773298d6.js"><link rel="prefetch" href="/web-bookmarks/assets/js/90.2c5985b6.js"><link rel="prefetch" href="/web-bookmarks/assets/js/91.ff3782bc.js"><link rel="prefetch" href="/web-bookmarks/assets/js/92.8baec188.js"><link rel="prefetch" href="/web-bookmarks/assets/js/93.86fcc911.js"><link rel="prefetch" href="/web-bookmarks/assets/js/94.f703bad8.js"><link rel="prefetch" href="/web-bookmarks/assets/js/95.da171953.js"><link rel="prefetch" href="/web-bookmarks/assets/js/96.b5081c52.js"><link rel="prefetch" href="/web-bookmarks/assets/js/97.98a7150a.js"><link rel="prefetch" href="/web-bookmarks/assets/js/98.8d6c816e.js"><link rel="prefetch" href="/web-bookmarks/assets/js/99.31f9b9ed.js"><link rel="prefetch" href="/web-bookmarks/assets/js/vendors~docsearch.1c98b2ce.js">
+    <link rel="stylesheet" href="/web-bookmarks/assets/css/0.styles.9db6d48b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/web-bookmarks/" class="home-link router-link-active"><img src="/web-bookmarks/cute-spear-monster.jpg" alt="web-bookmarks" class="logo"> <span class="site-name can-hide">web-bookmarks</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础" class="dropdown-title"><span class="title">基础</span> <span class="arrow down"></span></button> <button type="button" aria-label="基础" class="mobile-dropdown-title"><span class="title">基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/html/a1.html" class="nav-link">
+  HTML
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/css/a1.html" class="nav-link">
+  CSS
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/javascript/a1.html" class="nav-link">
+  JavaScript
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/color/a1.html" class="nav-link">
+  Color
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/regx/a1.html" class="nav-link">
+  正则
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/word-interpretation/a1.html" class="nav-link">
+  名词释义
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工具&amp;网站" class="dropdown-title"><span class="title">工具&amp;网站</span> <span class="arrow down"></span></button> <button type="button" aria-label="工具&amp;网站" class="mobile-dropdown-title"><span class="title">工具&amp;网站</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/tool-site/tool/" class="nav-link">
+  工具
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/tool-site/site/" class="nav-link">
+  网站
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="收藏&amp;书" class="dropdown-title"><span class="title">收藏&amp;书</span> <span class="arrow down"></span></button> <button type="button" aria-label="收藏&amp;书" class="mobile-dropdown-title"><span class="title">收藏&amp;书</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/favorite/" class="nav-link">
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/book/" class="nav-link">
+  书
+</a></li></ul></div></div><div class="nav-item"><a href="/web-bookmarks/interview/" class="nav-link">
+  面试
+</a></div><div class="nav-item"><a href="/web-bookmarks/rtsp2web/" class="nav-link">
+  rtsp2web
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="综合" class="dropdown-title"><span class="title">综合</span> <span class="arrow down"></span></button> <button type="button" aria-label="综合" class="mobile-dropdown-title"><span class="title">综合</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/tech/" class="nav-link">
+  技术
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/docs/" class="nav-link">
+  文档
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/notes/" class="nav-link router-link-active">
+  笔记
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/health/" class="nav-link">
+  健康
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其它" class="dropdown-title"><span class="title">其它</span> <span class="arrow down"></span></button> <button type="button" aria-label="其它" class="mobile-dropdown-title"><span class="title">其它</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/music/" class="nav-link">
+  音乐
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/video/" class="nav-link">
+  视频
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/gard/" class="nav-link">
+  圈子
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/kobe/" class="nav-link">
+  KOBE
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/culture/" class="nav-link">
+  文化
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/another/" class="nav-link">
+  其它
+</a></li></ul></div></div> <a href="https://github.com/Neveryu/web-bookmarks" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础" class="dropdown-title"><span class="title">基础</span> <span class="arrow down"></span></button> <button type="button" aria-label="基础" class="mobile-dropdown-title"><span class="title">基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/html/a1.html" class="nav-link">
+  HTML
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/css/a1.html" class="nav-link">
+  CSS
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/javascript/a1.html" class="nav-link">
+  JavaScript
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/color/a1.html" class="nav-link">
+  Color
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/regx/a1.html" class="nav-link">
+  正则
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/base/word-interpretation/a1.html" class="nav-link">
+  名词释义
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工具&amp;网站" class="dropdown-title"><span class="title">工具&amp;网站</span> <span class="arrow down"></span></button> <button type="button" aria-label="工具&amp;网站" class="mobile-dropdown-title"><span class="title">工具&amp;网站</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/tool-site/tool/" class="nav-link">
+  工具
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/tool-site/site/" class="nav-link">
+  网站
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="收藏&amp;书" class="dropdown-title"><span class="title">收藏&amp;书</span> <span class="arrow down"></span></button> <button type="button" aria-label="收藏&amp;书" class="mobile-dropdown-title"><span class="title">收藏&amp;书</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/favorite/" class="nav-link">
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/book/" class="nav-link">
+  书
+</a></li></ul></div></div><div class="nav-item"><a href="/web-bookmarks/interview/" class="nav-link">
+  面试
+</a></div><div class="nav-item"><a href="/web-bookmarks/rtsp2web/" class="nav-link">
+  rtsp2web
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="综合" class="dropdown-title"><span class="title">综合</span> <span class="arrow down"></span></button> <button type="button" aria-label="综合" class="mobile-dropdown-title"><span class="title">综合</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/tech/" class="nav-link">
+  技术
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/docs/" class="nav-link">
+  文档
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/notes/" class="nav-link router-link-active">
+  笔记
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/summary/health/" class="nav-link">
+  健康
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其它" class="dropdown-title"><span class="title">其它</span> <span class="arrow down"></span></button> <button type="button" aria-label="其它" class="mobile-dropdown-title"><span class="title">其它</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/music/" class="nav-link">
+  音乐
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/video/" class="nav-link">
+  视频
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/gard/" class="nav-link">
+  圈子
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/kobe/" class="nav-link">
+  KOBE
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/culture/" class="nav-link">
+  文化
+</a></li><li class="dropdown-item"><!----> <a href="/web-bookmarks/other/another/" class="nav-link">
+  其它
+</a></li></ul></div></div> <a href="https://github.com/Neveryu/web-bookmarks" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>笔记</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/web-bookmarks/summary/notes/" aria-current="page" class="sidebar-link">笔记</a></li><li><a href="/web-bookmarks/summary/notes/a1.html" class="sidebar-link">algorithms（算法）</a></li><li><a href="/web-bookmarks/summary/notes/angular.html" class="sidebar-link">Angular 入门笔记（超棒）</a></li><li><a href="/web-bookmarks/summary/notes/angular1.html" class="sidebar-link">Angular 高阶内容笔记（超棒）</a></li><li><a href="/web-bookmarks/summary/notes/angular2.html" class="sidebar-link">Angular 实战中的总结与技术点剖析</a></li><li><a href="/web-bookmarks/summary/notes/html5shiv.html" class="sidebar-link">html5shiv</a></li><li><a href="/web-bookmarks/summary/notes/js1.html" class="sidebar-link">JavaScript基础笔记</a></li><li><a href="/web-bookmarks/summary/notes/mobile1.html" class="sidebar-link">移动端开发</a></li><li><a href="/web-bookmarks/summary/notes/node-base.html" class="sidebar-link">Node.js 基础</a></li><li><a href="/web-bookmarks/summary/notes/respond.html" class="sidebar-link">Respond.js</a></li><li><a href="/web-bookmarks/summary/notes/sass1.html" aria-current="page" class="active sidebar-link">sass、Compass 安装使用</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/web-bookmarks/summary/notes/three-first.html" class="sidebar-link">THREE 知识体系梳理</a></li><li><a href="/web-bookmarks/summary/notes/three1.html" class="sidebar-link">Three.js开发指南（第3版）</a></li><li><a href="/web-bookmarks/summary/notes/ts.html" class="sidebar-link">TypeScript</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="sass、compass-安装使用"><a href="#sass、compass-安装使用" class="header-anchor">#</a> sass、Compass 安装使用</h1> <h3 id="下载安装包"><a href="#下载安装包" class="header-anchor">#</a> 下载安装包</h3> <div class="language-bash extra-class"><pre class="language-bash"><code>ruby http://www.rubyinstaller.org/downloads/
+devkithttp://rubyinstaller.org/downloads/
+</code></pre></div><h3 id="安装ruby"><a href="#安装ruby" class="header-anchor">#</a> 安装ruby</h3> <div class="language-bash extra-class"><pre class="language-bash"><code>修改ruby gem 镜像<span class="token punctuation">(</span>http://ruby.taobao.org/<span class="token punctuation">)</span>
+$ gem sources <span class="token parameter variable">--remove</span> https://rubygems.org/
+$ gem sources <span class="token parameter variable">-a</span> http://ruby.taobao.org/
+$ gem sources <span class="token parameter variable">-l</span>
+*** CURRENT SOURCES ***
+http://rubyforge.org/frs/?group_id<span class="token operator">=</span><span class="token number">167</span>
+http://ruby.taobao.org
+<span class="token comment"># 请确保只有 ruby.taobao.org</span>
+</code></pre></div><h3 id="安装带有sourcemap的版本-cmd-命令下"><a href="#安装带有sourcemap的版本-cmd-命令下" class="header-anchor">#</a> 安装带有sourcemap的版本 （cmd 命令下）</h3> <div class="language-bash extra-class"><pre class="language-bash"><code>如果以前安装过则先卸载
+
+gem uninstall sass
+gem uninstall compass
+gem uninstall compass <span class="token parameter variable">-rails</span>
+
+安装开发版sass 和compass
+
+gem <span class="token function">install</span> sass <span class="token parameter variable">--pre</span>
+gem <span class="token function">install</span> compass-core <span class="token parameter variable">--pre</span>
+gem <span class="token function">install</span> compass <span class="token parameter variable">--pre</span>
+
+查看是否成功
+sass <span class="token parameter variable">--sourcemap</span> <span class="token parameter variable">--compass</span> <span class="token parameter variable">--watch</span> sass <span class="token function">file</span>
+chrome控制台自动支持，查看是否有sass源文件
+</code></pre></div><h3 id="gem-常用命令"><a href="#gem-常用命令" class="header-anchor">#</a> gem 常用命令</h3> <div class="language-bash extra-class"><pre class="language-bash"><code>更新gem
+$ gem update <span class="token parameter variable">-system</span>
+卸载包
+$ gem uninstall package
+更新所有包
+$ gem update
+列出所有本地包
+$ gem list
+</code></pre></div><h3 id="常见出现问题"><a href="#常见出现问题" class="header-anchor">#</a> 常见出现问题</h3> <div class="language-bash extra-class"><pre class="language-bash"><code>ruby build 报错
+下载devkit，cmd进入windows命令操作，进入devkit的文件夹下，执行下面的操作：
+    ruby dk.rb init
+    ruby dk.rb <span class="token function">install</span>
+</code></pre></div><h3 id="相关文档"><a href="#相关文档" class="header-anchor">#</a> 相关文档</h3> <p><a href="http://compass-style.org/" target="_blank" rel="noopener noreferrer">Compass<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> - Compass doc<br> <a href="http://sass-lang.com/" target="_blank" rel="noopener noreferrer">Sass<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> - Sass doc</p> <h3 id="小指南"><a href="#小指南" class="header-anchor">#</a> 小指南</h3> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token number">1</span>.模块化代码（开发的时候多人合作，可以模块化代码，然后能过sass导入）
+
+@import module
+@import module2
+
+<span class="token number">2</span>.监听sass文件，发布sourcemap到指定的目录
+
+//单文件监听
+    sass <span class="token parameter variable">--watch</span> <span class="token parameter variable">--compass</span> <span class="token parameter variable">--sourcemap</span> src/sass/file.sass:file.css
+
+//多文件监听
+    sass <span class="token parameter variable">--watch</span> <span class="token parameter variable">--compass</span> <span class="token parameter variable">--sourcemap</span> src/sass:build/css
+
+//将css 转成scss
+    sass-convert style.css style.scss
+
+//解析后的格试设置 <span class="token variable"><span class="token variable">`</span><span class="token parameter variable">--style</span><span class="token variable">`</span></span> 四种取值分别为：nested，<span class="token string">'expanded'</span>，compact，compressed
+    sass <span class="token parameter variable">--watch</span> style.scss:style.css <span class="token parameter variable">--style</span> compact
+    sass <span class="token parameter variable">--watch</span> style.scss:style.css <span class="token parameter variable">--sourcemap</span>
+    sass <span class="token parameter variable">--watch</span> style.scss:style.css <span class="token parameter variable">--style</span> expanded <span class="token parameter variable">--sourcemap</span>
+    sass <span class="token parameter variable">--watch</span> style.scss:style.css --debug-info
+// 工作中使用的<span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">command</span><span class="token variable">`</span></span>
+    sass <span class="token parameter variable">--watch</span> <span class="token parameter variable">--sourcemap</span> <span class="token parameter variable">--style</span> expanded <span class="token parameter variable">--compass</span> sass:css
+
+<span class="token number">3</span>.sass和scss互相转换
+  sass-convert style.sass style.scss
+  sass0cibvert style.scss style.sass
+
+<span class="token number">4</span>.使用compass validate检查你的css
+   如果没有安装会提示你安装
+</code></pre></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/Neveryu/web-bookmarks/edit/master/summary/notes/sass1.md" target="_blank" rel="noopener noreferrer">在 GitHub 上编辑此页</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2/3/2025, 2:22:03 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/web-bookmarks/summary/notes/respond.html" class="prev">
+        Respond.js
+      </a></span> <span class="next"><a href="/web-bookmarks/summary/notes/three-first.html">
+        THREE 知识体系梳理
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><MySWUpdatePopup></MySWUpdatePopup></div></div>
+    <script src="/web-bookmarks/assets/js/app.fc0ecec0.js" defer></script><script src="/web-bookmarks/assets/js/2.4dc64ba3.js" defer></script><script src="/web-bookmarks/assets/js/1.2109ca04.js" defer></script><script src="/web-bookmarks/assets/js/149.8dc39d4c.js" defer></script>
+  </body>
+</html>
