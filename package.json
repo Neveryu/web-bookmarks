@@ -1,0 +1,21 @@
+{
+  "name": "web-bookmarks",
+  "version": "1.9.10",
+  "description": "web-bookmarks, 侧重前端的收藏书签 — 技术书签",
+  "repository": "https://github.com/Neveryu/web-bookmarks",
+  "homepage": "https://neveryu.github.io/web-bookmarks",
+  "author": "Neveryu<never_yu@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn run dev",
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "dependencies": {
+    "@vuepress/plugin-back-to-top": "1.9.10",
+    "@vuepress/plugin-pwa": "1.9.10",
+    "markdown-it-include": "2.0.0",
+    "vuepress": "1.9.10"
+  },
+  "devDependencies": {}
+}
