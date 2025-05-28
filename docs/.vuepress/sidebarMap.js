@@ -17,6 +17,7 @@ const sidebarMap = [
   { title: '收藏', dirname: 'favorite' },
   { title: '书', dirname: 'book' },
   { title: '面试', dirname: 'interview' },
+  { title: '认知', dirname: 'cognition' },
   { title: 'rtsp2web', dirname: 'rtsp2web'},
   /*综合*/
   { title: '技术', dirname: 'summary/tech' },

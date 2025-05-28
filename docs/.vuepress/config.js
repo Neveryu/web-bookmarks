@@ -11,6 +11,12 @@ module.exports = {
       serviceWorker: true,
       popupComponent: "MySWUpdatePopup",
       updatePopup: true,
+      workboxOptions: {
+        cacheId: "my-site-cache-v1.0.1", // 每次更新部署时修改此版本号
+        skipWaiting: true, // 强制新SW立即接管
+        clientsClaim: true, // 立即控制所有客户端
+        cleanupOutdatedCaches: true, // 自动清理旧缓存
+      }
     }]
   ],
   head: [
@@ -43,7 +49,7 @@ module.exports = {
     ],
     ["meta", { name: "msapplication-TileColor", content: "#000000" }],
   ],
-  serviceWorker: false,
+  // serviceWorker: false,
   themeConfig: {
     logo: "/cute-spear-monster.jpg",
     nav: [
@@ -71,6 +77,7 @@ module.exports = {
         items: [
           { text: "收藏", link: "/favorite/" },
           { text: "书", link: "/book/" },
+          { text: "认知", link: "/cognition/" }
         ],
       },
       {
