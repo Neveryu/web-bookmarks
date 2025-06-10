@@ -42,6 +42,8 @@ Fake it until you make it
 
 ### C
 
+**希拉里·罗德姆·克林顿在威尔斯利学院的毕业典礼演讲**
+
 So whatever your dreams are today 无论你今天的梦想是什么
 
 dream even bigger 不妨报负再远大些
@@ -70,6 +72,8 @@ hold on to your values 坚持自己的价值观
 
 never give up on those dreams 永不放弃梦想
 
+[➡️查看原文](../../foreign/a1.html)
+
 
 ### Y
 
@@ -83,3 +87,4 @@ never give up on those dreams 永不放弃梦想
 
 4、事缓则圆、人缓则安、欲速则不达、当事态不利于你的时候，不要着急做决定，先缓一缓，沉住气；老话说：心急吃不了热豆腐、学会让子弹飞一会儿，绝对是大智慧、顺势而为、耐心点。
 
+5、

@@ -66,18 +66,11 @@ module.exports = {
       },
 
       {
-        text: "工具&网站",
+        text: "收藏",
         items: [
-          { text: "工具", link: "/tool-site/tool/" },
-          { text: "网站", link: "/tool-site/site/" },
-        ],
-      },
-      {
-        text: "收藏&书",
-        items: [
-          { text: "收藏", link: "/favorite/" },
-          { text: "书", link: "/book/" },
-          { text: "认知", link: "/cognition/" }
+          { text: "工具", link: "/favorite/tool/" },
+          { text: "网站", link: "/favorite/site/" },
+          { text: "其他综合", link: "/favorite/other/" }
         ],
       },
       {
@@ -95,6 +88,14 @@ module.exports = {
           { text: "文档", link: "/summary/docs/" },
           { text: "笔记", link: "/summary/notes/" },
           { text: "健康", link: "/summary/health/" },
+        ],
+      },
+      {
+        text: "文字",
+        items: [
+          { text: "书", link: "/book/" },
+          { text: "外文", link: "/foreign/" },
+          { text: "认知", link: "/cognition/" }
         ],
       },
       {
