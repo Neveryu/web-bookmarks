@@ -10,8 +10,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!--
-  以上 2 个 meta 标签 *必须* 放在 head 之前，以确保正确的文档呈现；
-  其他任何 head 元素 *必须* 在这些标签之后。
+  以上 2 个 meta 标签【必须】放在 head 中最前面，以确保正确的文档呈现；
+  其他任何 head 元素【必须】在这些标签之后。
 -->
 <title>页面标题</title>
 ```
