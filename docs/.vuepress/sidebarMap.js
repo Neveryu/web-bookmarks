@@ -31,7 +31,8 @@ const sidebarMap = [
   { title: '其它', dirname: 'other/another' },
   { title: '文化', dirname: 'other/culture' },
   { title: '科比', dirname: 'other/kobe' },
-  { title: '大S', dirname: 'other/s'}
+  { title: '大S', dirname: 'other/s'},
+  { title: '敬一丹', dirname: 'other/jyd'}
   /*在页面顶部配置了sidebar: auto，就不用在这里配了*/
 ]
 

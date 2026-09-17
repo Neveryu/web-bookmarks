@@ -106,6 +106,7 @@ module.exports = {
           { text: "圈子", link: "/other/gard/" },
           { text: "KOBE", link: "/other/kobe/" },
           { text: "大S", link: "/other/s/" },
+          { text: "敬一丹", link: "/other/jyd/" },
           { text: "文化", link: "/other/culture/" },
           { text: "其它", link: "/other/another/" },
         ],
