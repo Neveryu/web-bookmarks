@@ -68,7 +68,7 @@ yarn run build
 
 您可以借助 Github Action 的自动构建能力，直接推送源代码到远程仓库即可。
 
-> 由于我们经常偶尔的更新一些小的内容，为了避免 `git log` 混乱，以及 `.git` 文件夹内容过大，导致 clone 缓慢的问题；我自定义了 `deploy.sh` 脚本，每次更新的时候执行 `deploy.sh` 脚本会删掉之前的所有提交记录，并重新提交到 Github，然后通过 Github Action 的自动构建能力，部署页面。
+> 由于我们经常偶尔的更新一些小的内容，为了避免 `git log` 混乱，以及 `.git` 文件夹内容过大，导致 clone 缓慢的问题；我自定义了 `deploy.sh` 脚本，每次更新的时候执行 `deploy.sh` 脚本会删掉之前的所有提交记录，并重新提交到 Github，通过官方推荐的 Pages 部署流程（Github Action）的自动构建能力，部署页面。
 
 > 但是这样呢，每次都是重新提交全部的新代码，数据量会比较大，在网络环境不好的情况下，可能上传代码会很慢；建议呢，多数情况下，还是正常使用 `git push` 命令来上传代码。在积累了很多次的提交以后，下一次可以使用 `./deploy.sh` 来提交以及刷新 `git` 仓库。
 
@@ -85,3 +85,24 @@ Websites built with VuePress。
 ## License
 
 [MIT](https://github.com/Neveryu/web-bookmarks/blob/master/LICENSE)
+
+
+## USE GITHUB_TOKEN
+
+GITHUB_TOKEN 默认权限很收敛，部署 Pages 需要额外授权，所以我在 ci.yml 里加了：
+
+```yaml
+permissions:
+  contents: read   # 读取仓库代码
+  pages: write     # 发布到 Pages
+  id-token: write  # OIDC 认证，deploy-pages 用来证明"这次运行有权部署"
+```
+
+## 对比一下
+
+| | 旧方案 `ACCESS_TOKEN` (PAT) | 新方案 `GITHUB_TOKEN` |
+|---|---|---|
+| 创建方式 | 手动在 GitHub 网页生成 | 每次运行自动生成 |
+| 存放位置 | 手动存到仓库 Secrets | 无需存放，自动注入 |
+| 有效期 | 有期限，到期即失效（你这次故障的根因） | 单次运行有效，用完即弃 |
+| 权限控制 | 令牌生成时勾选 | 工作流里 `permissions` 声明 |
